@@ -16,10 +16,10 @@ so that ** BENEFIT **.
 <img src="#"> 
 
 ## Acceptance Criteria
-- [ ] (descriptions)
+- [ ] descriptions
 
 ## Tasks
-- [ ] (todos)
+- [ ] todo
 
 ## Complexity
 small, medium, large
