@@ -8,17 +8,18 @@ assignees: ''
 ---
 
 ## Value Statement
-As a **(role)**,
-I need **(an action)**,
-so that **(a benefit)**.
+As a ** user **,
+I need ** ACTION **,
+so that ** BENEFIT **.
 
 ## Description (Text, Scribble, Wireframe, Design)
+<img src="#"> 
 
 ## Acceptance Criteria
-- [ ] (functional descriptions)
+- [ ] (descriptions)
 
 ## Tasks
-- [ ] (todos for the team)
+- [ ] (todos)
 
 ## Complexity
-(small, medium, large)
+small, medium, large
