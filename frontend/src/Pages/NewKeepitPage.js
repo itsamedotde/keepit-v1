@@ -7,7 +7,6 @@ export default function NewKeepitPage() {
   const [images, setImages] = useState()
   const [showUploadButton, setShowUploadButton] = useState(false)
 
-  // on change images State
   useEffect(() => {
     if (images && images.length > 0) {
       setShowUploadButton(false)
@@ -16,7 +15,6 @@ export default function NewKeepitPage() {
     }
   }, [images])
 
-  // on load
   useEffect(() => {
     const historyImages = history.location.state.images
     if (!images && historyImages) {
@@ -26,9 +24,7 @@ export default function NewKeepitPage() {
   }, [])
 
   function uploadToBe() {}
-  function replace(index) {}
 
-  // on remove image
   function remove(deleteIndex) {
     setImages(images.filter((image, index) => index !== deleteIndex))
   }
@@ -41,7 +37,6 @@ export default function NewKeepitPage() {
           <div key={index}>
             <img src={image['data_url']} alt="" width="100" />
             <div>
-              <button onClick={() => replace(index)}>Update</button>
               <button onClick={() => remove(index)}>Remove</button>
             </div>
           </div>
