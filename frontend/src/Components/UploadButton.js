@@ -23,7 +23,7 @@ export default function UploadButton() {
       >
         {({ onImageUpload }) => (
           <div>
-            <button onClick={onImageUpload}> NEW KEEPit</button>
+            <button onClick={onImageUpload}>Upload Image</button>
           </div>
         )}
       </ImageUploading>

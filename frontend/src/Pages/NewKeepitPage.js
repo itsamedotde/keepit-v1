@@ -22,7 +22,7 @@ export default function NewKeepitPage() {
 
   return (
     <div>
-      New keepit!<br></br>
+      <h1>Page: New Image</h1>
       {images.map((image, index) => (
         <div key={index}>
           <img src={image['data_url']} alt="" width="100" />
