@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import ImageUploading from 'react-images-uploading'
 import { useHistory, useLocation } from 'react-router-dom'
 
