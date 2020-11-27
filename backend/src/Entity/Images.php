@@ -25,25 +25,24 @@ class Images
     private $path;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $saved;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="images")
+     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="images")
      */
-    private $categories;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Labels::class, inversedBy="images")
-     */
-    private $labels;
+    private $tags;
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
-        $this->labels = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,6 +62,18 @@ class Images
         return $this;
     }
 
+    public function getSaved(): ?bool
+    {
+        return $this->saved;
+    }
+
+    public function setSaved(bool $saved): self
+    {
+        $this->saved = $saved;
+
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -76,49 +87,25 @@ class Images
     }
 
     /**
-     * @return Collection|Categories[]
+     * @return Collection|Tags[]
      */
-    public function getCategories(): Collection
+    public function getTags(): Collection
     {
-        return $this->categories;
+        return $this->tags;
     }
 
-    public function addCategory(Categories $category): self
+    public function addTag(Tags $tag): self
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
         }
 
         return $this;
     }
 
-    public function removeCategory(Categories $category): self
+    public function removeTag(Tags $tag): self
     {
-        $this->categories->removeElement($category);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Labels[]
-     */
-    public function getLabels(): Collection
-    {
-        return $this->labels;
-    }
-
-    public function addLabel(Labels $label): self
-    {
-        if (!$this->labels->contains($label)) {
-            $this->labels[] = $label;
-        }
-
-        return $this;
-    }
-
-    public function removeLabel(Labels $label): self
-    {
-        $this->labels->removeElement($label);
+        $this->tags->removeElement($tag);
 
         return $this;
     }

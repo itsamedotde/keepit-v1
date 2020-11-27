@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoriesRepository;
+use App\Repository\TagsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CategoriesRepository::class)
+ * @ORM\Entity(repositoryClass=TagsRepository::class)
  */
-class Categories
+class Tags
 {
     /**
      * @ORM\Id
@@ -22,15 +22,15 @@ class Categories
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $tagValue;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean")
      */
-    private $iscustom;
+    private $isCustom;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Images::class, mappedBy="categories")
+     * @ORM\ManyToMany(targetEntity=Images::class, mappedBy="tags")
      */
     private $images;
 
@@ -44,26 +44,26 @@ class Categories
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTagValue(): ?string
     {
-        return $this->name;
+        return $this->tagValue;
     }
 
-    public function setName(string $name): self
+    public function setTagValue(string $tagValue): self
     {
-        $this->name = $name;
+        $this->tagValue = $tagValue;
 
         return $this;
     }
 
-    public function getIscustom(): ?string
+    public function getIsCustom(): ?bool
     {
-        return $this->iscustom;
+        return $this->isCustom;
     }
 
-    public function setIscustom(string $iscustom): self
+    public function setIsCustom(bool $isCustom): self
     {
-        $this->iscustom = $iscustom;
+        $this->isCustom = $isCustom;
 
         return $this;
     }
@@ -80,7 +80,7 @@ class Categories
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
-            $image->addCategory($this);
+            $image->addTag($this);
         }
 
         return $this;
@@ -89,7 +89,7 @@ class Categories
     public function removeImage(Images $image): self
     {
         if ($this->images->removeElement($image)) {
-            $image->removeCategory($this);
+            $image->removeTag($this);
         }
 
         return $this;

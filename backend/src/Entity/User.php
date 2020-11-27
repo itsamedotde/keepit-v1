@@ -35,7 +35,7 @@ class User
     private $token;
 
     /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="user")
      */
     private $images;
 

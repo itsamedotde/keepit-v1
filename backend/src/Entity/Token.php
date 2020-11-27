@@ -20,12 +20,12 @@ class Token
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $tokenvalue;
+    private $tokenValue;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $validuntil;
+    private $validUntil;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="token", cascade={"persist", "remove"})
@@ -38,26 +38,26 @@ class Token
         return $this->id;
     }
 
-    public function getTokenvalue(): ?string
+    public function getTokenValue(): ?string
     {
-        return $this->tokenvalue;
+        return $this->tokenValue;
     }
 
-    public function setTokenvalue(string $tokenvalue): self
+    public function setTokenValue(string $tokenValue): self
     {
-        $this->tokenvalue = $tokenvalue;
+        $this->tokenValue = $tokenValue;
 
         return $this;
     }
 
-    public function getValiduntil(): ?\DateTimeInterface
+    public function getValidUntil(): ?\DateTimeInterface
     {
-        return $this->validuntil;
+        return $this->validUntil;
     }
 
-    public function setValiduntil(\DateTimeInterface $validuntil): self
+    public function setValidUntil(\DateTimeInterface $validUntil): self
     {
-        $this->validuntil = $validuntil;
+        $this->validUntil = $validUntil;
 
         return $this;
     }
