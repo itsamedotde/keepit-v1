@@ -7,4 +7,7 @@
 /public/bundles/
 /var/
 /vendor/
+/uploads/
+/vision-api-key.json
+/public/uploads/
 ###< symfony/framework-bundle ###
