@@ -3,11 +3,9 @@
 namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -19,8 +17,6 @@ use App\Entity\User;
 
 use App\Utils\LocalFiles;
 use App\Utils\VisionApi;
-
-
 
 class ImageApiController extends AbstractController
 {
@@ -40,22 +36,18 @@ class ImageApiController extends AbstractController
         $requestContent = json_decode($request->getContent(), true);
         $images = $requestContent['files'];
 
-
-
         foreach($images as $image){
 
             // save file locally
             $path = $fileRepository->save($image['data_url']);
-            
             
             // get Vision Api Labels
             $labels = $visionApiRepository->getLabels($path);
             foreach($labels as $label){
                 $imagelabels[] = $label;
             }
-         
-            
-            // // Placeholder User
+
+            // User as placeholder 
             $user = $userRepository->login('user354@email', 'test');
 
             // pre save image
