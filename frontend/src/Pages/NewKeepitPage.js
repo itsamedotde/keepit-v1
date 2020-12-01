@@ -2,7 +2,7 @@ import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import UploadButton from '../Components/UploadButton'
 import getVisionLabels from '../Services/getVisionLabels'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export default function NewKeepitPage() {
   const history = useHistory()
@@ -18,8 +18,8 @@ export default function NewKeepitPage() {
 
     let files = historyImages
     let request = {
-      email: 'email',
-      password: 'password',
+      email: 'user354@email',
+      password: 'test',
       files,
     }
     historyImages &&
@@ -32,9 +32,6 @@ export default function NewKeepitPage() {
 
   function remove(deleteIndex) {
     setImages(images.filter((image, index) => index !== deleteIndex))
-    if (images) {
-      setTags([])
-    }
   }
 
   return (
@@ -47,8 +44,8 @@ export default function NewKeepitPage() {
             <button onClick={() => remove(index)}>Remove</button>
           </div>
         ))}
-      {tags.map((tag) => (
-        <StyledSpan>{tag}</StyledSpan>
+      {tags.map((tag, index) => (
+        <StyledSpan key={index}>{tag}</StyledSpan>
       ))}
       {images.length === 0 ? (
         <UploadButton />
