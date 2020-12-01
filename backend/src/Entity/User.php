@@ -30,12 +30,7 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=Token::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $token;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="user")
      */
     private $images;
 
@@ -73,32 +68,15 @@ class User
         return $this;
     }
 
-    public function getToken(): ?Token
-    {
-        return $this->token;
-    }
-
-    public function setToken(Token $token): self
-    {
-        $this->token = $token;
-
-        // set the owning side of the relation if necessary
-        if ($token->getUser() !== $this) {
-            $token->setUser($this);
-        }
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Images[]
+     * @return Collection|Image[]
      */
     public function getImages(): Collection
     {
         return $this->images;
     }
 
-    public function addImage(Images $image): self
+    public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
@@ -108,7 +86,7 @@ class User
         return $this;
     }
 
-    public function removeImage(Images $image): self
+    public function removeImage(Image $image): self
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
