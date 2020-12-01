@@ -35,22 +35,17 @@ class ImageApiController extends AbstractController
 
         $requestContent = json_decode($request->getContent(), true);
         $images = $requestContent['files'];
-
         foreach($images as $image){
 
-            // save file locally
             $path = $fileRepository->save($image['data_url']);
             
-            // get Vision Api Labels
             $labels = $visionApiRepository->getLabels($path);
             foreach($labels as $label){
                 $imagelabels[] = $label;
             }
 
-            // User as placeholder 
-            $user = $userRepository->login('user354@email', 'test');
+            $user = $userRepository->login($requestContent['email'], $requestContent['password']);
 
-            // pre save image
             $newImage = new Image();
             $newImage->setPath($path);
             $newImage->setSubmitted(false);
@@ -66,4 +61,3 @@ class ImageApiController extends AbstractController
         return $response;
     }
 }
-

@@ -20,10 +20,8 @@ class ImageRepository extends ServiceEntityRepository
     }
 
     public function save(Image $image): Image  {
-        // $this->_em == getEntityManager()
         $this->_em->persist($image);
         $this->_em->flush();
-
         return $image;
     }
 }
