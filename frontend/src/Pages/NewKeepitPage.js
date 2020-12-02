@@ -1,18 +1,21 @@
 import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import UploadButton from '../Components/UploadButton'
-import getVisionLabels from '../Services/getVisionLabels'
-import saveApiKeepit from '../Services/saveKeepit'
 
-import styled from 'styled-components/macro'
+import apiGetVisionLabels from '../Services/apiGetVisionLabels'
+import apiSaveKeepit from '../Services/apiSaveKeepit'
+
 import { firstToUpper } from '../Lib/helperFunctions'
+
+import Taglist from '../Components/Taglist'
+import AddCustomTagForm from '../Components/AddCustomTagForm'
+import UploadButton from '../Components/UploadButton'
+import Button from '../Components/Button'
 
 export default function NewKeepitPage() {
   const history = useHistory()
   const [images, setImages] = useState([])
   const [imageIds, setImageIds] = useState([])
   const [tags, setTags] = useState([])
-
   const addedTags = tags.filter((tag) => tag.added === true).sort()
   const newTags = tags.filter((tag) => tag.added === false).sort()
 
@@ -21,33 +24,55 @@ export default function NewKeepitPage() {
     if (historyImages) {
       setImages(historyImages)
       history.replace('/new', { images: '' })
-    }
-
-    let files = historyImages
-    let request = {
-      email: 'user354@email',
-      password: 'test',
-      files,
-    }
-    historyImages &&
-      getVisionLabels(request)
+      const files = historyImages
+      const request = {
+        email: 'user354@email',
+        password: 'test',
+        files,
+      }
+      apiGetVisionLabels(request)
         .then((result) => handleApiTags(result))
         .catch((error) => console.log('error', error))
+    }
   }, [])
 
-  function handleApiTags(result) {
-    const apiTags = result.labels
-    let uniqueApiTags = [...new Set(apiTags)]
+  return (
+    <div>
+      <h1>Page: New</h1>
+      {images &&
+        images.map((image, index) => (
+          <div key={index}>
+            <img src={image['data_url']} alt="" width="40" />
+            <button onClick={() => removeImage(index)}>Remove</button>
+          </div>
+        ))}
+      Added:
+      <Taglist
+        onClick={updateTag}
+        tags={addedTags}
+        targetState={false}
+      ></Taglist>
+      <hr></hr>
+      New:
+      <Taglist onClick={updateTag} tags={newTags} targetState={true}></Taglist>
+      <hr></hr>
+      <AddCustomTagForm onSubmit={handleSubmitTag} />
+      <br></br>
+      {images.length === 0 ? (
+        <UploadButton />
+      ) : (
+        <Button onClick={saveKeepit} buttonText="Save Keepit" />
+      )}
+    </div>
+  )
+
+  function handleApiTags(response) {
+    const uniqueApiTags = [...new Set(response.labels)]
     const expandedTags = uniqueApiTags.map((value, index) => {
       return { value: value, added: false, isCustom: false }
     })
     setTags(expandedTags)
-    setImageIds(result.ids)
-  }
-
-  function remove(deleteIndex) {
-    setImages(images.filter((image, index) => index !== deleteIndex))
-    images.length - 1 === 0 && setTags([])
+    setImageIds(response.ids)
   }
 
   function updateTag(tagValue, addedValue) {
@@ -63,7 +88,7 @@ export default function NewKeepitPage() {
     ])
   }
 
-  function addCustomTag(event) {
+  function handleSubmitTag(event) {
     event.preventDefault()
     const inputValue = firstToUpper(event.target.customTag.value)
     if (tags.findIndex((tag) => tag.value === inputValue) < 0) {
@@ -74,81 +99,24 @@ export default function NewKeepitPage() {
   }
 
   function saveKeepit() {
-    console.log('addedTags', addedTags)
-    console.log('imageIds', imageIds)
-
-    // build request for saving keepit
-    const responseTags = addedTags.map((addedTag) => {
+    const requestTags = addedTags.map((addedTag) => {
       return { value: addedTag.value, isCustom: addedTag.isCustom }
     })
-    console.log('responseTags', responseTags)
 
     const request = {
       email: 'user354@email',
       password: 'test',
-      responseTags,
+      requestTags,
       imageIds,
     }
-    console.log(JSON.stringify(request))
-    saveApiKeepit(request)
+
+    apiSaveKeepit(request)
       .then((result) => handleApiTags(result))
       .catch((error) => console.log('error', error))
   }
 
-  return (
-    <div>
-      <h1>Page: New</h1>
-      {images &&
-        images.map((image, index) => (
-          <div key={index}>
-            <img src={image['data_url']} alt="" width="40" />
-            <button onClick={() => remove(index)}>Remove</button>
-          </div>
-        ))}
-      Added:
-      {addedTags &&
-        addedTags.map((addedTag, index) => (
-          <StyledTag
-            key={addedTag.value}
-            onClick={() => updateTag(addedTag.value, false)}
-          >
-            {addedTag.value}
-          </StyledTag>
-        ))}
-      <hr></hr>
-      New:
-      {newTags &&
-        newTags.map((newTag, index) => (
-          <StyledTag
-            key={newTag.value}
-            onClick={() => updateTag(newTag.value, true)}
-          >
-            {newTag.value}
-          </StyledTag>
-        ))}
-      <hr></hr>
-      <form onSubmit={addCustomTag}>
-        <input
-          name="customTag"
-          type="text"
-          placeholder="Add your own tag..."
-        ></input>
-        <button>+</button>
-      </form>
-      <br></br>
-      <br></br>
-      {images.length === 0 ? (
-        <UploadButton />
-      ) : (
-        <button onClick={saveKeepit}>Save Keepit</button>
-      )}
-    </div>
-  )
+  function removeImage(deleteIndex) {
+    setImages(images.filter((image, index) => index !== deleteIndex))
+    images.length - 1 === 0 && setTags([])
+  }
 }
-
-const StyledTag = styled.span`
-  background-color: #e0bd6d;
-  padding: 5px;
-  margin: 5px;
-  display: inline-block;
-`

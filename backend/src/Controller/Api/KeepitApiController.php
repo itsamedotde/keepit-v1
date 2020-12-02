@@ -48,7 +48,7 @@ class KeepitApiController extends AbstractController
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
 
         // Tags
-        $tags = $requestContent['responseTags'];
+        $tags = $requestContent['requestTags'];
 
         // Image
         $imageIds = $requestContent['imageIds'];
@@ -56,20 +56,20 @@ class KeepitApiController extends AbstractController
         $newKeepit = new Keepit();
         $newKeepit->setUser($user);
         
-        foreach($tags as $key => $value){
-            $newTag = new Tag();
-            $newTag->setValue($value['value']);
-            $newTag->setIsCustom($value['isCustom']);
-            $newTag->setUser($user);
+        if($tags){
+            foreach($tags as $key => $value){
+                $newTag = new Tag();
+                $newTag->setValue($value['value']);
+                $newTag->setIsCustom($value['isCustom']);
+                $newTag->setUser($user);
 
-            foreach($imageIds as $key => $value){
-                $newTag->setImage($imageRepository->findbyid($imageIds[$key]));
+                foreach($imageIds as $key => $value){
+                    $newTag->setImage($imageRepository->findbyid($imageIds[$key]));
+                }
+                $newTag = $tagRepository->save($newTag);
+                $newKeepit->addTag($newTag);
             }
-    
-            $newTag = $tagRepository->save($newTag);
-            $newKeepit->addTag($newTag);
         }
-      
         $theKeepit = $keepitRepository->save($newKeepit);
  
         // add keepit to image db
