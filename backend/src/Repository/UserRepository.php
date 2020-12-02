@@ -20,7 +20,6 @@ class UserRepository extends ServiceEntityRepository
     }
 
      public function save(User $user): User  {
-        // $this->_em == getEntityManager()
         $this->_em->persist($user);
         $this->_em->flush();
 
@@ -28,7 +27,6 @@ class UserRepository extends ServiceEntityRepository
     }
 
     public function login(string $email, string $password): ?User {
-        // $this->findAll(), $this->find(), $this->findBy()
         return $this->findOneBy([
             'email' => $email,
             'password' => $password

@@ -2,14 +2,17 @@ import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import UploadButton from '../Components/UploadButton'
 import getVisionLabels from '../Services/getVisionLabels'
+import saveApiKeepit from '../Services/saveKeepit'
+
 import styled from 'styled-components/macro'
 import { firstToUpper } from '../Lib/helperFunctions'
 
 export default function NewKeepitPage() {
   const history = useHistory()
   const [images, setImages] = useState([])
-
+  const [imageIds, setImageIds] = useState([])
   const [tags, setTags] = useState([])
+
   const addedTags = tags.filter((tag) => tag.added === true).sort()
   const newTags = tags.filter((tag) => tag.added === false).sort()
 
@@ -28,19 +31,19 @@ export default function NewKeepitPage() {
     }
     historyImages &&
       getVisionLabels(request)
-        .then((result) => handleApiTags(result.labels))
+        .then((result) => handleApiTags(result))
         .catch((error) => console.log('error', error))
   }, [])
 
-  function handleApiTags(apiTags) {
+  function handleApiTags(result) {
+    const apiTags = result.labels
     let uniqueApiTags = [...new Set(apiTags)]
     const expandedTags = uniqueApiTags.map((value, index) => {
       return { value: value, added: false, isCustom: false }
     })
     setTags(expandedTags)
+    setImageIds(result.ids)
   }
-
-  function uploadToBe() {}
 
   function remove(deleteIndex) {
     setImages(images.filter((image, index) => index !== deleteIndex))
@@ -68,6 +71,28 @@ export default function NewKeepitPage() {
     }
     event.target.reset()
     event.target.customTag.focus()
+  }
+
+  function saveKeepit() {
+    console.log('addedTags', addedTags)
+    console.log('imageIds', imageIds)
+
+    // build request for saving keepit
+    const responseTags = addedTags.map((addedTag) => {
+      return { value: addedTag.value, isCustom: addedTag.isCustom }
+    })
+    console.log('responseTags', responseTags)
+
+    const request = {
+      email: 'user354@email',
+      password: 'test',
+      responseTags,
+      imageIds,
+    }
+    console.log(JSON.stringify(request))
+    saveApiKeepit(request)
+      .then((result) => handleApiTags(result))
+      .catch((error) => console.log('error', error))
   }
 
   return (
@@ -115,7 +140,7 @@ export default function NewKeepitPage() {
       {images.length === 0 ? (
         <UploadButton />
       ) : (
-        <button onClick={uploadToBe}>Save Keepit</button>
+        <button onClick={saveKeepit}>Save Keepit</button>
       )}
     </div>
   )
