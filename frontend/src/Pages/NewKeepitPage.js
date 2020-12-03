@@ -22,12 +22,12 @@ export default function NewKeepitPage() {
       setImages(historyImages)
       history.replace('/new', { images: '' })
       const files = historyImages
-      const request = {
+      const labelRequest = {
         email: 'user354@email',
         password: 'test',
         files,
       }
-      apiGetVisionLabels(request)
+      apiGetVisionLabels(labelRequest)
         .then((result) => handleApiTags(result))
         .catch((error) => console.log('error', error))
     }
