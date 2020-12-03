@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 
-export default function Taglist({ onSubmit }) {
-  Taglist.propTypes = {
+export default function CustomTagForm({ onSubmit }) {
+  CustomTagForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     tags: PropTypes.array.isRequired,
     targetState: PropTypes.bool.isRequired,

@@ -21,8 +21,7 @@ use App\Entity\Tag;
 use App\Repository\KeepitRepository;
 use App\Entity\Keepit;
 
-use App\Utils\LocalFiles;
-use App\Utils\VisionApi;
+
 
 class KeepitApiController extends AbstractController
 {
@@ -32,25 +31,23 @@ class KeepitApiController extends AbstractController
      */
     public function preload(
         Request $request, 
-        SerializerInterface $serializer, 
         ImageRepository $imageRepository, 
         TagRepository $tagRepository, 
-
         UserRepository $userRepository, 
-        KeepitRepository $keepitRepository, 
-        LocalFiles $fileRepository,
-        VisionApi $visionApiRepository
+        KeepitRepository $keepitRepository
         ) {
 
-        $requestContent = json_decode($request->getContent(), true);
-
-        // User    
+        $requestContent = json_decode($request->getContent(), true); 
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
+        
+        if ($user === null) {
+            return new JsonResponse(
+                ["error" => "User not found."],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
 
-        // Tags
         $tags = $requestContent['requestTags'];
-
-        // Image
         $imageIds = $requestContent['imageIds'];
 
         $newKeepit = new Keepit();
@@ -70,19 +67,19 @@ class KeepitApiController extends AbstractController
                 $newKeepit->addTag($newTag);
             }
         }
-        $theKeepit = $keepitRepository->save($newKeepit);
+        $newAddedKeepit = $keepitRepository->save($newKeepit);
  
-        // add keepit to image db
         foreach($imageIds as $key => $value){
+
             $em = $this->getDoctrine()->getManager();
             $item = $imageRepository->findbyid($imageIds[$key]);
-            $item->setKeepit($theKeepit);
+            $item->setKeepit($newAddedKeepit);
             $item->setSubmitted(true);
-
             $em->flush();
+            
         }
 
-        $response = new JsonResponse(true);
+        $response = new JsonResponse($newAddedKeepit);
         return $response;
     }
 }

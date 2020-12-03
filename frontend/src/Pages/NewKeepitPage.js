@@ -1,13 +1,10 @@
 import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-
 import apiGetVisionLabels from '../Services/apiGetVisionLabels'
 import apiSaveKeepit from '../Services/apiSaveKeepit'
-
 import { firstToUpper } from '../Lib/helperFunctions'
-
 import Taglist from '../Components/Taglist'
-import AddCustomTagForm from '../Components/AddCustomTagForm'
+import CustomTagForm from '../Components/CustomTagForm'
 import UploadButton from '../Components/UploadButton'
 import Button from '../Components/Button'
 
@@ -56,7 +53,7 @@ export default function NewKeepitPage() {
       New:
       <Taglist onClick={updateTag} tags={newTags} targetState={true}></Taglist>
       <hr></hr>
-      <AddCustomTagForm onSubmit={handleSubmitTag} />
+      <CustomTagForm onSubmit={handleSubmitTag} />
       <br></br>
       {images.length === 0 ? (
         <UploadButton />
