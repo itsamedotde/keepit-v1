@@ -21,8 +21,6 @@ use App\Entity\Tag;
 use App\Repository\KeepitRepository;
 use App\Entity\Keepit;
 
-
-
 class KeepitApiController extends AbstractController
 {
     /**
@@ -38,17 +36,16 @@ class KeepitApiController extends AbstractController
         ) {
 
         $requestContent = json_decode($request->getContent(), true); 
+        $tags = $requestContent['requestTags'];
+        $imageIds = $requestContent['imageIds'];
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
-        
+
         if ($user === null) {
             return new JsonResponse(
                 ["error" => "User not found."],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
-
-        $tags = $requestContent['requestTags'];
-        $imageIds = $requestContent['imageIds'];
 
         $newKeepit = new Keepit();
         $newKeepit->setUser($user);
@@ -59,7 +56,6 @@ class KeepitApiController extends AbstractController
                 $newTag->setValue($value['value']);
                 $newTag->setIsCustom($value['isCustom']);
                 $newTag->setUser($user);
-
                 foreach($imageIds as $key => $value){
                     $newTag->setImage($imageRepository->findbyid($imageIds[$key]));
                 }
@@ -70,13 +66,10 @@ class KeepitApiController extends AbstractController
         $newAddedKeepit = $keepitRepository->save($newKeepit);
  
         foreach($imageIds as $key => $value){
-
-            $em = $this->getDoctrine()->getManager();
-            $item = $imageRepository->findbyid($imageIds[$key]);
-            $item->setKeepit($newAddedKeepit);
-            $item->setSubmitted(true);
-            $em->flush();
-            
+            $image = $imageRepository->findbyid($imageIds[$key]);
+            $image->setKeepit($newAddedKeepit);
+            $image->setSubmitted(true);
+            $imageRepository->save($image);
         }
 
         $response = new JsonResponse($newAddedKeepit);
