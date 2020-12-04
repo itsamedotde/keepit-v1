@@ -5,7 +5,6 @@ import apiGetAllKeepits from '../Services/apiGetAllKeepits'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
-  const [filteredKeepits, setFilteredKeepits] = useState([])
   const [filter, setFilter] = useState([])
 
   useEffect(() => {
@@ -13,17 +12,7 @@ export default function HomePage() {
   }, [])
 
   useEffect(() => {
-    console.log('useEffect: filteredKeepits', filteredKeepits)
-    setKeepits(filteredKeepits)
-  }, [filteredKeepits])
-
-  useEffect(() => {
-    console.log('useEffect: keepits', keepits)
-  }, [keepits])
-
-  useEffect(() => {
-    setFilteredKeepits('')
-    filterKeepit()
+    filterKeepits()
   }, [filter])
 
   function loadKeepitsFromApi() {
@@ -36,26 +25,22 @@ export default function HomePage() {
       .catch((error) => console.log('error', error))
   }
 
-  function filterKeepit() {
+  function filterKeepits() {
+    let filteredKeepits = []
     if (filter.length !== 0) {
-      console.log('start to filter: ' + filter)
       Object.keys(keepits).map((keepitId) => {
         let tags = keepits[keepitId].tags
         let result = filter.every((i) => tags.includes(i))
         if (result) {
-          console.log('result:', result)
-          console.log('keepitId:', keepitId)
-          setFilteredKeepits((filteredKeepits) => [
-            ...filteredKeepits,
-            keepits[keepitId],
-          ])
+          filteredKeepits = [...filteredKeepits, keepits[keepitId]]
         }
       })
+      setKeepits(filteredKeepits)
     }
   }
 
   function startFilter() {
-    setFilter(['Beer', 'Drink'])
+    setFilter(['Beer'])
   }
 
   function resetFilter() {
