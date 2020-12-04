@@ -18,6 +18,7 @@ export default function NewKeepitPage() {
 
   useEffect(() => {
     loadApiLabels()
+    console.log(tags)
   }, [])
 
   function loadApiLabels() {
@@ -27,7 +28,7 @@ export default function NewKeepitPage() {
       history.replace('/new', { images: '' })
       const files = historyImages
       const labelRequest = {
-        email: 'user354@email',
+        email: 'user@email',
         password: 'test',
         files,
       }
@@ -105,7 +106,7 @@ export default function NewKeepitPage() {
     })
 
     const request = {
-      email: 'user354@email',
+      email: 'user@email',
       password: 'test',
       requestTags,
       imageIds,

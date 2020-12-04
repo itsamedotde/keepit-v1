@@ -1,57 +1,67 @@
 import { useEffect, useState } from 'react'
 
 import UploadButton from '../Components/UploadButton'
+import apiGetAllKeepits from '../Services/apiGetAllKeepits'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
-  const [filteredIeepits, setFilteredIeepits] = useState([])
-  const [filter, setFilter] = useState([])
+  let [filteredKeepits, setFilteredKeepits] = useState([])
+  let [filter, setFilter] = useState([])
 
   useEffect(() => {
     loadKeepits()
+    console.log('_______________________')
+    console.log('On Load:')
+    console.log('keepits', keepits)
+    console.log('filter', filter)
+    console.log('filteredKeepitss', filteredKeepits)
+    console.log('_______________________')
   }, [])
 
   useEffect(() => {
-    // need to get the recently saved keepit??? why????
-    loadKeepits()
-  }, [keepits])
+    console.log('useEffect: filteredKeepits', filteredKeepits)
+  }, [filteredKeepits])
+
+  useEffect(() => {
+    filterKeepit()
+  }, [filter])
 
   function loadKeepits() {
-    const url = 'http://keepit-be.local/keepit/getall'
-    var myHeaders = new Headers()
-    myHeaders.append('Content-Type', 'application/json')
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: JSON.stringify({ email: 'user354@email', password: 'test' }),
-      redirect: 'follow',
+    const requestBody = {
+      email: 'user@email',
+      password: 'test',
     }
-    fetch(url, requestOptions)
-      .then((response) => response.json())
-      .then((result) => handleResponse(result))
+    apiGetAllKeepits(requestBody)
+      .then((result) => setKeepits(result))
       .catch((error) => console.log('error', error))
   }
 
-  function handleResponse(result) {
-    setKeepits(result)
+  function filterKeepit() {
+    if (filter.length !== 0) {
+      console.log('start to filter: ' + filter)
+      Object.keys(keepits).map((keepitId) => {
+        let tags = keepits[keepitId].tags
+        let result = filter.some((i) => tags.includes(i))
+        if (result) {
+          console.log('result:', result)
+          console.log('keepitId:', keepitId)
+          setFilteredKeepits((filteredKeepits) => [
+            ...filteredKeepits,
+            keepits[keepitId],
+          ])
+        }
+      })
+    }
+  }
 
-    // if (filter) {
-    //   Object.keys(keepits).map((item, i) => {
-    //     if(filter)
-    //     console.log('1', keepits[item].images)
-    //   })
-    // }
-
-    // Object.keys(keepits).map((item, i) =>
-    //   console.log('1', keepits[item].images)
-    // )
-    //console.log(keepits)
+  function test() {
+    setFilter(['Beer'])
   }
 
   return (
     <div>
       <h1>Page: Home</h1>
-      {Object.keys(keepits).map((item, i) => (
+      {Object.keys(keepits).map((item) => (
         <img
           width="50"
           height="50"
@@ -61,21 +71,14 @@ export default function HomePage() {
         ></img>
       ))}
       <UploadButton></UploadButton>
+      <button onClick={test}>DDDD</button>
     </div>
   )
 }
 
 /*
-      {Object.keys(keepits).map((item, i) => console.log('1', result[item].images))}
 
-   {keepits.map((keepit) => (
-        <div>{keepit.images[0]}</div>
-      ))}
+ 
 
-           <img
-          width="50"
-          height="50"
-          key={keepits[item].images}
-          src={'http://keepit-be.local/' + keepits[item].images}
-        ></img>
+
 */

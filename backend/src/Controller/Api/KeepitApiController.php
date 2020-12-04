@@ -105,19 +105,37 @@ class KeepitApiController extends AbstractController
         $responseArr = array();
 
         foreach($keepits as $keepit){
-            //echo $keepit->id."<br>";
             $tags = $keepit->getTags();
             $images = $keepit->getImage();
-          
             foreach($images as $key => $image){
+                // echo $image->getPath().'<br>';
+                // $collectedImg[$key] = $image->getPath();
                 $responseArr[$keepit->id]['images'][$key] = $image->getPath();
             }
             foreach($tags as $key => $tag){
                 $responseArr[$keepit->id]['tags'][$key] = $tag->getValue();
+                // echo $tag->getValue().'<br>';
+            }
 
-                //echo $tag->getValue()."<br>";
+            if(count($tags) === 0){
+                $responseArr[$keepit->id]['tags'] = 'Not tagged';
+         
             }
         }
+
+        /*
+            $array = array(
+                "foo" => "bar",
+                42    => 24,
+                "multi" => array(
+                    "dimensional" => array(
+                        "array" => "foo"
+                    )
+                )
+            );
+        */
+
+       // var_dump(gettype($responseArr));
 
         //var_dump($responseArr);
 
