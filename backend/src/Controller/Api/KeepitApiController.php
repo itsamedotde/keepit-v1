@@ -75,6 +75,78 @@ class KeepitApiController extends AbstractController
         $response = new JsonResponse($newAddedKeepit);
         return $response;
     }
+
+    /**
+     *
+     * @Route("/keepit/getall", methods={"POST"})
+     */
+    public function getall(
+        Request $request, 
+        ImageRepository $imageRepository, 
+        TagRepository $tagRepository, 
+        UserRepository $userRepository, 
+        KeepitRepository $keepitRepository
+        ) {
+
+        $requestContent = json_decode($request->getContent(), true); 
+        $user = $userRepository->login($requestContent['email'], $requestContent['password']);
+  
+        if ($user === null) {
+            return new JsonResponse(
+                ["error" => "User not found."],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+        $keepits = $keepitRepository->findby(["user" => $user->getId()]);
+        $response = new JsonResponse($keepits);
+
+
+      
+        $responseArr = array();
+
+        foreach($keepits as $keepit){
+            //echo $keepit->id."<br>";
+            $tags = $keepit->getTags();
+            $images = $keepit->getImage();
+          
+            foreach($images as $key => $image){
+                $responseArr[$keepit->id]['images'][$key] = $image->getPath();
+            }
+            foreach($tags as $key => $tag){
+                $responseArr[$keepit->id]['tags'][$key] = $tag->getValue();
+
+                //echo $tag->getValue()."<br>";
+            }
+        }
+
+        //var_dump($responseArr);
+
+        
+        /*
+        {
+            keepit-ID: {
+                images: {}
+                tags: {}
+            }
+            keepit-ID: {
+                images: {}
+                tags: {}
+            }
+        }
+        */
+        $response = new JsonResponse($responseArr);
+        return $response;
+    
+
+   
+
+        // $keepits = $user->getKeepits();
+        // var_dump($keepits);
+
+        
+        // $response = new JsonResponse($keepits);
+        // return $response;
+    }
 }
 
 

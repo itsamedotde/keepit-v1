@@ -17,6 +17,10 @@ export default function NewKeepitPage() {
   const newTags = tags.filter((tag) => tag.added === false).sort()
 
   useEffect(() => {
+    loadApiLabels()
+  }, [])
+
+  function loadApiLabels() {
     const historyImages = history.location.state.images
     if (historyImages) {
       setImages(historyImages)
@@ -31,7 +35,7 @@ export default function NewKeepitPage() {
         .then((result) => handleApiTags(result))
         .catch((error) => console.log('error', error))
     }
-  }, [])
+  }
 
   return (
     <div>
@@ -110,6 +114,8 @@ export default function NewKeepitPage() {
     apiSaveKeepit(request)
       .then((result) => handleApiTags(result))
       .catch((error) => console.log('error', error))
+
+    history.push('/')
   }
 
   function removeImage(deleteIndex) {

@@ -9,9 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method Keepit|null find($id, $lockMode = null, $lockVersion = null)
  * @method Keepit|null findOneBy(array $criteria, array $orderBy = null)
- * @method Keepit[]    findAll()
  * @method Keepit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Keepit[]    findByUser()
  */
+
 class KeepitRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

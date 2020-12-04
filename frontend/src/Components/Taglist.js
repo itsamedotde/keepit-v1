@@ -7,7 +7,9 @@ export default function Taglist({ onClick, tags, targetState }) {
     tags: PropTypes.array.isRequired,
     targetState: PropTypes.bool.isRequired,
   }
-
+  if (tags >= 0) {
+    return <div>Loadings Tags...</div>
+  }
   return (
     tags &&
     tags.map((tag, index) => (
