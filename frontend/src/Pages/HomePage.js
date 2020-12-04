@@ -5,28 +5,28 @@ import apiGetAllKeepits from '../Services/apiGetAllKeepits'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
-  let [filteredKeepits, setFilteredKeepits] = useState([])
-  let [filter, setFilter] = useState([])
+  const [filteredKeepits, setFilteredKeepits] = useState([])
+  const [filter, setFilter] = useState([])
 
   useEffect(() => {
-    loadKeepits()
-    console.log('_______________________')
-    console.log('On Load:')
-    console.log('keepits', keepits)
-    console.log('filter', filter)
-    console.log('filteredKeepitss', filteredKeepits)
-    console.log('_______________________')
+    loadKeepitsFromApi()
   }, [])
 
   useEffect(() => {
     console.log('useEffect: filteredKeepits', filteredKeepits)
+    setKeepits(filteredKeepits)
   }, [filteredKeepits])
 
   useEffect(() => {
+    console.log('useEffect: keepits', keepits)
+  }, [keepits])
+
+  useEffect(() => {
+    setFilteredKeepits('')
     filterKeepit()
   }, [filter])
 
-  function loadKeepits() {
+  function loadKeepitsFromApi() {
     const requestBody = {
       email: 'user@email',
       password: 'test',
@@ -41,7 +41,7 @@ export default function HomePage() {
       console.log('start to filter: ' + filter)
       Object.keys(keepits).map((keepitId) => {
         let tags = keepits[keepitId].tags
-        let result = filter.some((i) => tags.includes(i))
+        let result = filter.every((i) => tags.includes(i))
         if (result) {
           console.log('result:', result)
           console.log('keepitId:', keepitId)
@@ -54,8 +54,12 @@ export default function HomePage() {
     }
   }
 
-  function test() {
-    setFilter(['Beer'])
+  function startFilter() {
+    setFilter(['Beer', 'Drink'])
+  }
+
+  function resetFilter() {
+    loadKeepitsFromApi()
   }
 
   return (
@@ -71,7 +75,8 @@ export default function HomePage() {
         ></img>
       ))}
       <UploadButton></UploadButton>
-      <button onClick={test}>DDDD</button>
+      <button onClick={startFilter}>FilterTest</button>
+      <button onClick={resetFilter}>Reset Filter</button>
     </div>
   )
 }
