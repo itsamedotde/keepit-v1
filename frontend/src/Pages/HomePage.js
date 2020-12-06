@@ -6,6 +6,7 @@ import apiGetAllKeepits from '../Services/apiGetAllKeepits'
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
   const [filter, setFilter] = useState([])
+  const [tags, setTags] = useState([])
 
   useEffect(() => {
     loadKeepitsFromApi()
@@ -14,6 +15,29 @@ export default function HomePage() {
   useEffect(() => {
     filterKeepits()
   }, [filter])
+
+  useEffect(() => {
+    generateTagList()
+  }, [keepits])
+
+  function generateTagList() {
+    let tagList = []
+    keepits.map((keepit) => {
+      let tags = keepit.tags
+      tags.map((tag) => {
+        tagList = [...tagList, { value: tag.value, isCustom: tag.isCustom }]
+      })
+    })
+    console.log(tagList)
+    setTags(unique(tagList, 'value'))
+  }
+
+  function unique(array, propertyName) {
+    return array.filter(
+      (e, i) =>
+        array.findIndex((a) => a[propertyName] === e[propertyName]) === i
+    )
+  }
 
   function loadKeepitsFromApi() {
     const requestBody = {
@@ -28,37 +52,43 @@ export default function HomePage() {
   function filterKeepits() {
     let filteredKeepits = []
     if (filter.length !== 0) {
-      Object.keys(keepits).map((keepitId) => {
-        let tags = keepits[keepitId].tags
-        let result = filter.every((i) => tags.includes(i))
+      keepits.map((keepit) => {
+        let tags = keepit.tags
+        let tagsValues = tags.map((tag) => tag.value)
+        let result = filter.every((i) => tagsValues.includes(i))
         if (result) {
-          filteredKeepits = [...filteredKeepits, keepits[keepitId]]
+          filteredKeepits = [...filteredKeepits, keepit]
         }
       })
       setKeepits(filteredKeepits)
     }
   }
 
-  function startFilter() {
-    setFilter(['Beer'])
+  function startFilter(value) {
+    setFilter([...filter, value])
   }
 
   function resetFilter() {
     loadKeepitsFromApi()
+    setFilter([])
   }
 
   return (
     <div>
       <h1>Page: Home</h1>
-      {Object.keys(keepits).map((item) => (
+      {keepits.map((keepit, index) => (
         <img
-          width="50"
-          height="50"
+          src={'http://keepit-be.local/' + keepit.images[0]}
           alt=""
-          key={keepits[item].images[0]}
-          src={'http://keepit-be.local/' + keepits[item].images[0]}
+          width="40"
+          key={keepit.images[0]}
         ></img>
       ))}
+      <hr></hr>
+      {tags.map((tag) => (
+        <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
+      ))}
+
       <UploadButton></UploadButton>
       <button onClick={startFilter}>FilterTest</button>
       <button onClick={resetFilter}>Reset Filter</button>
