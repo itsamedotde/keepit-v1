@@ -119,7 +119,6 @@ class KeepitApiController extends AbstractController
 
             if(count($tags) === 0){
                 $responseArr[$key]['tags'][] = array( 'value' => 'Not Tagged', 'isCustom' => false);
-         
             }
         }
 
