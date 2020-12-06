@@ -38,8 +38,8 @@ class KeepitApiController extends AbstractController
         $requestContent = json_decode($request->getContent(), true); 
         $tags = $requestContent['requestTags'];
         $imageIds = $requestContent['imageIds'];
+        
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
-
         if ($user === null) {
             return new JsonResponse(
                 ["error" => "User not found."],
@@ -48,8 +48,8 @@ class KeepitApiController extends AbstractController
         }
 
         $newKeepit = new Keepit();
+
         $newKeepit->setUser($user);
-        
         if($tags){
             foreach($tags as $key => $value){
                 $newTag = new Tag();
@@ -63,8 +63,8 @@ class KeepitApiController extends AbstractController
                 $newKeepit->addTag($newTag);
             }
         }
+
         $newAddedKeepit = $keepitRepository->save($newKeepit);
- 
         foreach($imageIds as $key => $value){
             $image = $imageRepository->findbyid($imageIds[$key]);
             $image->setKeepit($newAddedKeepit);
@@ -89,26 +89,21 @@ class KeepitApiController extends AbstractController
         ) {
 
         $requestContent = json_decode($request->getContent(), true); 
+
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
-  
         if ($user === null) {
             return new JsonResponse(
                 ["error" => "User not found."],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
+
         $keepits = $keepitRepository->findby(["user" => $user->getId()]);
-        $response = new JsonResponse($keepits);
-
-
-      
+        
         $responseArr = array();
-
         foreach($keepits as $key => $keepit){
-
             $tags = $keepit->getTags();
             $images = $keepit->getImage();
-
             $responseArr[$key]['id'] = $keepit->id;
             foreach($images as $imageKey => $image){
                 $responseArr[$key]['images'][$imageKey] = $image->getPath();
@@ -116,53 +111,12 @@ class KeepitApiController extends AbstractController
             foreach($tags as $tagKey => $tag){
                 $responseArr[$key]['tags'][$tagKey] = array( 'value' => $tag->getValue(), 'isCustom' => $tag->getIsCustom() );
             }
-
             if(count($tags) === 0){
                 $responseArr[$key]['tags'][] = array( 'value' => 'Not Tagged', 'isCustom' => false);
             }
         }
-
-        /*
-            $array = array(
-                "foo" => "bar",
-                42    => 24,
-                "multi" => array(
-                    "dimensional" => array(
-                        "array" => "foo"
-                    )
-                )
-            );
-        */
-
-       // var_dump(gettype($responseArr));
-
-        //var_dump($responseArr);
-
-        
-        /*
-        {
-            keepit-ID: {
-                images: {}
-                tags: {}
-            }
-            keepit-ID: {
-                images: {}
-                tags: {}
-            }
-        }
-        */
         $response = new JsonResponse($responseArr);
         return $response;
-    
-
-   
-
-        // $keepits = $user->getKeepits();
-        // var_dump($keepits);
-
-        
-        // $response = new JsonResponse($keepits);
-        // return $response;
     }
 }
 
