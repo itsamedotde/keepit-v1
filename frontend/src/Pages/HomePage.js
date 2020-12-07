@@ -28,7 +28,6 @@ export default function HomePage() {
         tagList = [...tagList, { value: tag.value, isCustom: tag.isCustom }]
       })
     })
-    console.log(tagList)
     setTags(unique(tagList, 'value'))
   }
 
@@ -53,10 +52,9 @@ export default function HomePage() {
     let filteredKeepits = []
     if (filter.length !== 0) {
       keepits.map((keepit) => {
-        let tags = keepit.tags
-        let tagsValues = tags.map((tag) => tag.value)
-        let result = filter.every((i) => tagsValues.includes(i))
-        if (result) {
+        let tagsValues = keepit.tags.map((tag) => tag.value)
+        let tagsFound = filter.every((i) => tagsValues.includes(i))
+        if (tagsFound) {
           filteredKeepits = [...filteredKeepits, keepit]
         }
       })
@@ -80,7 +78,7 @@ export default function HomePage() {
         <img
           src={'http://keepit-be.local/' + keepit.images[0]}
           alt=""
-          width="40"
+          height="50"
           key={keepit.images[0]}
         ></img>
       ))}
@@ -89,16 +87,10 @@ export default function HomePage() {
         <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
       ))}
 
-      <UploadButton></UploadButton>
-      <button onClick={startFilter}>FilterTest</button>
       <button onClick={resetFilter}>Reset Filter</button>
+      <hr></hr>
+
+      <UploadButton></UploadButton>
     </div>
   )
 }
-
-/*
-
- 
-
-
-*/
