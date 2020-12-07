@@ -35,6 +35,7 @@ class ImageApiController extends AbstractController
 
         $requestContent = json_decode($request->getContent(), true);
         $images = $requestContent['files'];
+        $imagelabels = [];
         foreach($images as $image){
 
             $path = $fileRepository->save($image['data_url']);
@@ -46,6 +47,13 @@ class ImageApiController extends AbstractController
 
             $user = $userRepository->login($requestContent['email'], $requestContent['password']);
 
+            if ($user === null) {
+                return new JsonResponse(
+                    ["error" => "User not found."],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
             $newImage = new Image();
             $newImage->setPath($path);
             $newImage->setSubmitted(false);
@@ -53,7 +61,7 @@ class ImageApiController extends AbstractController
             $savedImage = $imageRepository->save($newImage);
             $imageIds[] = $savedImage->id;
         }
-        
+     
         $collectedResponse['ids'] = $imageIds;
         $collectedResponse['labels'] = $imagelabels;
 

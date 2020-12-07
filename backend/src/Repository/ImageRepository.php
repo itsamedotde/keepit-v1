@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Image;
+use App\Entity\Keepit;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,4 +26,12 @@ class ImageRepository extends ServiceEntityRepository
         $this->_em->flush();
         return $image;
     }
+
+    public function findbyid(string $id): ?Image {
+        return $this->findOneBy([
+            'id' => $id,
+        ]);
+    }
+
+   
 }

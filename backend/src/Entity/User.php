@@ -34,9 +34,21 @@ class User
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Keepit::class, mappedBy="user")
+     */
+    private $keepits;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Tag::class, mappedBy="user")
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->keepits = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,6 +104,66 @@ class User
             // set the owning side to null (unless already changed)
             if ($image->getUser() === $this) {
                 $image->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Keepit[]
+     */
+    public function getKeepits(): Collection
+    {
+        return $this->keepits;
+    }
+
+    public function addKeepit(Keepit $keepit): self
+    {
+        if (!$this->keepits->contains($keepit)) {
+            $this->keepits[] = $keepit;
+            $keepit->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKeepit(Keepit $keepit): self
+    {
+        if ($this->keepits->removeElement($keepit)) {
+            // set the owning side to null (unless already changed)
+            if ($keepit->getUser() === $this) {
+                $keepit->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->removeElement($tag)) {
+            // set the owning side to null (unless already changed)
+            if ($tag->getUser() === $this) {
+                $tag->setUser(null);
             }
         }
 
