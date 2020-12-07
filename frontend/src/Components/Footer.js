@@ -13,7 +13,7 @@ export default function Header(props) {
         </StyledLeft>
 
         <StyledMiddle>
-          <StyledText>New Keepit</StyledText>
+          <StyledText>NEW KEEPIT</StyledText>
           <StyledIcon>{props.action}</StyledIcon>
         </StyledMiddle>
         <StyledRight>
@@ -114,7 +114,7 @@ const StyledGradient = styled.div`
     0deg,
     rgba(255, 255, 255, 1) 0%,
     rgba(255, 255, 255, 1) 60%,
-    rgba(255, 255, 255, 1) 80%
+    rgba(255, 255, 255, 0.5) 80%
   );
   height: 30px;
 `

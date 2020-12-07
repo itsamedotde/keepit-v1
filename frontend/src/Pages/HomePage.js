@@ -73,7 +73,6 @@ export default function HomePage() {
 
   return (
     <main>
-      <h1>Page: Home</h1>
       {keepits.map((keepit, index) => (
         <img
           src={'http://keepit-be.local/' + keepit.images[0]}
@@ -83,9 +82,6 @@ export default function HomePage() {
         ></img>
       ))}
       <hr></hr>
-      {tags.map((tag) => (
-        <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
-      ))}
       {tags.map((tag) => (
         <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
       ))}
