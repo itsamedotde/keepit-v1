@@ -72,7 +72,7 @@ export default function HomePage() {
   }
 
   return (
-    <div>
+    <main>
       <h1>Page: Home</h1>
       {keepits.map((keepit, index) => (
         <img
@@ -86,11 +86,19 @@ export default function HomePage() {
       {tags.map((tag) => (
         <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
       ))}
-
+      {tags.map((tag) => (
+        <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
+      ))}
+      {tags.map((tag) => (
+        <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
+      ))}
+      {tags.map((tag) => (
+        <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
+      ))}
       <button onClick={resetFilter}>Reset Filter</button>
       <hr></hr>
 
       <UploadButton></UploadButton>
-    </div>
+    </main>
   )
 }
