@@ -8,9 +8,14 @@ export default function BackButton({ onClick, buttonText }) {
     onClick: PropTypes.func.isRequired,
     buttonText: PropTypes.string.isRequired,
   }
+
+  function handleOnClick() {
+    console.log('back!')
+    history.goBack()
+  }
   const history = useHistory()
 
-  return <BackButtonSvg onClick={() => history.goBack()}></BackButtonSvg>
+  return <BackButtonSvg onClick={handleOnClick}></BackButtonSvg>
 }
 
 /*

@@ -1,120 +1,117 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { useHistory, useLocation } from 'react-router-dom'
+import { ReactComponent as Bgfoot } from '../Assets/bg-foot3.svg'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 export default function Header(props) {
+  const svgString = encodeURIComponent(renderToStaticMarkup(<Bgfoot />))
+
   return (
     <StyledFooter>
-      <StyledGradient></StyledGradient>
-
-      <StyledLayoutWrapper class="ff">
-        <StyledLeft>
-          <StyledLeftWrapper>{props.left}</StyledLeftWrapper>
-        </StyledLeft>
-
-        <StyledMiddle>
+      <StyledActionArea></StyledActionArea>
+      <StyledLayoutWrapper>
+        <StyledLeft onClick={() => console.log('goo')}></StyledLeft>
+        <StyledMiddle
+          style={{ backgroundImage: `url("data:image/svg+xml,${svgString}")` }}
+        >
           <StyledText>NEW KEEPIT</StyledText>
-          <StyledIcon>{props.action}</StyledIcon>
         </StyledMiddle>
-        <StyledRight>
-          {' '}
-          <StyledRightWrapper>{props.right}</StyledRightWrapper>
-        </StyledRight>
+        <StyledRight></StyledRight>
       </StyledLayoutWrapper>
+      <StyledButtonArea>
+        <StyledLeftIconWrapper>{props.left}</StyledLeftIconWrapper>
+        <StyledIcon>{props.action}</StyledIcon>
+        <StyledRightIconWrapper>{props.right}</StyledRightIconWrapper>
+      </StyledButtonArea>
     </StyledFooter>
   )
 }
-const StyledLeftWrapper = styled.div`
-  margin-top: 44px;
 
-  text-align: center;
-`
-const StyledRightWrapper = styled.div`
-  margin-top: 44px;
-
-  text-align: center;
-`
-const StyledIcon = styled.div`
-  height: 60px;
-
-  margin: auto;
-  margin-top: 6px;
-`
-
-const StyledSpacer = styled.div`
-  height: 20px;
-  background-color: white;
-`
-
-const StyledLayoutWrapper = styled.div`
-  height: 28px;
+const StyledButtonArea = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
 `
 
-const StyledText = styled.div`
-  margin-top: 10px;
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: rgb(80, 80, 80);
+const StyledLeftIconWrapper = styled.div`
+  width: 25px;
+`
+const StyledRightIconWrapper = styled.div`
+  width: 25px;
 `
 
-const StyledLeft = styled.div`
-  align-self: flex-start;
+const StyledIcon = styled.div``
+
+const StyledActionArea = styled.div`
   background-color: white;
-  height: 100%;
-  width: 100%;
-  border-bottom-left-radius: 50px;
-  box-shadow: -5px 5px 5px 0px rgba(0, 0, 0, 0.13);
-`
-const StyledMiddle = styled.div`
-  background-color: #f4f4f4;
-  min-width: 130px;
-  border-top-left-radius: 22px;
-  border-top-right-radius: 22px;
-  box-shadow: inset 0px 5px 4px 0px rgba(0, 0, 0, 0.13);
-  height: 27px;
-  text-align: center;
-`
-const StyledRight = styled.div`
-  align-self: flex-end;
-  background-color: white;
-  height: 100%;
-  width: 100%;
-  border-bottom-right-radius: 50px;
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.13);
+  height: 150px;
 `
 
 const StyledFooter = styled.footer`
   background-color: #f4f4f4;
-  height: 80px;
   position: fixed;
-  bottom: 0;
+  bottom: 0px;
   width: 100%;
 
   &:before {
     position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
+    top: -18px;
+    content: 'x';
     width: 100%;
-    height: 20px;
-    content: '';
-    background-color: white;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 40%,
+      rgba(255, 255, 255, 0.5) 80%
+    );
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
   }
 `
-const StyledGradient = styled.div`
+const StyledLayoutWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+const StyledLeft = styled.div`
+  background-color: white;
+  height: 100%;
   width: 100%;
-  position: fixed;
-  bottom: 80px;
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 60%,
-    rgba(255, 255, 255, 0.5) 80%
-  );
-  height: 30px;
+  border-bottom-left-radius: 50px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.13);
+
+  text-align: center;
+  height: 31px;
+  z-index: -1;
+`
+const StyledMiddle = styled.div`
+  min-width: 140px;
+  background-position: top;
+  background-repeat: no-repeat;
+  margin-top: -2px;
+  text-align: center;
+`
+const StyledRight = styled.div`
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  border-bottom-right-radius: 50px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.13);
+  text-align: center;
+  height: 31px;
+  z-index: -1;
+`
+
+const StyledGradient = styled.div``
+
+const StyledText = styled.div`
+  margin-top: 13px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgb(80, 80, 80);
 `

@@ -25,8 +25,11 @@ export default function UploadButtonFooter() {
       >
         {({ onImageUpload }) => (
           <div>
-            <StyledIcon onClick={onImageUpload}>
-              <ActionButtonSvg height="50px"></ActionButtonSvg>
+            <StyledIcon>
+              <ActionButtonSvg
+                onClick={onImageUpload}
+                height="50px"
+              ></ActionButtonSvg>
             </StyledIcon>
           </div>
         )}
