@@ -29,7 +29,7 @@ class ImageApiController extends AbstractController
         SerializerInterface $serializer, 
         ImageRepository $imageRepository, 
         UserRepository $userRepository, 
-        LocalFiles $fileRepository,
+        LocalFiles $localFiles, 
         VisionApi $visionApiRepository
         ){
 
@@ -38,7 +38,7 @@ class ImageApiController extends AbstractController
         $imagelabels = [];
         foreach($images as $image){
 
-            $path = $fileRepository->save($image['data_url']);
+            $path = $localFiles->save($image['data_url']); 
             
             $labels = $visionApiRepository->getLabels($path);
             foreach($labels as $label){
