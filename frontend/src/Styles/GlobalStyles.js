@@ -3,6 +3,10 @@ import { createGlobalStyle } from 'styled-components/macro'
 export default createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
+
+* {
+    box-sizing: border-box;
+}
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -67,11 +71,16 @@ body {
     font-weight: 400;
     font-size: 100%;
     color:  var(--color-text);
+
 }
 
 main {
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 130px;
+
 }
+
+
+  
 `

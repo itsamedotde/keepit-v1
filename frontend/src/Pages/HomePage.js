@@ -114,7 +114,9 @@ export default function HomePage() {
           ))}
         </StyledKeepitList>
         <StyledFilterList>
+          <StyledInput placeholder="Search..."></StyledInput>
           <TagFilter />
+          <StyledTest></StyledTest>
         </StyledFilterList>
       </StyledMain>
       <Footer
@@ -127,30 +129,34 @@ export default function HomePage() {
     </>
   )
 }
+const StyledTest = styled.div`
+  width: 100%;
+`
 
 const StyledKeepitList = styled.div`
-  padding-right: 50px;
-`
-const StyledMain = styled.main`
-  max-height: 20vh;
+  text-align: center;
   overflow: scroll;
+  max-height: 40vh;
+  padding-bottom: 10px;
 `
+const StyledMain = styled.main``
 const StyledFilterList = styled.div`
-  position: fixed;
   bottom: 0px;
-  max-height: 30vh;
-  min-height: 10vh;
-  background-color: white;
-  overflow-x: scroll;
-  padding-right: 50px;
-  padding-bottom: 110px;
+  position: fixed;
+  padding-bottom: 140px;
+  width: 100%;
+  padding-right: 60px;
+  overflow: scroll;
+  height: 40vh;
 `
 
 const StyledInput = styled.input`
-  width: 100%;
   height: 40px;
   border: 1px solid #eaeaea;
   padding-left: 15px;
+  width: 100%;
+
+  margin-top: 15px;
 `
 
 /*
