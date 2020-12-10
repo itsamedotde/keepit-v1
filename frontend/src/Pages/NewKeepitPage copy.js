@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
+import { firstToUpper } from '../Lib/string'
 import styled from 'styled-components/macro'
 import Taglist from '../Components/Taglist'
 import CustomTagForm from '../Components/CustomTagForm'
@@ -9,27 +10,18 @@ import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import SaveButtonFooter from '../Components/SaveButtonFooter'
 import TagSeparator from '../Components/TagSeparator'
-import useTags from '../Hooks/useTags'
-
 export default function NewKeepitPage() {
   const history = useHistory()
   const [images, setImages] = useState([])
   const [imageIds, setImageIds] = useState([])
-
-  const { addedTags, newTags, handleSubmitTag, updateTag, setTags } = useTags()
+  const [tags, setTags] = useState([])
+  const addedTags = tags.filter((tag) => tag.added === true).sort()
+  const newTags = tags.filter((tag) => tag.added === false).sort()
 
   useEffect(() => {
     loadApiLabels()
+    console.log(tags)
   }, [])
-
-  function handleApiTags(response) {
-    const uniqueApiTags = [...new Set(response.labels)]
-    const expandedTags = uniqueApiTags.map((value, index) => {
-      return { value: value, added: false, isCustom: false }
-    })
-    setTags(expandedTags)
-    setImageIds(response.ids)
-  }
 
   function loadApiLabels() {
     const historyImages = history.location.state.images
@@ -65,10 +57,10 @@ export default function NewKeepitPage() {
             </div>
           ))}
         <Taglist
+          targetState={false}
           as={StyledTagList}
           onClick={updateTag}
           tags={addedTags}
-          targetState={false}
         ></Taglist>
         <TagSeparator />
         <Taglist
@@ -79,13 +71,46 @@ export default function NewKeepitPage() {
         <CustomTagForm onSubmit={handleSubmitTag} />
       </main>
       <Footer
-        actionButtonText="Save Keepit"
-        actionButton={<SaveButtonFooter onClick={saveKeepit} />}
+        actionText="Save Keepit"
+        action={<SaveButtonFooter onClick={saveKeepit} />}
         left={<BackButton height="30px" width="30px" />}
         right={<SearchButton />}
       ></Footer>
     </>
   )
+
+  function handleApiTags(response) {
+    const uniqueApiTags = [...new Set(response.labels)]
+    const expandedTags = uniqueApiTags.map((value, index) => {
+      return { value: value, added: false, isCustom: false }
+    })
+    setTags(expandedTags)
+    setImageIds(response.ids)
+  }
+
+  function updateTag(tagValue, addedValue) {
+    var searchedIndex = tags.findIndex((tag) => tag.value === tagValue)
+    const newTags = tags.filter((tag, index) => index !== searchedIndex)
+    setTags([
+      ...newTags,
+      {
+        value: tagValue,
+        added: addedValue,
+        isCustom: tags[searchedIndex].isCustom,
+      },
+    ])
+  }
+
+  function handleSubmitTag(event) {
+    console.log('save..')
+    event.preventDefault()
+    const inputValue = firstToUpper(event.target.customTag.value)
+    if (tags.findIndex((tag) => tag.value === inputValue) < 0) {
+      setTags([...tags, { value: inputValue, added: true, isCustom: true }])
+    }
+    event.target.reset()
+    event.target.customTag.focus()
+  }
 
   function saveKeepit() {
     const requestTags = addedTags.map((addedTag) => {

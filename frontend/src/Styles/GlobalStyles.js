@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components/macro'
 
 export default createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -47,6 +48,26 @@ table {
     border-spacing: 0;
 }
 
+textarea:focus, input:focus, button:focus{
+    outline: none;
+}
+
+/*************/
+
+:root{
+    /* Colors */
+    --color-primary: #F2A648;
+    --color-secondary: #535353;
+    --color-bg: #F4F4F4;
+    --color-text: #8E8E8E;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 100%;
+    color:  var(--color-text);
+}
 
 main {
     padding-left: 30px;

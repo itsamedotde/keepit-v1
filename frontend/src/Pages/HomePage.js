@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
-
 import UploadButton from '../Components/UploadButton'
-import apiGetAllKeepits from '../Services/apiGetAllKeepits'
+import { apiGetAllKeepits } from '../Services/apiRequests.js'
+import Footer from '../Components/Footer'
+import UploadButtonFooter from '../Components/UploadButtonFooter'
+import BackButton from '../Components/BackButton'
+import SearchButton from '../Components/SearchButton'
+import Tag from '../Components/Tag'
+import Input from '../Components/Input'
+
+import styled from 'styled-components/macro'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
@@ -39,11 +46,7 @@ export default function HomePage() {
   }
 
   function loadKeepitsFromApi() {
-    const requestBody = {
-      email: 'user@email',
-      password: 'test',
-    }
-    apiGetAllKeepits(requestBody)
+    apiGetAllKeepits()
       .then((result) => setKeepits(result))
       .catch((error) => console.log('error', error))
   }
@@ -71,30 +74,94 @@ export default function HomePage() {
     setFilter([])
   }
 
-  return (
-    <main>
-      {keepits.map((keepit, index) => (
-        <img
-          src={'http://keepit-be.local/' + keepit.images[0]}
-          alt=""
-          height="50"
-          key={keepit.images[0]}
-        ></img>
-      ))}
-      <hr></hr>
-      {tags.map((tag) => (
-        <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
-      ))}
-      {tags.map((tag) => (
-        <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
-      ))}
-      {tags.map((tag) => (
-        <span onClick={() => startFilter(tag.value)}>{tag.value} | </span>
-      ))}
-      <button onClick={resetFilter}>Reset Filter</button>
-      <hr></hr>
+  function MyTaglist() {
+    const test = tags.map((tag) => (
+      <Tag
+        onClick={() => startFilter(tag.value)}
+        targetState={true}
+        tagValue={tag.value}
+      />
+    ))
+    return test
+  }
 
-      <UploadButton></UploadButton>
-    </main>
+  const TagFilter = () => {
+    return (
+      <>
+        {tags.map((tag, index) => (
+          <Tag
+            onClick={() => startFilter(tag.value)}
+            targetState={true}
+            tagValue={tag.value}
+            key={tag.index}
+          />
+        ))}
+        <RestetButton />
+      </>
+    )
+  }
+
+  function RestetButton() {
+    return <button onClick={resetFilter}>Reset Filter</button>
+  }
+
+  return (
+    <>
+      <StyledMain>
+        {keepits.map((keepit, index) => (
+          <img
+            src={'http://keepit-be.local/' + keepit.images[0]}
+            alt=""
+            height="50"
+            key={keepit.images[0]}
+          ></img>
+        ))}
+      </StyledMain>
+      <Footer
+        subFooterContent={<TagFilter />}
+        actionButtonText="New Keepit"
+        actionButton={<UploadButtonFooter />}
+        left={<BackButton height="30px" width="30px" />}
+        right={<SearchButton />}
+      ></Footer>
+    </>
   )
 }
+
+const StyledMain = styled.main`
+  padding-bottom: 250px;
+`
+
+const StyledInput = styled.input`
+  width: 100%;
+  height: 40px;
+  border: 1px solid #eaeaea;
+  padding-left: 15px;
+`
+
+/*
+
+      {tags.map((tag) => (
+          <Tag
+            onClick={() => startFilter(tag.value)}
+            targetState={true}
+            tagValue={tag.value}
+          />
+        ))}
+
+
+
+              <Footer
+        subFooterContent={tags.map((tag) => (
+          <Tag
+            onClick={() => startFilter(tag.value)}
+            targetState={true}
+            tagValue={tag.value}
+          />
+        ))}
+        actionButtonText="New Keepit"
+        actionButton={<UploadButtonFooter />}
+        left={<BackButton height="30px" width="30px" />}
+        right={<SearchButton />}
+      ></Footer>
+*/

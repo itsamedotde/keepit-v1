@@ -1,32 +1,35 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { useHistory, useLocation } from 'react-router-dom'
 import { ReactComponent as Bgfoot } from '../Assets/bg-foot3.svg'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 export default function Header(props) {
   const svgString = encodeURIComponent(renderToStaticMarkup(<Bgfoot />))
-
+  const footerBgColoer = 'var(--color-bg)'
   return (
-    <StyledFooter>
-      <StyledActionArea></StyledActionArea>
-      <StyledLayoutWrapper>
-        <StyledLeft onClick={() => console.log('goo')}></StyledLeft>
-        <StyledMiddle
+    <StyledFooter bgColor={footerBgColoer}>
+      <StyledSubFooter>
+        {props.subFooterContent}
+        {props.subFooterContentSecond}
+      </StyledSubFooter>
+      <StyledBgArea>
+        <StyleBgLeft />
+        <StyledBgMiddle
           style={{ backgroundImage: `url("data:image/svg+xml,${svgString}")` }}
         >
-          <StyledText>NEW KEEPIT</StyledText>
-        </StyledMiddle>
-        <StyledRight></StyledRight>
-      </StyledLayoutWrapper>
+          <StyledText>{props.actionButtonText}</StyledText>
+        </StyledBgMiddle>
+        <StyleBgRight></StyleBgRight>
+      </StyledBgArea>
       <StyledButtonArea>
         <StyledLeftIconWrapper>{props.left}</StyledLeftIconWrapper>
-        <StyledIcon>{props.action}</StyledIcon>
+        <StyledIcon>{props.actionButton}</StyledIcon>
         <StyledRightIconWrapper>{props.right}</StyledRightIconWrapper>
       </StyledButtonArea>
     </StyledFooter>
   )
 }
+const StyledIcon = styled.div``
 
 const StyledButtonArea = styled.div`
   display: flex;
@@ -35,23 +38,23 @@ const StyledButtonArea = styled.div`
   align-items: center;
   height: 60px;
 `
-
 const StyledLeftIconWrapper = styled.div`
   width: 25px;
 `
 const StyledRightIconWrapper = styled.div`
   width: 25px;
 `
-
-const StyledIcon = styled.div``
-
-const StyledActionArea = styled.div`
+const StyledSubFooter = styled.div`
   background-color: white;
-  height: 150px;
+  padding-top: 3px;
+  padding-bottom: 30px;
+  max-height: 100px;
+  overflow: scroll;
+  padding-left: 30px;
+  padding-right: 30px;
 `
-
 const StyledFooter = styled.footer`
-  background-color: #f4f4f4;
+  background-color: ${(props) => props.bgColor};
   position: fixed;
   bottom: 0px;
   width: 100%;
@@ -59,7 +62,8 @@ const StyledFooter = styled.footer`
   &:before {
     position: absolute;
     top: -18px;
-    content: 'x';
+    content: '_';
+    color: white;
     width: 100%;
     background: linear-gradient(
       0deg,
@@ -72,31 +76,29 @@ const StyledFooter = styled.footer`
     line-height: normal;
   }
 `
-const StyledLayoutWrapper = styled.div`
+const StyledBgArea = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `
-
-const StyledLeft = styled.div`
+const StyleBgLeft = styled.div`
   background-color: white;
   height: 100%;
   width: 100%;
   border-bottom-left-radius: 50px;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.13);
-
   text-align: center;
   height: 31px;
   z-index: -1;
 `
-const StyledMiddle = styled.div`
+const StyledBgMiddle = styled.div`
   min-width: 140px;
   background-position: top;
   background-repeat: no-repeat;
   margin-top: -2px;
   text-align: center;
 `
-const StyledRight = styled.div`
+const StyleBgRight = styled.div`
   background-color: white;
   height: 100%;
   width: 100%;
@@ -106,12 +108,8 @@ const StyledRight = styled.div`
   height: 31px;
   z-index: -1;
 `
-
-const StyledGradient = styled.div``
-
 const StyledText = styled.div`
-  margin-top: 13px;
+  margin-top: 17px;
   font-size: 12px;
-  letter-spacing: 1px;
   color: rgb(80, 80, 80);
 `
