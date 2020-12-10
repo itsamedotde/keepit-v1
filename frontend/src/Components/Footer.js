@@ -47,8 +47,7 @@ const StyledRightIconWrapper = styled.div`
 const StyledSubFooter = styled.div`
   background-color: white;
   padding-top: 3px;
-  padding-bottom: 30px;
-  max-height: 100px;
+
   overflow: scroll;
   padding-left: 30px;
   padding-right: 30px;

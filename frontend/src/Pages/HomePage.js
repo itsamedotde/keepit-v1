@@ -6,9 +6,12 @@ import UploadButtonFooter from '../Components/UploadButtonFooter'
 import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import Tag from '../Components/Tag'
-import Input from '../Components/Input'
+import TagSeparator from '../Components/TagSeparator'
+import StyledDivider from '../Components/Divider'
+import StyledDivider2 from '../Components/Divider2'
 
 import styled from 'styled-components/macro'
+import Divider from '../Components/Divider'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
@@ -74,29 +77,21 @@ export default function HomePage() {
     setFilter([])
   }
 
-  function MyTaglist() {
-    const test = tags.map((tag) => (
-      <Tag
-        onClick={() => startFilter(tag.value)}
-        targetState={true}
-        tagValue={tag.value}
-      />
-    ))
-    return test
-  }
-
   const TagFilter = () => {
     return (
       <>
-        {tags.map((tag, index) => (
-          <Tag
-            onClick={() => startFilter(tag.value)}
-            targetState={true}
-            tagValue={tag.value}
-            key={tag.index}
-          />
-        ))}
-        <RestetButton />
+        <div>
+          <Divider />
+          {tags.map((tag, index) => (
+            <Tag
+              onClick={() => startFilter(tag.value)}
+              targetState={true}
+              tagValue={tag.value}
+              key={tag.index}
+            />
+          ))}
+          <RestetButton />
+        </div>
       </>
     )
   }
@@ -108,17 +103,22 @@ export default function HomePage() {
   return (
     <>
       <StyledMain>
-        {keepits.map((keepit, index) => (
-          <img
-            src={'http://keepit-be.local/' + keepit.images[0]}
-            alt=""
-            height="50"
-            key={keepit.images[0]}
-          ></img>
-        ))}
+        <StyledKeepitList>
+          {keepits.map((keepit, index) => (
+            <img
+              src={'http://keepit-be.local/' + keepit.images[0]}
+              alt=""
+              height="50"
+              key={keepit.images[0]}
+            ></img>
+          ))}
+        </StyledKeepitList>
+        <StyledFilterList>
+          <TagFilter />
+        </StyledFilterList>
       </StyledMain>
       <Footer
-        subFooterContent={<TagFilter />}
+        subFooterContent=""
         actionButtonText="New Keepit"
         actionButton={<UploadButtonFooter />}
         left={<BackButton height="30px" width="30px" />}
@@ -128,8 +128,22 @@ export default function HomePage() {
   )
 }
 
+const StyledKeepitList = styled.div`
+  padding-right: 50px;
+`
 const StyledMain = styled.main`
-  padding-bottom: 250px;
+  max-height: 20vh;
+  overflow: scroll;
+`
+const StyledFilterList = styled.div`
+  position: fixed;
+  bottom: 0px;
+  max-height: 30vh;
+  min-height: 10vh;
+  background-color: white;
+  overflow-x: scroll;
+  padding-right: 50px;
+  padding-bottom: 110px;
 `
 
 const StyledInput = styled.input`

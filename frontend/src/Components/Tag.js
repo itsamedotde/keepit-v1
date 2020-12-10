@@ -31,14 +31,14 @@ const StyledTag = styled.span`
   display: inline-block;
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
-  min-width: 50px;
+
   display: inline-flex;
   align-items: center;
   padding: 5px;
   margin: 0 7px 7px 0px;
   color: white;
   font-weight: 400;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.5px;
 `
 
