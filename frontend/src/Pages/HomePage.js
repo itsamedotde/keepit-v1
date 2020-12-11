@@ -7,8 +7,6 @@ import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import Tag from '../Components/Tag'
 import TagSeparator from '../Components/TagSeparator'
-import StyledDivider from '../Components/Divider'
-import StyledDivider2 from '../Components/Divider2'
 
 import styled from 'styled-components/macro'
 import Divider from '../Components/Divider'
@@ -81,7 +79,6 @@ export default function HomePage() {
     return (
       <>
         <div>
-          <Divider />
           {tags.map((tag, index) => (
             <Tag
               onClick={() => startFilter(tag.value)}
@@ -95,24 +92,70 @@ export default function HomePage() {
       </>
     )
   }
+  const ImageList = () => {
+    return (
+      <>
+        <StyledUl>
+          {keepits.map((keepit, index) => (
+            <StyledLi>
+              <StyledImg
+                src={'http://keepit-be.local/' + keepit.images[0]}
+                alt=""
+                key={keepit.images[0]}
+              ></StyledImg>
+            </StyledLi>
+          ))}
+        </StyledUl>
+      </>
+    )
+  }
 
+  const StyledImg = styled.img`
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: contain;
+    vertical-align: bottom;
+    border: 1px dotted #e3e3e3;
+    border-radius: 2px;
+    padding: 3px;
+  `
+  const StyledUl = styled.ul`
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    flex-wrap: wrap;
+  `
+  const StyledLi = styled.li`
+    height: 12vh;
+    flex-grow: 1;
+
+    &:last-child {
+    }
+  `
   function RestetButton() {
     return <button onClick={resetFilter}>Reset Filter</button>
   }
 
+  /*
+
+
+
+ <StackGrid
+        columnWidth={150}
+      >
+        <div key="key1">Item 1</div>
+        <div key="key2">Item 2</div>
+        <div key="key3">Item 3</div>
+      </StackGrid>
+
+  */
   return (
     <>
       <StyledMain>
         <StyledKeepitList>
-          {keepits.map((keepit, index) => (
-            <img
-              src={'http://keepit-be.local/' + keepit.images[0]}
-              alt=""
-              height="50"
-              key={keepit.images[0]}
-            ></img>
-          ))}
+          <ImageList />
         </StyledKeepitList>
+        <StyledDiv />
         <StyledFilterList>
           <StyledInput placeholder="Search..."></StyledInput>
           <TagFilter />
@@ -129,6 +172,16 @@ export default function HomePage() {
     </>
   )
 }
+
+const StyledDiv = styled.div`
+  border-bottom: 1px solid #e3e3e3;
+  border-style: dashed;
+  margin: 10px 0 10px 0;
+  position: fixed;
+  bottom: 1px;
+  background-color: red;
+`
+
 const StyledTest = styled.div`
   width: 100%;
 `
@@ -140,6 +193,7 @@ const StyledKeepitList = styled.div`
   padding-bottom: 10px;
 `
 const StyledMain = styled.main``
+
 const StyledFilterList = styled.div`
   bottom: 0px;
   position: fixed;
@@ -147,7 +201,7 @@ const StyledFilterList = styled.div`
   width: 100%;
   padding-right: 60px;
   overflow: scroll;
-  height: 40vh;
+  height: 43vh;
 `
 
 const StyledInput = styled.input`
@@ -155,8 +209,7 @@ const StyledInput = styled.input`
   border: 1px solid #eaeaea;
   padding-left: 15px;
   width: 100%;
-
-  margin-top: 15px;
+  margin: 5px 0 10px 0;
 `
 
 /*
