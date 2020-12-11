@@ -7,6 +7,7 @@ export default createGlobalStyle`
 * {
     box-sizing: border-box;
 }
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -64,6 +65,8 @@ textarea:focus, input:focus, button:focus{
     --color-secondary: #535353;
     --color-bg: #F4F4F4;
     --color-text: #8E8E8E;
+
+
 }
 
 body {
@@ -71,16 +74,8 @@ body {
     font-weight: 400;
     font-size: 100%;
     color:  var(--color-text);
-
-}
-
-main {
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 130px;
-
-}
-
-
   
+}
+
+
 `

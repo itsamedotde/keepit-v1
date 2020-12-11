@@ -8,18 +8,15 @@ export default function Header(props) {
   const footerBgColoer = 'var(--color-bg)'
   return (
     <StyledFooter bgColor={footerBgColoer}>
-      <StyledSubFooter>
-        {props.subFooterContent}
-        {props.subFooterContentSecond}
-      </StyledSubFooter>
       <StyledBgArea>
         <StyleBgLeft />
+        <StyleBgRight></StyleBgRight>
+
         <StyledBgMiddle
           style={{ backgroundImage: `url("data:image/svg+xml,${svgString}")` }}
         >
           <StyledText>{props.actionButtonText}</StyledText>
         </StyledBgMiddle>
-        <StyleBgRight></StyleBgRight>
       </StyledBgArea>
       <StyledButtonArea>
         <StyledLeftIconWrapper>{props.left}</StyledLeftIconWrapper>
@@ -54,7 +51,6 @@ const StyledSubFooter = styled.div`
 `
 const StyledFooter = styled.footer`
   background-color: ${(props) => props.bgColor};
-  position: fixed;
   bottom: 0px;
   width: 100%;
 
@@ -79,16 +75,16 @@ const StyledBgArea = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 30px;
 `
 const StyleBgLeft = styled.div`
   background-color: white;
   height: 100%;
   width: 100%;
   border-bottom-left-radius: 50px;
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.13);
+  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
   text-align: center;
-  height: 31px;
-  z-index: -1;
+  height: 30px;
 `
 const StyledBgMiddle = styled.div`
   min-width: 140px;
@@ -102,10 +98,10 @@ const StyleBgRight = styled.div`
   height: 100%;
   width: 100%;
   border-bottom-right-radius: 50px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.13);
+  box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.13);
   text-align: center;
-  height: 31px;
-  z-index: -1;
+  height: 30px;
+  order: 3;
 `
 const StyledText = styled.div`
   margin-top: 17px;

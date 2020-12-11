@@ -7,11 +7,9 @@ function App() {
   return (
     <Switch>
       <Route path="/new">
-        <Header />
         <NewKeepitPage />
       </Route>
       <Route path="/">
-        <Header />
         <HomePage />
       </Route>
     </Switch>

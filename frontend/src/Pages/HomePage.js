@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
-import UploadButton from '../Components/UploadButton'
 import { apiGetAllKeepits } from '../Services/apiRequests.js'
 import Footer from '../Components/Footer'
 import UploadButtonFooter from '../Components/UploadButtonFooter'
 import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import Tag from '../Components/Tag'
+import Header from '../Components/Header'
+
 import TagSeparator from '../Components/TagSeparator'
 
 import styled from 'styled-components/macro'
-import Divider from '../Components/Divider'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
@@ -26,6 +26,7 @@ export default function HomePage() {
 
   useEffect(() => {
     generateTagList()
+    console.log(keepits)
   }, [keepits])
 
   function generateTagList() {
@@ -48,7 +49,13 @@ export default function HomePage() {
 
   function loadKeepitsFromApi() {
     apiGetAllKeepits()
-      .then((result) => setKeepits(result))
+      .then((result) =>
+        setKeepits(
+          result.sort(function (a, b) {
+            return b.id - a.id
+          })
+        )
+      )
       .catch((error) => console.log('error', error))
   }
 
@@ -92,7 +99,7 @@ export default function HomePage() {
       </>
     )
   }
-  const ImageList = () => {
+  const KeepitList = () => {
     return (
       <>
         <StyledUl>
@@ -136,72 +143,55 @@ export default function HomePage() {
     return <button onClick={resetFilter}>Reset Filter</button>
   }
 
-  /*
-
-
-
- <StackGrid
-        columnWidth={150}
-      >
-        <div key="key1">Item 1</div>
-        <div key="key2">Item 2</div>
-        <div key="key3">Item 3</div>
-      </StackGrid>
-
-  */
   return (
     <>
-      <StyledMain>
+      <StyledLayout>
+        <Header />
         <StyledKeepitList>
-          <ImageList />
+          <KeepitList />
         </StyledKeepitList>
-        <StyledDiv />
+        <TagSeparator></TagSeparator>
         <StyledFilterList>
           <StyledInput placeholder="Search..."></StyledInput>
           <TagFilter />
-          <StyledTest></StyledTest>
         </StyledFilterList>
-      </StyledMain>
-      <Footer
-        subFooterContent=""
-        actionButtonText="New Keepit"
-        actionButton={<UploadButtonFooter />}
-        left={<BackButton height="30px" width="30px" />}
-        right={<SearchButton />}
-      ></Footer>
+        <Footer
+          actionButtonText="New Keepit"
+          actionButton={<UploadButtonFooter />}
+          left={<BackButton height="30px" width="30px" />}
+          right={<SearchButton />}
+        ></Footer>
+      </StyledLayout>
     </>
   )
 }
 
-const StyledDiv = styled.div`
-  border-bottom: 1px solid #e3e3e3;
-  border-style: dashed;
-  margin: 10px 0 10px 0;
+const StyledLayout = styled.div`
+  display: grid;
+  grid-template-rows: 100px 5fr 21px 2fr 90px;
+  max-width: 600px;
   position: fixed;
-  bottom: 1px;
-  background-color: red;
-`
-
-const StyledTest = styled.div`
+  left: 0;
+  top: 0;
   width: 100%;
+  height: 100%;
+  font-size: 112.5%;
 `
 
 const StyledKeepitList = styled.div`
   text-align: center;
   overflow: scroll;
-  max-height: 40vh;
   padding-bottom: 10px;
+  padding: 0 30px;
 `
-const StyledMain = styled.main``
 
 const StyledFilterList = styled.div`
   bottom: 0px;
-  position: fixed;
-  padding-bottom: 140px;
   width: 100%;
   padding-right: 60px;
   overflow: scroll;
-  height: 43vh;
+  margin-bottom: 20px;
+  padding: 0 30px;
 `
 
 const StyledInput = styled.input`
@@ -210,6 +200,7 @@ const StyledInput = styled.input`
   padding-left: 15px;
   width: 100%;
   margin: 5px 0 10px 0;
+  font-size: 14px;
 `
 
 /*

@@ -26,12 +26,13 @@ export default function CustomTagForm({ onSubmit }) {
 const StyledForm = styled.form`
   display: flex;
   flex-direction: row;
-
+  margin: 10px 0;
   input {
     width: 100%;
     height: 40px;
     border: 1px solid #eaeaea;
     padding-left: 15px;
+    font-size: 14px;
   }
 
   button {
