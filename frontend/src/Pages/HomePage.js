@@ -6,8 +6,10 @@ import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import Tag from '../Components/Tag'
 import Header from '../Components/Header'
+import Taglist from '../Components/Taglist'
+import KeepitList from '../Components/KeepitList'
 
-import TagSeparator from '../Components/TagSeparator'
+import ContentSeparator from '../Components/ContentSeparator'
 
 import styled from 'styled-components/macro'
 
@@ -26,18 +28,32 @@ export default function HomePage() {
 
   useEffect(() => {
     generateTagList()
-    console.log(keepits)
+    console.log('keepits', keepits)
   }, [keepits])
 
+  function compare(a, b) {
+    if (a.value < b.value) {
+      return -1
+    }
+    if (a.value > b.value) {
+      return 1
+    }
+    return 0
+  }
+
   function generateTagList() {
-    let tagList = []
+    let collectedTags = []
     keepits.map((keepit) => {
       let tags = keepit.tags
       tags.map((tag) => {
-        tagList = [...tagList, { value: tag.value, isCustom: tag.isCustom }]
+        collectedTags = [
+          ...collectedTags,
+          { value: tag.value, isCustom: tag.isCustom },
+        ]
       })
     })
-    setTags(unique(tagList, 'value'))
+    collectedTags.sort(compare)
+    setTags(unique(collectedTags, 'value'))
   }
 
   function unique(array, propertyName) {
@@ -85,76 +101,70 @@ export default function HomePage() {
   const TagFilter = () => {
     return (
       <>
-        <div>
-          {tags.map((tag, index) => (
-            <Tag
-              onClick={() => startFilter(tag.value)}
-              targetState={true}
-              tagValue={tag.value}
-              key={tag.index}
-            />
-          ))}
-          <RestetButton />
-        </div>
+        {tags.map((tag, index) => (
+          <Tag
+            onClick={() => startFilter(tag.value)}
+            targetState={true}
+            tagValue={tag.value}
+            key={tag.index}
+          />
+        ))}
+        <RestetButton />
       </>
     )
   }
-  const KeepitList = () => {
-    return (
-      <>
-        <StyledUl>
-          {keepits.map((keepit, index) => (
-            <StyledLi>
-              <StyledImg
-                src={'http://keepit-be.local/' + keepit.images[0]}
-                alt=""
-                key={keepit.images[0]}
-              ></StyledImg>
-            </StyledLi>
-          ))}
-        </StyledUl>
-      </>
-    )
-  }
+  // const KeepitList = () => {
+  //   return (
+  //     <>
+  //       <StyledUl>
+  //         {keepits.map((keepit, index) => (
+  //           <StyledLi>
+  //             <StyledImg
+  //               src={'http://keepit-be.local/' + keepit.images[0]}
+  //               alt=""
+  //               key={keepit.images[0]}
+  //             ></StyledImg>
+  //           </StyledLi>
+  //         ))}
+  //       </StyledUl>
+  //     </>
+  //   )
+  // }
 
-  const StyledImg = styled.img`
-    max-height: 100%;
-    min-width: 100%;
-    object-fit: contain;
-    vertical-align: bottom;
-    border: 1px dotted #e3e3e3;
-    border-radius: 2px;
-    padding: 3px;
-  `
-  const StyledUl = styled.ul`
-    display: flex;
-    flex-direction: row;
-    gap: 3px;
-    flex-wrap: wrap;
-  `
-  const StyledLi = styled.li`
-    height: 12vh;
-    flex-grow: 1;
-
-    &:last-child {
-    }
-  `
   function RestetButton() {
-    return <button onClick={resetFilter}>Reset Filter</button>
+    return (
+      <StyledResetFilterButton onClick={resetFilter}>
+        Reset Filter
+      </StyledResetFilterButton>
+    )
+  }
+
+  function TagReset() {
+    if (filter.length > 0) {
+      return <RestetButton></RestetButton>
+    } else {
+      return ''
+    }
   }
 
   return (
     <>
       <StyledLayout>
         <Header />
-        <StyledKeepitList>
-          <KeepitList />
-        </StyledKeepitList>
-        <TagSeparator></TagSeparator>
-        <StyledFilterList>
+        <StyledKeepitArea>
+          <KeepitList keepits={keepits} />
+        </StyledKeepitArea>
+        <ContentSeparator></ContentSeparator>
+        <StyledFilterArea>
           <StyledInput placeholder="Search..."></StyledInput>
-          <TagFilter />
-        </StyledFilterList>
+          <Taglist
+            tags={tags}
+            onClick={startFilter}
+            bgColor="var(--color-primary)"
+            showIsCustom={false}
+          ></Taglist>
+          <TagReset></TagReset>
+        </StyledFilterArea>
         <Footer
           actionButtonText="New Keepit"
           actionButton={<UploadButtonFooter />}
@@ -165,6 +175,10 @@ export default function HomePage() {
     </>
   )
 }
+const StyledResetFilterButton = styled.button`
+  display: inline;
+  background-color: #f2a648;
+`
 
 const StyledLayout = styled.div`
   display: grid;
@@ -178,14 +192,14 @@ const StyledLayout = styled.div`
   font-size: 112.5%;
 `
 
-const StyledKeepitList = styled.div`
+const StyledKeepitArea = styled.div`
   text-align: center;
   overflow: scroll;
   padding-bottom: 10px;
   padding: 0 30px;
 `
 
-const StyledFilterList = styled.div`
+const StyledFilterArea = styled.div`
   bottom: 0px;
   width: 100%;
   padding-right: 60px;
@@ -205,27 +219,5 @@ const StyledInput = styled.input`
 
 /*
 
-      {tags.map((tag) => (
-          <Tag
-            onClick={() => startFilter(tag.value)}
-            targetState={true}
-            tagValue={tag.value}
-          />
-        ))}
-
-
-
-              <Footer
-        subFooterContent={tags.map((tag) => (
-          <Tag
-            onClick={() => startFilter(tag.value)}
-            targetState={true}
-            tagValue={tag.value}
-          />
-        ))}
-        actionButtonText="New Keepit"
-        actionButton={<UploadButtonFooter />}
-        left={<BackButton height="30px" width="30px" />}
-        right={<SearchButton />}
-      ></Footer>
+     <TagFilter />
 */

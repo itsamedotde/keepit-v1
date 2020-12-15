@@ -18,14 +18,14 @@ export default function useTags() {
     event.target.customTag.focus()
   }
 
-  function updateTag(tagValue, addedValue) {
+  function updateTag(tagValue, newAddedState) {
     var searchedIndex = tags.findIndex((tag) => tag.value === tagValue)
     const newTags = tags.filter((tag, index) => index !== searchedIndex)
     setTags([
       ...newTags,
       {
         value: tagValue,
-        added: addedValue,
+        added: newAddedState,
         isCustom: tags[searchedIndex].isCustom,
       },
     ])

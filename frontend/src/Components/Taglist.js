@@ -4,33 +4,37 @@ import { ReactComponent as TagCloudIcon } from '../Assets/tag-cloud.svg'
 import { ReactComponent as TagMinusIcon } from '../Assets/tag-minus.svg'
 import { ReactComponent as TagPlusIcon } from '../Assets/tag-plus.svg'
 import { ReactComponent as TagUserIcon } from '../Assets/tag-user.svg'
-import loading from '../Assets/loading.gif' // Tell webpack this JS file uses this image
+import loading from '../Assets/loading.gif'
 
-export default function Taglist({ onClick, tags, targetState }) {
+export default function Taglist({
+  onClick,
+  tags,
+  bgColor,
+  showIsCustom,
+  showIsloading,
+}) {
   Taglist.propTypes = {
     onClick: PropTypes.func.isRequired,
     tags: PropTypes.array.isRequired,
-    targetState: PropTypes.bool.isRequired,
   }
 
-  const stateIcon = targetState ? <TagPlusIcon /> : <TagMinusIcon />
-  const bgColor = targetState ? 'var(--color-primary)' : '#828282'
-
-  function IsCustomIcon(test) {
-    if (test.isCustom) {
-      return <TagUserIcon />
+  function IsCustomIcon(tag) {
+    if (showIsCustom) {
+      if (tag.isCustom) {
+        return <TagUserIcon />
+      } else {
+        return <TagCloudIcon />
+      }
     } else {
-      return <TagCloudIcon />
+      return ''
     }
   }
 
-  if (tags.length === 0 && targetState) {
+  if (tags.length === 0 && showIsloading) {
     return (
-      <>
-        <StyledLoading>
-          <img width="20" src={loading}></img>
-        </StyledLoading>
-      </>
+      <StyledLoading>
+        <img width="20" src={loading}></img>
+      </StyledLoading>
     )
   }
 
@@ -38,7 +42,7 @@ export default function Taglist({ onClick, tags, targetState }) {
     <StyledTagList bgcolor={bgColor}>
       {tags &&
         tags.map((tag, index) => (
-          <li key={tag.value} onClick={() => onClick(tag.value, targetState)}>
+          <li key={tag.value} onClick={() => onClick(tag.value, !tag.added)}>
             <StyledTagText>{tag.value} </StyledTagText>
             <IsCustomIcon isCustom={tag.isCustom}></IsCustomIcon>
           </li>
@@ -69,13 +73,11 @@ const StyledTagList = styled.ul`
     display: inline-flex;
     align-items: center;
     padding: 5px 10px 5px 5px;
+    border-left: 2px solid #e3e3e3;
+    cursor: pointer;
   }
 `
 const StyledLoading = styled.div`
   text-align: center;
   font-size: 12px;
 `
-/*
-    margin: 0px 7px 7px 0px;
-
-*/

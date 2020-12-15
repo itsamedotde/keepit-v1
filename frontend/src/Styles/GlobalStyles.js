@@ -63,6 +63,7 @@ textarea:focus, input:focus, button:focus{
     /* Colors */
     --color-primary: #F2A648;
     --color-secondary: #535353;
+    --color-tertiary: #999999;
     --color-bg: #F4F4F4;
     --color-text: #8E8E8E;
 
@@ -73,8 +74,7 @@ body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 100%;
-    color:  var(--color-text);
-  
+    color: var(--color-text);
 }
 
 

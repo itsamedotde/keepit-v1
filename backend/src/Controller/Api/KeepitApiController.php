@@ -57,7 +57,7 @@ class KeepitApiController extends AbstractController
                 $newTag->setIsCustom($value['isCustom']);
                 $newTag->setUser($user);
                 foreach($imageIds as $key => $value){
-                    $newTag->setImage($imageRepository->findbyid($imageIds[$key]));
+                    $newTag->setImage($imageRepository->findById($imageIds[$key]));
                 }
                 $newTag = $tagRepository->save($newTag);
                 $newKeepit->addTag($newTag);
@@ -66,7 +66,7 @@ class KeepitApiController extends AbstractController
 
         $newAddedKeepit = $keepitRepository->save($newKeepit);
         foreach($imageIds as $key => $value){
-            $image = $imageRepository->findbyid($imageIds[$key]);
+            $image = $imageRepository->findById($imageIds[$key]);
             $image->setKeepit($newAddedKeepit);
             $image->setSubmitted(true);
             $imageRepository->save($image);
@@ -118,6 +118,7 @@ class KeepitApiController extends AbstractController
         $response = new JsonResponse($responseArr);
         return $response;
     }
+    
 }
 
 
