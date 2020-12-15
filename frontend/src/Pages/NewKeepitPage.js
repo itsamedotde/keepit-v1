@@ -17,13 +17,18 @@ export default function NewKeepitPage() {
   const newTags = tags.filter((tag) => tag.added === false).sort()
 
   useEffect(() => {
+    loadApiLabels()
+    console.log(tags)
+  }, [])
+
+  function loadApiLabels() {
     const historyImages = history.location.state.images
     if (historyImages) {
       setImages(historyImages)
       history.replace('/new', { images: '' })
       const files = historyImages
       const labelRequest = {
-        email: 'user354@email',
+        email: 'user@email',
         password: 'test',
         files,
       }
@@ -31,7 +36,7 @@ export default function NewKeepitPage() {
         .then((result) => handleApiTags(result))
         .catch((error) => console.log('error', error))
     }
-  }, [])
+  }
 
   return (
     <div>
@@ -101,7 +106,7 @@ export default function NewKeepitPage() {
     })
 
     const request = {
-      email: 'user354@email',
+      email: 'user@email',
       password: 'test',
       requestTags,
       imageIds,
@@ -110,6 +115,8 @@ export default function NewKeepitPage() {
     apiSaveKeepit(request)
       .then((result) => handleApiTags(result))
       .catch((error) => console.log('error', error))
+
+    history.push('/')
   }
 
   function removeImage(deleteIndex) {

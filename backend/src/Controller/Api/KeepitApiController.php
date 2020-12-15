@@ -38,8 +38,8 @@ class KeepitApiController extends AbstractController
         $requestContent = json_decode($request->getContent(), true); 
         $tags = $requestContent['requestTags'];
         $imageIds = $requestContent['imageIds'];
+        
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
-
         if ($user === null) {
             return new JsonResponse(
                 ["error" => "User not found."],
@@ -48,8 +48,8 @@ class KeepitApiController extends AbstractController
         }
 
         $newKeepit = new Keepit();
+
         $newKeepit->setUser($user);
-        
         if($tags){
             foreach($tags as $key => $value){
                 $newTag = new Tag();
@@ -63,8 +63,8 @@ class KeepitApiController extends AbstractController
                 $newKeepit->addTag($newTag);
             }
         }
+
         $newAddedKeepit = $keepitRepository->save($newKeepit);
- 
         foreach($imageIds as $key => $value){
             $image = $imageRepository->findbyid($imageIds[$key]);
             $image->setKeepit($newAddedKeepit);
@@ -73,6 +73,49 @@ class KeepitApiController extends AbstractController
         }
 
         $response = new JsonResponse($newAddedKeepit);
+        return $response;
+    }
+
+    /**
+     *
+     * @Route("/keepit/getall", methods={"POST"})
+     */
+    public function getall(
+        Request $request, 
+        ImageRepository $imageRepository, 
+        TagRepository $tagRepository, 
+        UserRepository $userRepository, 
+        KeepitRepository $keepitRepository
+        ) {
+
+        $requestContent = json_decode($request->getContent(), true); 
+
+        $user = $userRepository->login($requestContent['email'], $requestContent['password']);
+        if ($user === null) {
+            return new JsonResponse(
+                ["error" => "User not found."],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $keepits = $keepitRepository->findby(["user" => $user->getId()]);
+        
+        $responseArr = array();
+        foreach($keepits as $key => $keepit){
+            $tags = $keepit->getTags();
+            $images = $keepit->getImage();
+            $responseArr[$key]['id'] = $keepit->id;
+            foreach($images as $imageKey => $image){
+                $responseArr[$key]['images'][$imageKey] = $image->getPath();
+            }
+            foreach($tags as $tagKey => $tag){
+                $responseArr[$key]['tags'][$tagKey] = array( 'value' => $tag->getValue(), 'isCustom' => $tag->getIsCustom() );
+            }
+            if(count($tags) === 0){
+                $responseArr[$key]['tags'][] = array( 'value' => 'Not Tagged', 'isCustom' => false);
+            }
+        }
+        $response = new JsonResponse($responseArr);
         return $response;
     }
 }
