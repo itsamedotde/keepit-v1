@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { ReactComponent as SearchSvg } from '../Assets/search.svg'
+import { ReactComponent as LogoutIcon } from '../Assets/logout.svg'
 import { useHistory, useLocation } from 'react-router-dom'
 
-export default function SearchButton({ onClick }) {
-  SearchButton.propTypes = {
+export default function LogoutButton({ onClick }) {
+  LogoutButton.propTypes = {
     onClick: PropTypes.func.isRequired,
   }
   const history = useHistory()
 
-  return <SearchSvg onClick={onClick}></SearchSvg>
+  return <LogoutIcon onClick={onClick}></LogoutIcon>
 }

@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import loading from '../Assets/loading.gif'
 import { useHistory, useLocation } from 'react-router-dom'
 
-export default function KeepitList({ keepits }) {
+export default function KeepitList({ keepits, className }) {
   const history = useHistory()
 
   const StyledLoading = styled.div`
@@ -25,13 +25,12 @@ export default function KeepitList({ keepits }) {
   }
 
   return (
-    <StyledUl>
+    <StyledUl className={className}>
       {keepits.map((keepit, index) => (
-        <StyledLi>
+        <StyledLi key={keepit.images[0]}>
           <StyledImg
             src={'http://keepit-be.local/' + keepit.images[0]}
             alt=""
-            key={keepit.id}
             onClick={() => gotoDetail(keepit)}
           ></StyledImg>
         </StyledLi>

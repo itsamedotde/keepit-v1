@@ -81,7 +81,7 @@ const StyleBgLeft = styled.div`
   background-color: white;
   height: 100%;
   width: 100%;
-  border-bottom-left-radius: 50px;
+
   box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
   text-align: center;
   height: 30px;
@@ -97,7 +97,6 @@ const StyleBgRight = styled.div`
   background-color: white;
   height: 100%;
   width: 100%;
-  border-bottom-right-radius: 50px;
   box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.13);
   text-align: center;
   height: 30px;

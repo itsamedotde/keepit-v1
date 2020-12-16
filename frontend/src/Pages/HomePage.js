@@ -1,25 +1,29 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { apiGetAllKeepits } from '../Services/apiRequests.js'
 import Footer from '../Components/Footer'
 import UploadButtonFooter from '../Components/UploadButtonFooter'
-import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
-import Tag from '../Components/Tag'
 import Header from '../Components/Header'
 import Taglist from '../Components/Taglist'
 import KeepitList from '../Components/KeepitList'
+import ResetFilterButton from '../Components/ResetFilterButton'
 
 import ContentSeparator from '../Components/ContentSeparator'
 
 import styled from 'styled-components/macro'
+import LogoutButton from '../Components/LogoutButton.js'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
   const [filter, setFilter] = useState([])
   const [tags, setTags] = useState([])
 
+  const [showFilter, setShowFilter] = useState([])
+  const filterFraction = showFilter ? '3fr' : '0fr'
+
   useEffect(() => {
     loadKeepitsFromApi()
+    setShowFilter(false)
   }, [])
 
   useEffect(() => {
@@ -30,6 +34,45 @@ export default function HomePage() {
     generateTagList()
     console.log('keepits', keepits)
   }, [keepits])
+
+  return (
+    <>
+      <StyledLayout fraction={filterFraction}>
+        <Header />
+        <StyledKeepitList keepits={keepits} />
+        <StyledContentSeparator />
+        <StyledFilterArea>
+          <StyledInput placeholder="Search..."></StyledInput>
+          <Taglist
+            tags={tags}
+            onClick={startFilter}
+            bgColor="var(--color-primary)"
+            showIsCustom={false}
+          ></Taglist>
+          <ResetFilterButton onClick={resetFilter} buttonText="Reset" />
+        </StyledFilterArea>
+        <Footer
+          actionButtonText="New Keepit"
+          actionButton={<UploadButtonFooter />}
+          left={<LogoutButton onClick={logout} height="30px" width="30px" />}
+          right={<SearchButton onClick={toggleShowFilter} />}
+        ></Footer>
+      </StyledLayout>
+    </>
+  )
+
+  function logout() {
+    console.log('logout...')
+  }
+
+  function toggleShowFilter() {
+    console.log('try...', showFilter)
+    if (showFilter) {
+      setShowFilter(false)
+    } else {
+      setShowFilter(true)
+    }
+  }
 
   function compare(a, b) {
     if (a.value < b.value) {
@@ -97,92 +140,15 @@ export default function HomePage() {
     loadKeepitsFromApi()
     setFilter([])
   }
-
-  const TagFilter = () => {
-    return (
-      <>
-        {tags.map((tag, index) => (
-          <Tag
-            onClick={() => startFilter(tag.value)}
-            targetState={true}
-            tagValue={tag.value}
-            key={tag.index}
-          />
-        ))}
-        <RestetButton />
-      </>
-    )
-  }
-  // const KeepitList = () => {
-  //   return (
-  //     <>
-  //       <StyledUl>
-  //         {keepits.map((keepit, index) => (
-  //           <StyledLi>
-  //             <StyledImg
-  //               src={'http://keepit-be.local/' + keepit.images[0]}
-  //               alt=""
-  //               key={keepit.images[0]}
-  //             ></StyledImg>
-  //           </StyledLi>
-  //         ))}
-  //       </StyledUl>
-  //     </>
-  //   )
-  // }
-
-  function RestetButton() {
-    return (
-      <StyledResetFilterButton onClick={resetFilter}>
-        Reset Filter
-      </StyledResetFilterButton>
-    )
-  }
-
-  function TagReset() {
-    if (filter.length > 0) {
-      return <RestetButton></RestetButton>
-    } else {
-      return ''
-    }
-  }
-
-  return (
-    <>
-      <StyledLayout>
-        <Header />
-        <StyledKeepitArea>
-          <KeepitList keepits={keepits} />
-        </StyledKeepitArea>
-        <ContentSeparator></ContentSeparator>
-        <StyledFilterArea>
-          <StyledInput placeholder="Search..."></StyledInput>
-          <Taglist
-            tags={tags}
-            onClick={startFilter}
-            bgColor="var(--color-primary)"
-            showIsCustom={false}
-          ></Taglist>
-          <TagReset></TagReset>
-        </StyledFilterArea>
-        <Footer
-          actionButtonText="New Keepit"
-          actionButton={<UploadButtonFooter />}
-          left={<BackButton height="30px" width="30px" />}
-          right={<SearchButton />}
-        ></Footer>
-      </StyledLayout>
-    </>
-  )
 }
-const StyledResetFilterButton = styled.button`
-  display: inline;
-  background-color: #f2a648;
-`
 
+const StyledContentSeparator = styled(ContentSeparator)`
+  padding: 10px 20px;
+`
 const StyledLayout = styled.div`
   display: grid;
-  grid-template-rows: 100px 5fr 21px 2fr 90px;
+  grid-template-rows: 100px 5fr 21px ${(props) => props.fraction} 90px;
+  transition: grid-template-rows 0.15s ease-out;
   max-width: 600px;
   position: fixed;
   left: 0;
@@ -191,14 +157,12 @@ const StyledLayout = styled.div`
   height: 100%;
   font-size: 112.5%;
 `
-
-const StyledKeepitArea = styled.div`
+const StyledKeepitList = styled(KeepitList)`
   text-align: center;
   overflow: scroll;
   padding-bottom: 10px;
   padding: 0 30px;
 `
-
 const StyledFilterArea = styled.div`
   bottom: 0px;
   width: 100%;
@@ -207,7 +171,6 @@ const StyledFilterArea = styled.div`
   margin-bottom: 20px;
   padding: 0 30px;
 `
-
 const StyledInput = styled.input`
   height: 40px;
   border: 1px solid #eaeaea;
@@ -216,8 +179,6 @@ const StyledInput = styled.input`
   margin: 5px 0 10px 0;
   font-size: 14px;
 `
-
 /*
 
-     <TagFilter />
 */

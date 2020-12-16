@@ -75,6 +75,8 @@ const StyledTagList = styled.ul`
     padding: 5px 10px 5px 5px;
     border-left: 2px solid #e3e3e3;
     cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
   }
 `
 const StyledLoading = styled.div`
