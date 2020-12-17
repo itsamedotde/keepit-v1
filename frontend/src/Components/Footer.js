@@ -53,6 +53,7 @@ const StyledFooter = styled.footer`
   background-color: ${(props) => props.bgColor};
   bottom: 0px;
   width: 100%;
+  position: fixed;
 
   &:before {
     position: absolute;

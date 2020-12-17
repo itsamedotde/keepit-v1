@@ -40,46 +40,48 @@ export default function NewKeepitPage() {
   }, [])
 
   return (
-    <StyledLayout>
-      <Header />
-      <StyledImageArea>
-        <StyledImageBg bgImg={setBgImg}></StyledImageBg>
-        {images &&
-          images.map((image, index) => (
-            <div key={index}>
-              <StyledImage src={image['data_url']} alt="" height="100" />
-              <br></br>
-              <button onClick={() => removeImage(index)}>Remove</button>
-            </div>
-          ))}
-      </StyledImageArea>
-      <StyledTagArea>
-        <ContentSeperatorText
-          text="RATING"
-          icon={<Star fill="#c7c7c7" width="12" height="12" />}
-        />
-        <StarRating onClick={rating}></StarRating>
-        <ContentSeperatorText
-          text="TAGS"
-          icon={<TagIcon fill="#c7c7c7" width="11" height="11" />}
-        />
-        <Taglist2
-          tags={tags}
-          onClick={updateTag2}
-          bgColor="var(--color-primary)"
-          showIsCustom={true}
-          showIsloading={true}
-        ></Taglist2>
+    <>
+      <StyledLayout>
+        <Header />
+        <StyledImageArea>
+          <StyledImageBg bgImg={setBgImg}></StyledImageBg>
+          {images &&
+            images.map((image, index) => (
+              <div key={index}>
+                <StyledImage src={image['data_url']} alt="" height="100" />
+                <br></br>
+                <button onClick={() => removeImage(index)}>Remove</button>
+              </div>
+            ))}
+        </StyledImageArea>
+        <StyledTagArea>
+          <ContentSeperatorText
+            text="RATING"
+            icon={<Star fill="#c7c7c7" width="12" height="12" />}
+          />
+          <StarRating onClick={rating}></StarRating>
+          <ContentSeperatorText
+            text="TAGS"
+            icon={<TagIcon fill="#c7c7c7" width="11" height="11" />}
+          />
+          <Taglist2
+            tags={tags}
+            onClick={updateTag2}
+            bgColor="var(--color-primary)"
+            showIsCustom={true}
+            showIsloading={true}
+          ></Taglist2>
 
-        <CustomTagForm onSubmit={handleSubmitTag} />
-      </StyledTagArea>
+          <CustomTagForm onSubmit={handleSubmitTag} />
+        </StyledTagArea>
+      </StyledLayout>
       <Footer
         actionButtonText="Save Keepit"
         actionButton={<SaveButtonFooter onClick={saveKeepit} />}
         left={<BackButton height="30px" width="30px" />}
         right={<SearchButton />}
       ></Footer>
-    </StyledLayout>
+    </>
   )
 
   function rating(rating) {
@@ -130,6 +132,7 @@ export default function NewKeepitPage() {
       password: 'test',
       requestTags,
       imageIds,
+      rated,
     }
     apiSaveKeepit(request)
       .then((result) => handleApiTags(result))
@@ -148,9 +151,10 @@ export default function NewKeepitPage() {
 }
 const StyledLayout = styled.div`
   display: grid;
-  grid-template-rows: 100px auto auto 90px;
+  grid-template-rows: 100px 35vh auto 90px;
   max-width: 600px;
-  position: fixed;
+
+  overflow: scroll;
   left: 0;
   top: 0;
   width: 100%;
@@ -185,7 +189,7 @@ const StyledImageBg = styled.div`
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  filter: opacity(30%);
+  filter: opacity(69%);
 `
 
 const StyledImage = styled.img`

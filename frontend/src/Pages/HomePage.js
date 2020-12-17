@@ -51,13 +51,13 @@ export default function HomePage() {
           ></Taglist>
           <ResetFilterButton onClick={resetFilter} buttonText="Reset" />
         </StyledFilterArea>
-        <Footer
-          actionButtonText="New Keepit"
-          actionButton={<UploadButtonFooter />}
-          left={<LogoutButton onClick={logout} height="30px" width="30px" />}
-          right={<SearchButton onClick={toggleShowFilter} />}
-        ></Footer>
       </StyledLayout>
+      <Footer
+        actionButtonText="New Keepit"
+        actionButton={<UploadButtonFooter />}
+        left={<LogoutButton onClick={logout} height="30px" width="30px" />}
+        right={<SearchButton onClick={toggleShowFilter} />}
+      ></Footer>
     </>
   )
 

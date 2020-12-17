@@ -8,6 +8,7 @@ import Modal from 'react-modal'
 import { useState, useEffect } from 'react'
 import { ReactComponent as EditIcon } from '../Assets/edit.svg'
 import { ReactComponent as TagIcon } from '../Assets/tag.svg'
+import { ReactComponent as Star } from '../Assets/star.svg'
 
 import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
 import ContentSeparator from '../Components/ContentSeparator'
@@ -66,12 +67,7 @@ export default function KeepitDetailPage({ props }) {
         <Header />
         <StyledImageArea>
           <StyledImageBg onClick={() => openModal(imageUrl)} bgImg={imageUrl} />
-          {keepit.images.map((image) => (
-            <StyledImage
-              src={'http://keepit-be.local/' + image}
-              onClick={() => openModal('http://keepit-be.local/' + image)}
-            />
-          ))}
+
           <StyledSubInfos>
             <StyledDate>
               28.02.2020<br></br>Hamburg
@@ -91,6 +87,15 @@ export default function KeepitDetailPage({ props }) {
         <StyledTagArea>
           <TagIcon />
           <StyledTagHeadline>Tags</StyledTagHeadline>
+          <StyledStarRating>
+            {[...Array(keepit.rated)].map(() => (
+              <Star
+                width="20"
+                stroke="#e3e3e3"
+                fill="var(--color-primary)"
+              ></Star>
+            ))}
+          </StyledStarRating>
           <ContentSeparator></ContentSeparator>
           <Taglist
             tags={tags}
@@ -100,12 +105,6 @@ export default function KeepitDetailPage({ props }) {
           ></Taglist>
         </StyledTagArea>
 
-        <Footer
-          actionButtonText="New Keepit"
-          actionButton={<UploadButtonFooter />}
-          left={<BackButton height="30px" width="30px" />}
-          right={<SearchButton />}
-        ></Footer>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
@@ -120,9 +119,38 @@ export default function KeepitDetailPage({ props }) {
           />
         </Modal>
       </StyledLayout>
+      <Footer
+        actionButtonText="New Keepit"
+        actionButton={<UploadButtonFooter />}
+        left={<BackButton height="30px" width="30px" />}
+        right={<SearchButton />}
+      ></Footer>
     </>
   )
 }
+
+const StyledStarRating = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-top-right-radius: 6px;
+  font-weight: 600;
+  bottom: 1px;
+  left: 1px;
+  float: right;
+  height: 12px;
+  z-index: 1;
+  padding-right: 5px;
+  height: 15px;
+  color: white;
+  text-align: center;
+  svg {
+    height: 12px;
+    margin-left: 3px;
+  }
+`
+
 const StyledDate = styled.div`
   text-align: left;
   display: flex;
@@ -183,19 +211,20 @@ const StyledTagHeadline = styled.span`
 
 const StyledLayout = styled.div`
   display: grid;
-  grid-template-rows: 100px 8fr 2fr 90px;
+  grid-template-rows: 100px 50vh auto 125px;
   max-width: 600px;
-  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   font-size: 112.5%;
+  overflow: scroll;
 `
 const StyledImageArea = styled.div`
   text-align: center;
   position: relative;
   height: 100%;
+
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -218,6 +247,7 @@ const StyledImage = styled.img`
   box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
   border-radius: 3px;
   max-width: 40%;
+  max-height: 500px;
 `
 const StyledModalImage = styled.img`
   box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
@@ -242,4 +272,15 @@ const StyledModalImage = styled.img`
             />
           ))}
 
+*/
+
+/*
+          <StyledImageBg onClick={() => openModal(imageUrl)} bgImg={imageUrl} />
+ {keepit.images.map((image) => (
+            <StyledImage
+              src={'http://keepit-be.local/' + image}
+              onClick={() => openModal('http://keepit-be.local/' + image)}
+              height="300"
+            />
+          ))}
 */

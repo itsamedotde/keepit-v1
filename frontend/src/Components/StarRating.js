@@ -30,6 +30,7 @@ export default function StarRating({ onClick }) {
                     ? 'var(--color-primary)'
                     : 'var(--color-tertiary)'
                 }
+                width="25"
               ></Star>
             </label>
           )

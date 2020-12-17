@@ -34,6 +34,11 @@ class Keepit
      */
     private $tags;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $rating;
+
     public function __construct()
     {
         $this->image = new ArrayCollection();
@@ -110,6 +115,18 @@ class Keepit
         if ($this->tags->removeElement($tag)) {
             $tag->removeKeepit($this);
         }
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?int $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }

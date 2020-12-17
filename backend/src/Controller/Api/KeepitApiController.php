@@ -50,6 +50,8 @@ class KeepitApiController extends AbstractController
         $newKeepit = new Keepit();
 
         $newKeepit->setUser($user);
+        $newKeepit->setRating($requestContent['rated']);
+
         if($tags){
             foreach($tags as $key => $value){
                 $newTag = new Tag();
@@ -104,6 +106,8 @@ class KeepitApiController extends AbstractController
         foreach($keepits as $key => $keepit){
             $tags = $keepit->getTags();
             $images = $keepit->getImage();
+            $responseArr[$key]['rated'] = $keepit->getRating();
+
             $responseArr[$key]['id'] = $keepit->id;
             foreach($images as $imageKey => $image){
                 $responseArr[$key]['images'][$imageKey] = $image->getPath();

@@ -6,6 +6,17 @@ export default createGlobalStyle`
 
 * {
     box-sizing: border-box;
+    outline: 0;
+    outline: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
 }
 
 html, body, div, span, applet, object, iframe,
@@ -56,6 +67,9 @@ table {
 textarea:focus, input:focus, button:focus{
     outline: none;
 }
+*:focus {
+
+    }
 
 /*************/
 
