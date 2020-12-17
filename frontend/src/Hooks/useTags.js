@@ -5,8 +5,16 @@ export default function useTags() {
   const [tags, setTags] = useState([])
   const addedTags = tags.filter((tag) => tag.added === true).sort()
   const newTags = tags.filter((tag) => tag.added === false).sort()
-
-  return { tags, setTags, addedTags, newTags, handleSubmitTag, updateTag }
+  console.log(tags)
+  return {
+    tags,
+    setTags,
+    addedTags,
+    newTags,
+    handleSubmitTag,
+    updateTag,
+    updateTag2,
+  }
 
   function handleSubmitTag(event) {
     event.preventDefault()
@@ -29,5 +37,41 @@ export default function useTags() {
         isCustom: tags[searchedIndex].isCustom,
       },
     ])
+  }
+  function updateTag2(tagValue, newAddedState, isCustom) {
+    var searchedIndex = tags.findIndex((tag) => tag.value === tagValue)
+    var newTags = tags
+
+    setTags([
+      ...newTags.slice(0, searchedIndex),
+      { value: tagValue, added: newAddedState, isCustom: isCustom },
+      ...newTags.slice(searchedIndex + 1),
+    ])
+
+    //newTags.slice(searchedIndex)
+    //console.log()
+
+    //const newTags = tags.filter((tag, index) => index !== searchedIndex)
+
+    // newTags.splice(searchedIndex, 1, {
+    //   value: tagValue,
+    //   added: newAddedState,
+    //   isCustom: false,
+    // })
+    // console.log(tags)
+    //setTags(newTags)
+    // tags.map((tag) => {
+    //   if(tag.value === tagValue)
+    //   console.log(tag)
+    // })
+
+    // setTags([
+    //   ...newTags,
+    //   {
+    //     value: tagValue,
+    //     added: newAddedState,
+    //     isCustom: tags[searchedIndex].isCustom,
+    //   },
+    // ])
   }
 }

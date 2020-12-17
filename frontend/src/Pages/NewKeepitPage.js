@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom'
 import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
 import styled from 'styled-components/macro'
 import Taglist from '../Components/Taglist'
+import Taglist2 from '../Components/Taglist2'
+
 import CustomTagForm from '../Components/CustomTagForm'
 import Footer from '../Components/Footer'
 import BackButton from '../Components/BackButton'
@@ -11,13 +13,27 @@ import SaveButtonFooter from '../Components/SaveButtonFooter'
 import ContentSeparator from '../Components/ContentSeparator'
 import useTags from '../Hooks/useTags'
 import Header from '../Components/Header'
+import StarRating from '../Components/StarRating'
+import { ReactComponent as Star } from '../Assets/star.svg'
+import { ReactComponent as TagIcon } from '../Assets/tag.svg'
+
+import ContentSeperatorText from '../Components/ContentSeperatorText'
 
 export default function NewKeepitPage() {
   const history = useHistory()
   const [images, setImages] = useState([])
   const [imageIds, setImageIds] = useState([])
+  const [rated, setRated] = useState([])
 
-  const { addedTags, newTags, handleSubmitTag, updateTag, setTags } = useTags()
+  const {
+    tags,
+    addedTags,
+    newTags,
+    handleSubmitTag,
+    updateTag,
+    updateTag2,
+    setTags,
+  } = useTags()
 
   useEffect(() => {
     loadApiTags()
@@ -38,20 +54,23 @@ export default function NewKeepitPage() {
           ))}
       </StyledImageArea>
       <StyledTagArea>
-        <Taglist
-          tags={addedTags}
-          onClick={updateTag}
-          bgColor="var(--color-tertiary)"
-          showIsCustom={true}
-        ></Taglist>
-        <ContentSeparator />
-        <Taglist
-          tags={newTags}
-          onClick={updateTag}
+        <ContentSeperatorText
+          text="RATING"
+          icon={<Star fill="#c7c7c7" width="12" height="12" />}
+        />
+        <StarRating onClick={rating}></StarRating>
+        <ContentSeperatorText
+          text="TAGS"
+          icon={<TagIcon fill="#c7c7c7" width="11" height="11" />}
+        />
+        <Taglist2
+          tags={tags}
+          onClick={updateTag2}
           bgColor="var(--color-primary)"
           showIsCustom={true}
           showIsloading={true}
-        ></Taglist>
+        ></Taglist2>
+
         <CustomTagForm onSubmit={handleSubmitTag} />
       </StyledTagArea>
       <Footer
@@ -62,6 +81,11 @@ export default function NewKeepitPage() {
       ></Footer>
     </StyledLayout>
   )
+
+  function rating(rating) {
+    setRated(rating)
+    console.log('rating...', rating)
+  }
 
   function setBgImg() {
     if (images.length > 0) {
@@ -110,6 +134,7 @@ export default function NewKeepitPage() {
     apiSaveKeepit(request)
       .then((result) => handleApiTags(result))
       .catch((error) => console.log('error', error))
+
     history.push('/')
   }
 
