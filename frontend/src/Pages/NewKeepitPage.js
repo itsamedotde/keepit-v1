@@ -16,10 +16,46 @@ import Header from '../Components/Header'
 import StarRating from '../Components/StarRating'
 import { ReactComponent as Star } from '../Assets/star.svg'
 import { ReactComponent as TagIcon } from '../Assets/tag.svg'
+import Modal from 'react-modal'
+import { ReactComponent as Done } from '../Assets/done.svg'
+import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
 
 import ContentSeperatorText from '../Components/ContentSeperatorText'
 
 export default function NewKeepitPage() {
+  // MODAL
+  const [modalIsOpen, setIsOpen] = useState(false)
+  Modal.setAppElement('#root')
+  var subtitle
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      border: 'none',
+      background: 'none',
+    },
+    overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: '#00000096',
+    },
+  }
+  function openModal(url) {
+    setIsOpen(true)
+  }
+  function afterOpenModal() {}
+  function closeModal() {
+    setIsOpen(false)
+  }
+  // MODAL END
+
   const history = useHistory()
   const [images, setImages] = useState([])
   const [imageIds, setImageIds] = useState([])
@@ -39,6 +75,24 @@ export default function NewKeepitPage() {
     loadApiTags()
   }, [])
 
+  const MyModal = () => {
+    return (
+      <>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <StyledModalText>SAVED</StyledModalText>
+          <br></br>
+          <Done fill="var(--color-primary)"></Done>
+        </Modal>
+      </>
+    )
+  }
+
   return (
     <>
       <StyledLayout>
@@ -48,9 +102,12 @@ export default function NewKeepitPage() {
           {images &&
             images.map((image, index) => (
               <div key={index}>
-                <StyledImage src={image['data_url']} alt="" height="100" />
-                <br></br>
-                <button onClick={() => removeImage(index)}>Remove</button>
+                <StyledImage src={image['data_url']} alt="" height="160" />
+                <StyledRemoveWrapper>
+                  <StyledRemove onClick={() => removeImage(index)}>
+                    <DeleteIcon width="11"></DeleteIcon> Delete
+                  </StyledRemove>
+                </StyledRemoveWrapper>
               </div>
             ))}
         </StyledImageArea>
@@ -81,6 +138,7 @@ export default function NewKeepitPage() {
         left={<BackButton height="30px" width="30px" />}
         right={<SearchButton />}
       ></Footer>
+      <MyModal></MyModal>
     </>
   )
 
@@ -124,6 +182,8 @@ export default function NewKeepitPage() {
   }
 
   function saveKeepit() {
+    setIsOpen(true)
+
     const requestTags = addedTags.map((addedTag) => {
       return { value: addedTag.value, isCustom: addedTag.isCustom }
     })
@@ -137,8 +197,10 @@ export default function NewKeepitPage() {
     apiSaveKeepit(request)
       .then((result) => handleApiTags(result))
       .catch((error) => console.log('error', error))
-
-    history.push('/')
+    setTimeout(function () {
+      history.push('/')
+    }, 1500)
+    // history.push('/')
   }
 
   function removeImage(deleteIndex) {
@@ -149,6 +211,11 @@ export default function NewKeepitPage() {
     }
   }
 }
+
+const StyledModalText = styled.div`
+  color: white;
+  font-size: 35px;
+`
 const StyledLayout = styled.div`
   display: grid;
   grid-template-rows: 100px 35vh auto 90px;
@@ -194,5 +261,33 @@ const StyledImageBg = styled.div`
 
 const StyledImage = styled.img`
   box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
-  border-radius: 3px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+`
+const StyledRemove = styled.div`
+  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
+  background-color: #ffffff75;
+  margin-top: 2px;
+  height: 30px;
+  color: #535353;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 0 8px;
+  svg  {
+    margin-right: 5px;
+  }
+`
+const StyledRemoveWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `

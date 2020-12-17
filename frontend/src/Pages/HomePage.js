@@ -7,6 +7,8 @@ import Header from '../Components/Header'
 import Taglist from '../Components/Taglist'
 import KeepitList from '../Components/KeepitList'
 import ResetFilterButton from '../Components/ResetFilterButton'
+import ContentSeperatorText from '../Components/ContentSeperatorText'
+import { ReactComponent as FilterIcon } from '../Assets/filter.svg'
 
 import ContentSeparator from '../Components/ContentSeparator'
 
@@ -40,8 +42,11 @@ export default function HomePage() {
       <StyledLayout fraction={filterFraction}>
         <Header />
         <StyledKeepitList keepits={keepits} />
-        <StyledContentSeparator />
         <StyledFilterArea>
+          <ContentSeperatorText
+            text="FILTER"
+            icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
+          />
           <StyledInput placeholder="Search..."></StyledInput>
           <Taglist
             tags={tags}
@@ -147,7 +152,7 @@ const StyledContentSeparator = styled(ContentSeparator)`
 `
 const StyledLayout = styled.div`
   display: grid;
-  grid-template-rows: 100px 5fr 21px ${(props) => props.fraction} 90px;
+  grid-template-rows: 100px 5fr ${(props) => props.fraction} 90px;
   transition: grid-template-rows 0.15s ease-out;
   max-width: 600px;
   position: fixed;

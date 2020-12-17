@@ -106,7 +106,7 @@ const StyledLi = styled.li`
   align-self: flex-start;
 
   &:last-child {
-    flex-grow: 0;
+    flex-grow: 1;
     margin-right: auto;
   }
 `
