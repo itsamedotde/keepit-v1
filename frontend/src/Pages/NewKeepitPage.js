@@ -154,6 +154,7 @@ export default function NewKeepitPage() {
 
   function loadApiTags() {
     const historyImages = history.location.state.images
+    console.log('historyImages', historyImages)
     if (historyImages) {
       setImages(historyImages)
       history.replace('/new', { images: '' })

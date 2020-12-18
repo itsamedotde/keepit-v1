@@ -22,7 +22,7 @@ export default function UploadButtonFooter() {
         onChange={onChange}
         maxNumber={maxNumber}
         dataURLKey="data_url"
-        acceptType={['jpg', 'gif', 'png']}
+        acceptType={['jpg', 'gif', 'png', 'jpeg']}
       >
         {({ onImageUpload }) => (
           <div>
