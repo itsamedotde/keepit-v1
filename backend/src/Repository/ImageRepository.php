@@ -33,5 +33,10 @@ class ImageRepository extends ServiceEntityRepository
         ]);
     }
 
+    public function delete(Image $image): void  {
+        $this->_em->remove($image);
+        $this->_em->flush();
+    }
+
    
 }

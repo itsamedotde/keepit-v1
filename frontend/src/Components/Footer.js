@@ -26,7 +26,9 @@ export default function Header(props) {
     </StyledFooter>
   )
 }
-const StyledIcon = styled.div``
+const StyledIcon = styled.div`
+  cursor: pointer;
+`
 
 const StyledButtonArea = styled.div`
   display: flex;
@@ -37,9 +39,11 @@ const StyledButtonArea = styled.div`
 `
 const StyledLeftIconWrapper = styled.div`
   width: 25px;
+  cursor: pointer;
 `
 const StyledRightIconWrapper = styled.div`
   width: 25px;
+  cursor: pointer;
 `
 const StyledSubFooter = styled.div`
   background-color: white;
@@ -65,7 +69,7 @@ const StyledFooter = styled.footer`
       0deg,
       rgba(255, 255, 255, 1) 0%,
       rgba(255, 255, 255, 1) 40%,
-      rgba(255, 255, 255, 0.5) 80%
+      rgba(255, 255, 255, 0) 80%
     );
     display: inline-block;
     vertical-align: middle;

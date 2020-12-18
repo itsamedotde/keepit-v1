@@ -25,5 +25,10 @@ class LocalFiles
         file_put_contents($file , $data);
         return $file;
     }
+
+    public function delete(string $data): void
+    {
+        unlink($data);
+    }
 }
 

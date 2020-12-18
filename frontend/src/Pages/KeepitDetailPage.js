@@ -1,83 +1,77 @@
+import { useState } from 'react'
+import styled from 'styled-components/macro'
 import Footer from '../Components/Footer'
 import Header from '../Components/Header'
 import UploadButtonFooter from '../Components/UploadButtonFooter'
 import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import Taglist from '../Components/Taglist'
-import Modal from 'react-modal'
-import { useState, useEffect } from 'react'
+import ContentSeparator from '../Components/ContentSeparator'
+import { useHistory } from 'react-router-dom'
 import { ReactComponent as EditIcon } from '../Assets/edit.svg'
 import { ReactComponent as TagIcon } from '../Assets/tag.svg'
 import { ReactComponent as Star } from '../Assets/star.svg'
-
 import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
-import ContentSeparator from '../Components/ContentSeparator'
-
-import styled from 'styled-components/macro'
-import { useHistory } from 'react-router-dom'
+import { apiDeleteKeepit } from '../Services/apiRequests.js'
+import Overlay from '../Components/Overlay'
 
 export default function KeepitDetailPage({ props }) {
   const history = useHistory()
-
   const keepit = history.location.state.keepit
   const imageUrl = 'http://keepit-be.local/' + keepit.images[0]
   const tags = keepit.tags
-  const [modalImage, setModalImage] = useState()
 
-  // MODAL
-  const [modalIsOpen, setIsOpen] = useState(false)
-  Modal.setAppElement('#root')
-  var subtitle
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      border: 'none',
-      background: 'none',
-    },
-    overlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: '#00000096',
-    },
-  }
-  function openModal(url) {
-    setModalImage(url)
-    setIsOpen(true)
-  }
-  function afterOpenModal() {}
-  function closeModal() {
-    setIsOpen(false)
-  }
-  // MODAL END
+  function deleteTheKeepit() {
+    console.log(keepit.id)
+    apiDeleteKeepit(keepit.id)
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error))
 
-  const modalContent = () => {}
+    setOverlayContent(
+      <StyledDeleteOverlay>
+        DELETED
+        <DeleteIcon width="40" fill="var(--color-primary)" />
+      </StyledDeleteOverlay>
+    )
+    setOverlayStatus(true)
+    setTimeout(function () {
+      history.push('/')
+    }, 1500)
+  }
 
-  console.log('keepit in detail', keepit)
+  const [overlayContent, setOverlayContent] = useState()
+  const [overlayStatus, setOverlayStatus] = useState()
+
   return (
     <>
       <StyledLayout>
         <Header />
-        <StyledImageArea>
-          <StyledImageBg onClick={() => openModal(imageUrl)} bgImg={imageUrl} />
+        <Overlay status={overlayStatus} onClick={() => setOverlayStatus(false)}>
+          {overlayContent}
+        </Overlay>
 
+        <StyledImageArea>
+          <StyledImageBg
+            onClick={() => {
+              setOverlayContent(<StyledOverlayImage src={imageUrl} />)
+              setOverlayStatus(true)
+            }}
+            bgImg={imageUrl}
+          />
           <StyledSubInfos>
             <StyledDate>
-              28.02.2020<br></br>Hamburg
+              28.11.2015<br></br>Dublin
             </StyledDate>
             <StyledSubMenu>
-              <StyedIconWrapperLeft>
+              <StyedIconWrapperLeft onClick={deleteTheKeepit}>
                 <DeleteIcon />
                 Delete
               </StyedIconWrapperLeft>
-              <StyedIconWrapperRight>
+              <StyedIconWrapperRight
+                onClick={() => {
+                  alert('iscomingsoon')
+                }}
+              >
                 <EditIcon />
                 Edit
               </StyedIconWrapperRight>
@@ -90,7 +84,8 @@ export default function KeepitDetailPage({ props }) {
           <StyledStarRating>
             {[...Array(keepit.rated)].map(() => (
               <Star
-                width="20"
+                width="30"
+                height="30"
                 stroke="#e3e3e3"
                 fill="var(--color-primary)"
               ></Star>
@@ -104,20 +99,6 @@ export default function KeepitDetailPage({ props }) {
             showIsCustom={true}
           ></Taglist>
         </StyledTagArea>
-
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <StyledModalImage
-            onClick={closeModal}
-            src={modalImage}
-            width="100%"
-          />
-        </Modal>
       </StyledLayout>
       <Footer
         actionButtonText="New Keepit"
@@ -129,6 +110,16 @@ export default function KeepitDetailPage({ props }) {
   )
 }
 
+const StyledDeleteOverlay = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`
+const StyledOverlayImage = styled.img`
+  width: 100%;
+`
 const StyledStarRating = styled.div`
   display: flex;
   flex-direction: row;
@@ -145,6 +136,7 @@ const StyledStarRating = styled.div`
   height: 15px;
   color: white;
   text-align: center;
+  margin-top: 4px;
   svg {
     height: 12px;
     margin-left: 3px;
@@ -197,10 +189,12 @@ const StyledSubInfos = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `
+
 const StyledTagArea = styled.div`
   padding: 0 30px;
   margin-top: 10px;
 `
+
 const StyledTagHeadline = styled.span`
   font-weight: 600;
   font-size: 13px;
@@ -256,14 +250,14 @@ const StyledModalImage = styled.img`
 
 /*
 
-        <iframe
-          title="test"
-          width="150"
-          height="150"
-          frameborder="0"
-          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC7dbuH6DnrjMDEWSgb2wnTGuXtS00GPQU&q=Space+Needle,Seattle+WA"
-          allowfullscreen
-        ></iframe>
+  <iframe
+    title="test"
+    width="150"
+    height="150"
+    frameborder="0"
+    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC7dbuH6DnrjMDEWSgb2wnTGuXtS00GPQU&q=Space+Needle,Seattle+WA"
+    allowfullscreen
+  ></iframe>
 
       {keepit.images.map((image) => (
             <StyledImage

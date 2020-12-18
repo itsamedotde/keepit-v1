@@ -5,7 +5,7 @@ export default function useTags() {
   const [tags, setTags] = useState([])
   const addedTags = tags.filter((tag) => tag.added === true).sort()
   const newTags = tags.filter((tag) => tag.added === false).sort()
-  console.log(tags)
+
   return {
     tags,
     setTags,

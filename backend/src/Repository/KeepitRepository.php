@@ -25,4 +25,11 @@ class KeepitRepository extends ServiceEntityRepository
         $this->_em->flush();
         return $keepit;
     }
+
+
+    public function delete(Keepit $keepit): void  {
+        $this->_em->remove($keepit);
+        $this->_em->flush();
+    }
+
 }

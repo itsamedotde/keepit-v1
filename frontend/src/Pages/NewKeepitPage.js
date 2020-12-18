@@ -2,15 +2,12 @@ import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
 import styled from 'styled-components/macro'
-import Taglist from '../Components/Taglist'
 import Taglist2 from '../Components/Taglist2'
-
 import CustomTagForm from '../Components/CustomTagForm'
 import Footer from '../Components/Footer'
 import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import SaveButtonFooter from '../Components/SaveButtonFooter'
-import ContentSeparator from '../Components/ContentSeparator'
 import useTags from '../Hooks/useTags'
 import Header from '../Components/Header'
 import StarRating from '../Components/StarRating'
@@ -44,7 +41,7 @@ export default function NewKeepitPage() {
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: '#00000096',
+      backgroundColor: '#000000c7',
     },
   }
   function openModal(url) {

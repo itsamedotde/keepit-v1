@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import styled from 'styled-components/macro'
 import { apiGetAllKeepits } from '../Services/apiRequests.js'
 import Footer from '../Components/Footer'
 import UploadButtonFooter from '../Components/UploadButtonFooter'
@@ -9,10 +10,6 @@ import KeepitList from '../Components/KeepitList'
 import ResetFilterButton from '../Components/ResetFilterButton'
 import ContentSeperatorText from '../Components/ContentSeperatorText'
 import { ReactComponent as FilterIcon } from '../Assets/filter.svg'
-
-import ContentSeparator from '../Components/ContentSeparator'
-
-import styled from 'styled-components/macro'
 import LogoutButton from '../Components/LogoutButton.js'
 
 export default function HomePage() {
@@ -21,8 +18,7 @@ export default function HomePage() {
   const [tags, setTags] = useState([])
 
   const [showFilter, setShowFilter] = useState([])
-  const filterFraction = showFilter ? '3fr' : '0fr'
-
+  const filterHeight = showFilter ? '38%' : '0px'
   useEffect(() => {
     loadKeepitsFromApi()
     setShowFilter(false)
@@ -39,14 +35,16 @@ export default function HomePage() {
 
   return (
     <>
-      <StyledLayout fraction={filterFraction}>
+      <StyledLayout>
         <Header />
-        <StyledKeepitList keepits={keepits} />
-        <StyledFilterArea>
-          <ContentSeperatorText
-            text="FILTER"
-            icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
-          />
+        <StyledKeepitList filterHeight={filterHeight} keepits={keepits} />
+        <StyledFilterArea filterHeight={filterHeight}>
+          <StyledDiv>
+            <StyledContentSeperatorText
+              text="FILTER"
+              icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
+            />
+          </StyledDiv>
           <StyledInput placeholder="Search..."></StyledInput>
           <Taglist
             tags={tags}
@@ -71,7 +69,6 @@ export default function HomePage() {
   }
 
   function toggleShowFilter() {
-    console.log('try...', showFilter)
     if (showFilter) {
       setShowFilter(false)
     } else {
@@ -147,13 +144,19 @@ export default function HomePage() {
   }
 }
 
-const StyledContentSeparator = styled(ContentSeparator)`
-  padding: 10px 20px;
+const StyledContentSeperatorText = styled(ContentSeperatorText)`
+  padding-right: 30px;
+`
+const StyledDiv = styled.div`
+  align-self: flex-end;
+  position: fixed;
+  background: white;
+  width: 100%;
+  padding-right: 30px;
 `
 const StyledLayout = styled.div`
   display: grid;
-  grid-template-rows: 100px 5fr ${(props) => props.fraction} 90px;
-  transition: grid-template-rows 0.15s ease-out;
+  grid-template-rows: 100px 2fr 20px auto 90px;
   max-width: 600px;
   position: fixed;
   left: 0;
@@ -165,16 +168,24 @@ const StyledLayout = styled.div`
 const StyledKeepitList = styled(KeepitList)`
   text-align: center;
   overflow: scroll;
-  padding-bottom: 10px;
-  padding: 0 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-bottom: ${(props) => props.filterHeight};
+  transition: margin-bottom 0.3s ease-out;
 `
 const StyledFilterArea = styled.div`
+  background-color: white;
+  position: fixed;
   bottom: 0px;
   width: 100%;
   padding-right: 60px;
   overflow: scroll;
   margin-bottom: 20px;
   padding: 0 30px;
+  height: ${(props) => props.filterHeight};
+  transition: height 0.3s ease-out;
+  z-index: 100;
+  align-self: flex-end;
 `
 const StyledInput = styled.input`
   height: 40px;
@@ -183,7 +194,5 @@ const StyledInput = styled.input`
   width: 100%;
   margin: 5px 0 10px 0;
   font-size: 14px;
+  margin-top: 45px;
 `
-/*
-
-*/
