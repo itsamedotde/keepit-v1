@@ -6,18 +6,12 @@ import { ReactComponent as TagPlusIcon } from '../Assets/tag-plus.svg'
 import { ReactComponent as TagUserIcon } from '../Assets/tag-user.svg'
 import loading from '../Assets/loading.gif'
 
-export default function Taglist({
+export default function TaglistNewKeepit({
   onClick,
   tags,
-  bgColor,
   showIsCustom,
   showIsloading,
 }) {
-  Taglist.propTypes = {
-    onClick: PropTypes.func.isRequired,
-    tags: PropTypes.array.isRequired,
-  }
-
   function IsCustomIcon(tag) {
     if (showIsCustom) {
       if (tag.isCustom) {
@@ -27,6 +21,13 @@ export default function Taglist({
       }
     } else {
       return ''
+    }
+  }
+  function IsAdded(tag) {
+    if (!tag.added) {
+      return <TagPlusIcon />
+    } else {
+      return <TagMinusIcon />
     }
   }
 
@@ -39,13 +40,20 @@ export default function Taglist({
   }
 
   return (
-    <StyledTagList bgcolor={bgColor}>
+    <StyledTagList>
       {tags &&
         tags.map((tag, index) => (
-          <li key={tag.value} onClick={() => onClick(tag.value, !tag.added)}>
-            <StyledTagText>{tag.value} </StyledTagText>
+          <StyledLi
+            bgcolor={
+              tag.added ? 'var(--color-primary)' : 'var(--color-tertiary)'
+            }
+            key={tag.value}
+            onClick={() => onClick(tag.value, !tag.added, tag.isCustom)}
+          >
+            {IsAdded(tag)}
+            <StyledTagText>{tag.value}</StyledTagText>
             <IsCustomIcon isCustom={tag.isCustom}></IsCustomIcon>
-          </li>
+          </StyledLi>
         ))}
     </StyledTagList>
   )
@@ -65,21 +73,24 @@ const StyledTagList = styled.ul`
   flex-wrap: wrap;
   gap: 5px;
   min-height: 24px;
-  li {
-    background-color: ${(props) => props.bgcolor};
-    display: inline-block;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
-    min-width: 50px;
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 10px 5px 5px;
-    border-left: 2px solid #e3e3e3;
-    cursor: pointer;
-    font-weight: 400;
-    font-size: 14px;
-  }
 `
+
+const StyledLi = styled.li`
+  background-color: ${(props) => props.bgcolor};
+  transition: background-color 0.4s ease-out;
+  display: inline-block;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  min-width: 50px;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px 5px 5px;
+  border-left: 2px solid #e3e3e3;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 14px;
+`
+
 const StyledLoading = styled.div`
   text-align: center;
   font-size: 12px;

@@ -21,6 +21,9 @@ use App\Entity\Tag;
 use App\Repository\KeepitRepository;
 use App\Entity\Keepit;
 
+use App\Utils\LocalFiles;
+
+
 class KeepitApiController extends AbstractController
 {
     /**
@@ -50,6 +53,8 @@ class KeepitApiController extends AbstractController
         $newKeepit = new Keepit();
 
         $newKeepit->setUser($user);
+        $newKeepit->setRating($requestContent['rated']);
+
         if($tags){
             foreach($tags as $key => $value){
                 $newTag = new Tag();
@@ -57,7 +62,7 @@ class KeepitApiController extends AbstractController
                 $newTag->setIsCustom($value['isCustom']);
                 $newTag->setUser($user);
                 foreach($imageIds as $key => $value){
-                    $newTag->setImage($imageRepository->findbyid($imageIds[$key]));
+                    $newTag->setImage($imageRepository->findById($imageIds[$key]));
                 }
                 $newTag = $tagRepository->save($newTag);
                 $newKeepit->addTag($newTag);
@@ -66,7 +71,7 @@ class KeepitApiController extends AbstractController
 
         $newAddedKeepit = $keepitRepository->save($newKeepit);
         foreach($imageIds as $key => $value){
-            $image = $imageRepository->findbyid($imageIds[$key]);
+            $image = $imageRepository->findById($imageIds[$key]);
             $image->setKeepit($newAddedKeepit);
             $image->setSubmitted(true);
             $imageRepository->save($image);
@@ -104,6 +109,8 @@ class KeepitApiController extends AbstractController
         foreach($keepits as $key => $keepit){
             $tags = $keepit->getTags();
             $images = $keepit->getImage();
+            $responseArr[$key]['rated'] = $keepit->getRating();
+
             $responseArr[$key]['id'] = $keepit->id;
             foreach($images as $imageKey => $image){
                 $responseArr[$key]['images'][$imageKey] = $image->getPath();
@@ -118,6 +125,65 @@ class KeepitApiController extends AbstractController
         $response = new JsonResponse($responseArr);
         return $response;
     }
+
+     /**
+     *
+     * @Route("/keepit/{id}", methods={"DELETE"})
+     */
+    public function removeKeepit(
+        $id,
+        Request $request, 
+        ImageRepository $imageRepository, 
+        TagRepository $tagRepository, 
+        UserRepository $userRepository, 
+        KeepitRepository $keepitRepository,
+        LocalFiles $localFiles
+        ) {
+
+        $keepit = $keepitRepository->findOneBy(['id' => $id]);
+
+        if ($keepit === null) {
+            return new JsonResponse(
+                ["error" => "Keepit not found."],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $imageIdsToDelete = [];
+        $images = $keepit->getImage();
+        foreach($images as $image){
+            $path = $image->getPath();
+            $imageId = $image->getId();
+            $imageIdsToDelete[] = $imageId;
+            // var_dump($imageId);
+            // var_dump($path);
+            $keepit->removeImage($image);
+            $localFiles->delete($path);
+        }
+        
+        $tags = $keepit->getTags();
+        foreach($tags as $tag){
+            $keepit->removeTag($tag);
+            $tagRepository->delete($tag);
+        }
+
+        $keepitRepository->delete($keepit);
+
+        // var_dump($imageIdsToDelete);
+
+        foreach($imageIdsToDelete as $imageIdToDelete){
+            $imageToDelete = $imageRepository->findOneBy(['id' => $imageIdToDelete]);
+            $imageRepository->delete($imageToDelete);
+        }
+
+        return new JsonResponse(
+            ["Status" => "Keepit deleted"],
+            JsonResponse::HTTP_OK
+        );
+
+    }
+
+    
 }
 
 

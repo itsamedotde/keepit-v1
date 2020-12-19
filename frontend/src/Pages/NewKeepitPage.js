@@ -1,126 +1,228 @@
-import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import apiGetVisionLabels from '../Services/apiGetVisionLabels'
-import apiSaveKeepit from '../Services/apiSaveKeepit'
-import { firstToUpper } from '../Lib/helperFunctions'
-import Taglist from '../Components/Taglist'
+import { useHistory } from 'react-router-dom'
+import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
+import styled from 'styled-components/macro'
+import TaglistNewKeepit from '../Components/TaglistNewKeepit'
 import CustomTagForm from '../Components/CustomTagForm'
-import UploadButton from '../Components/UploadButton'
-import Button from '../Components/Button'
+import Footer from '../Components/Footer'
+import BackButton from '../Components/BackButton'
+import SearchButton from '../Components/SearchButton'
+import SaveButtonFooter from '../Components/SaveButtonFooter'
+import useTags from '../Hooks/useTags'
+import Header from '../Components/Header'
+import StarRatingForm from '../Components/StarRatingForm'
+import { ReactComponent as Star } from '../Assets/star.svg'
+import { ReactComponent as TagIcon } from '../Assets/tag.svg'
+import Modal from 'react-modal'
+import { ReactComponent as Done } from '../Assets/done.svg'
+import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
+
+import ContentSeparator from '../Components/ContentSeparator'
 
 export default function NewKeepitPage() {
   const history = useHistory()
   const [images, setImages] = useState([])
-  const [imageIds, setImageIds] = useState([])
-  const [tags, setTags] = useState([])
-  const addedTags = tags.filter((tag) => tag.added === true).sort()
-  const newTags = tags.filter((tag) => tag.added === false).sort()
+  const [rated, setRated] = useState([])
+
+  const {
+    tags,
+    setTags,
+    addedTags,
+    handleSubmitTag,
+    updateTag,
+    loadApiTags,
+    handleApiTags,
+    imageIds,
+  } = useTags()
 
   useEffect(() => {
-    loadApiLabels()
-    console.log(tags)
+    loadHistoryImages()
   }, [])
 
-  function loadApiLabels() {
-    const historyImages = history.location.state.images
-    if (historyImages) {
-      setImages(historyImages)
-      history.replace('/new', { images: '' })
-      const files = historyImages
-      const labelRequest = {
-        email: 'user@email',
-        password: 'test',
-        files,
-      }
-      apiGetVisionLabels(labelRequest)
-        .then((result) => handleApiTags(result))
-        .catch((error) => console.log('error', error))
-    }
+  useEffect(() => {
+    console.log('images', images)
+    loadApiTags(images)
+  }, [images])
+
+  async function loadHistoryImages() {
+    const newImagesPromises = []
+    Array.from(history.location.state.images).forEach((file) => {
+      newImagesPromises.push(setBase64(file))
+    })
+    setImages(await Promise.all(newImagesPromises))
+  }
+
+  function setBase64(file) {
+    return new Promise((res) => {
+      const reader = new FileReader()
+      reader.addEventListener('load', () => {
+        res(reader.result)
+      })
+      reader.readAsDataURL(file)
+    })
   }
 
   return (
-    <div>
-      <h1>Page: New</h1>
-      {images &&
-        images.map((image, index) => (
-          <div key={index}>
-            <img src={image['data_url']} alt="" width="40" />
-            <button onClick={() => removeImage(index)}>Remove</button>
-          </div>
-        ))}
-      Added:
-      <Taglist
-        onClick={updateTag}
-        tags={addedTags}
-        targetState={false}
-      ></Taglist>
-      <hr></hr>
-      New:
-      <Taglist onClick={updateTag} tags={newTags} targetState={true}></Taglist>
-      <hr></hr>
-      <CustomTagForm onSubmit={handleSubmitTag} />
-      <br></br>
-      {images.length === 0 ? (
-        <UploadButton />
-      ) : (
-        <Button onClick={saveKeepit} buttonText="Save Keepit" />
-      )}
-    </div>
+    <>
+      <StyledLayout>
+        <Header />
+        <StyledImageArea>
+          <StyledImageBg bgImg={setBgImg}></StyledImageBg>
+          {images &&
+            images.map((image, index) => (
+              <div key={index}>
+                <StyledImage src={image} alt="" height="160" />
+                <StyledRemoveWrapper>
+                  <StyledRemove onClick={() => removeImage(index)}>
+                    <DeleteIcon width="11"></DeleteIcon> Delete
+                  </StyledRemove>
+                </StyledRemoveWrapper>
+              </div>
+            ))}
+        </StyledImageArea>
+        <StyledTagArea>
+          <ContentSeparator
+            text="RATING"
+            icon={<Star fill="#c7c7c7" width="12" height="12" />}
+          />
+          <StarRatingForm onClick={rating}></StarRatingForm>
+          <ContentSeparator
+            text="TAGS"
+            icon={<TagIcon fill="#c7c7c7" width="11" height="11" />}
+          />
+          <TaglistNewKeepit
+            tags={tags}
+            onClick={updateTag}
+            bgColor="var(--color-primary)"
+            showIsCustom={true}
+            showIsloading={true}
+          ></TaglistNewKeepit>
+
+          <CustomTagForm onSubmit={handleSubmitTag} />
+        </StyledTagArea>
+      </StyledLayout>
+      <Footer
+        actionButtonText="Save Keepit"
+        actionButton={<SaveButtonFooter onClick={saveKeepit} />}
+        left={<BackButton height="30px" width="30px" />}
+        right={<SearchButton />}
+      ></Footer>
+    </>
   )
 
-  function handleApiTags(response) {
-    const uniqueApiTags = [...new Set(response.labels)]
-    const expandedTags = uniqueApiTags.map((value, index) => {
-      return { value: value, added: false, isCustom: false }
-    })
-    setTags(expandedTags)
-    setImageIds(response.ids)
+  function rating(rating) {
+    setRated(rating)
   }
 
-  function updateTag(tagValue, addedValue) {
-    var searchedIndex = tags.findIndex((tag) => tag.value === tagValue)
-    const newTags = tags.filter((tag, index) => index !== searchedIndex)
-    setTags([
-      ...newTags,
-      {
-        value: tagValue,
-        added: addedValue,
-        isCustom: tags[searchedIndex].isCustom,
-      },
-    ])
-  }
-
-  function handleSubmitTag(event) {
-    event.preventDefault()
-    const inputValue = firstToUpper(event.target.customTag.value)
-    if (tags.findIndex((tag) => tag.value === inputValue) < 0) {
-      setTags([...tags, { value: inputValue, added: true, isCustom: true }])
+  function setBgImg() {
+    if (images.length > 0) {
+      return images[0]
+    } else {
+      return '#'
     }
-    event.target.reset()
-    event.target.customTag.focus()
   }
 
   function saveKeepit() {
     const requestTags = addedTags.map((addedTag) => {
       return { value: addedTag.value, isCustom: addedTag.isCustom }
     })
-
     const request = {
       email: 'user@email',
       password: 'test',
       requestTags,
       imageIds,
+      rated,
     }
-
     apiSaveKeepit(request)
       .then((result) => handleApiTags(result))
       .catch((error) => console.log('error', error))
-
-    history.push('/')
+    setTimeout(function () {
+      history.push('/')
+    }, 1500)
+    // history.push('/')
   }
 
   function removeImage(deleteIndex) {
     setImages(images.filter((image, index) => index !== deleteIndex))
-    images.length - 1 === 0 && setTags([])
+    if (images.length - 1 === 0) {
+      setTags([])
+      history.push('/')
+    }
   }
 }
+
+const StyledLayout = styled.div`
+  display: grid;
+  grid-template-rows: 100px 35vh auto 90px;
+  max-width: 600px;
+
+  overflow: scroll;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 112.5%;
+  align-items: end;
+`
+const StyledTagArea = styled.div`
+  padding: 0 30px;
+  margin-bottom: 10px;
+`
+
+const StyledImageArea = styled.div`
+  text-align: center;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 10px 0;
+`
+
+const StyledImageBg = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: url(${(props) => props.bgImg});
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  filter: opacity(69%);
+`
+
+const StyledImage = styled.img`
+  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+`
+const StyledRemove = styled.div`
+  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
+  background-color: #ffffff75;
+  margin-top: 2px;
+  height: 30px;
+  color: #535353;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 0 8px;
+  svg  {
+    margin-right: 5px;
+  }
+`
+const StyledRemoveWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`

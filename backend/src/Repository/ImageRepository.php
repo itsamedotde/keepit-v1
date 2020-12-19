@@ -27,10 +27,15 @@ class ImageRepository extends ServiceEntityRepository
         return $image;
     }
 
-    public function findbyid(string $id): ?Image {
+    public function findById(string $id): ?Image {
         return $this->findOneBy([
             'id' => $id,
         ]);
+    }
+
+    public function delete(Image $image): void  {
+        $this->_em->remove($image);
+        $this->_em->flush();
     }
 
    
