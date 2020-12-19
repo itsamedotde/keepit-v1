@@ -29,8 +29,3 @@ const StyledResetFilterButton = styled.button`
     margin-bottom: -2px;
   }
 `
-
-/*
-
-
-*/

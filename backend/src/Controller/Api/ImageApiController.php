@@ -38,7 +38,7 @@ class ImageApiController extends AbstractController
         $imagelabels = [];
         foreach($images as $image){
 
-            // $path = $localFiles->save($image['data_url']); 
+            //$path = $localFiles->save($image['data_url']); 
             $path = $localFiles->save($image); 
 
             $labels = $visionApiRepository->getLabels($path);
@@ -61,13 +61,10 @@ class ImageApiController extends AbstractController
             $newImage->setUser($user);
             $savedImage = $imageRepository->save($newImage);
             $imageIds[] = $savedImage->id;
-            $imagesPaths[] = $path;
-
         }
      
         $collectedResponse['ids'] = $imageIds;
         $collectedResponse['labels'] = $imagelabels;
-        $collectedResponse['path'] = $imagesPaths;
 
         $response = new JsonResponse($collectedResponse);
         return $response;

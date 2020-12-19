@@ -6,10 +6,9 @@ import { ReactComponent as TagPlusIcon } from '../Assets/tag-plus.svg'
 import { ReactComponent as TagUserIcon } from '../Assets/tag-user.svg'
 import loading from '../Assets/loading.gif'
 
-export default function TaglistNew({
+export default function TaglistNewKeepit({
   onClick,
   tags,
-  bgColor,
   showIsCustom,
   showIsloading,
 }) {
@@ -79,7 +78,6 @@ const StyledTagList = styled.ul`
 const StyledLi = styled.li`
   background-color: ${(props) => props.bgcolor};
   transition: background-color 0.4s ease-out;
-
   display: inline-block;
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;

@@ -3,9 +3,6 @@ import styled from 'styled-components/macro'
 import { useState } from 'react'
 
 export default function OverlayMessage({ status, children, onClick }) {
-  console.log(status)
-  //const [status2, setStatus2] = useState(status)
-
   return status ? (
     <StyledOverlay onClick={onClick}>{children}</StyledOverlay>
   ) : (

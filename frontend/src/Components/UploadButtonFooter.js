@@ -1,46 +1,58 @@
-import ImageUploading from 'react-images-uploading'
+import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
+import { useState, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { ReactComponent as ActionButtonSvg } from '../Assets/keepit-button.svg'
 import styled from 'styled-components/macro'
 
 export default function UploadButtonFooter() {
+  const [imageList, setImageList] = useState([])
   const history = useHistory()
-  const maxNumber = 3
   const location = useLocation()
 
-  const onChange = (imageList, addUpdateIndex) => {
-    history.push('/new', { images: imageList })
+  const gotoNew = () => {
+    if (imageList.length > 0) {
+      history.push('/new', { images: imageList })
+    }
     if (location.pathname === '/new') {
       window.location.reload()
     }
   }
 
+  useEffect(() => {
+    setTimeout(function () {
+      gotoNew()
+    }, 500)
+  }, [imageList])
+
+  function onChangePicture(event) {
+    setImageList(event.target.files)
+    event.preventDefault()
+  }
+
   return (
-    <div>
-      <ImageUploading
-        multiple
-        onChange={onChange}
-        maxNumber={maxNumber}
-        dataURLKey="data_url"
-        acceptType={['jpg', 'gif', 'png', 'jpeg']}
-      >
-        {({ onImageUpload }) => (
-          <div>
-            <StyledIcon>
-              <ActionButtonSvg
-                onClick={onImageUpload}
-                height="50px"
-              ></ActionButtonSvg>
-            </StyledIcon>
-          </div>
-        )}
-      </ImageUploading>
-    </div>
+    <form>
+      <StyledLabel>
+        <ActionButtonSvg height="50px"></ActionButtonSvg>
+        <StyledInput
+          alt="image-input"
+          name="image"
+          type="file"
+          onChange={onChangePicture}
+          accept="image/x-png,image/gif,image/jpeg"
+          multiple
+        />
+      </StyledLabel>
+    </form>
   )
 }
-
-const StyledIcon = styled.div`
-  height: 60px;
-  margin: auto;
-  margin-top: 6px;
+const StyledInput = styled.input`
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+`
+const StyledLabel = styled.label`
+  cursor: pointer;
 `

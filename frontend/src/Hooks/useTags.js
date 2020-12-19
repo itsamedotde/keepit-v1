@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { firstToUpper } from '../Lib/string'
+import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
 
 export default function useTags() {
   const [tags, setTags] = useState([])
   const addedTags = tags.filter((tag) => tag.added === true).sort()
   const newTags = tags.filter((tag) => tag.added === false).sort()
+  const [imageIds, setImageIds] = useState([])
 
   return {
     tags,
@@ -13,7 +15,33 @@ export default function useTags() {
     newTags,
     handleSubmitTag,
     updateTag,
-    updateTag2,
+    loadApiTags,
+    handleApiTags,
+    imageIds,
+  }
+
+  function loadApiTags(images) {
+    const files = images
+    const labelRequest = {
+      email: 'user@email',
+      password: 'test',
+      files,
+    }
+    apiGetVisionLabels(labelRequest)
+      .then((result) => handleApiTags(result))
+      .catch((error) => console.log('error', error))
+  }
+
+  function handleApiTags(response) {
+    var d = new Date()
+    var n = d.getMilliseconds()
+    console.log('get response:', n)
+    const uniqueApiTags = [...new Set(response.labels)]
+    const expandedTags = uniqueApiTags.map((value, index) => {
+      return { value: value, added: false, isCustom: false }
+    })
+    setTags(expandedTags)
+    setImageIds(response.ids)
   }
 
   function handleSubmitTag(event) {
@@ -26,52 +54,13 @@ export default function useTags() {
     event.target.customTag.focus()
   }
 
-  function updateTag(tagValue, newAddedState) {
-    var searchedIndex = tags.findIndex((tag) => tag.value === tagValue)
-    const newTags = tags.filter((tag, index) => index !== searchedIndex)
-    setTags([
-      ...newTags,
-      {
-        value: tagValue,
-        added: newAddedState,
-        isCustom: tags[searchedIndex].isCustom,
-      },
-    ])
-  }
-  function updateTag2(tagValue, newAddedState, isCustom) {
+  function updateTag(tagValue, newAddedState, isCustom) {
     var searchedIndex = tags.findIndex((tag) => tag.value === tagValue)
     var newTags = tags
-
     setTags([
       ...newTags.slice(0, searchedIndex),
       { value: tagValue, added: newAddedState, isCustom: isCustom },
       ...newTags.slice(searchedIndex + 1),
     ])
-
-    //newTags.slice(searchedIndex)
-    //console.log()
-
-    //const newTags = tags.filter((tag, index) => index !== searchedIndex)
-
-    // newTags.splice(searchedIndex, 1, {
-    //   value: tagValue,
-    //   added: newAddedState,
-    //   isCustom: false,
-    // })
-    // console.log(tags)
-    //setTags(newTags)
-    // tags.map((tag) => {
-    //   if(tag.value === tagValue)
-    //   console.log(tag)
-    // })
-
-    // setTags([
-    //   ...newTags,
-    //   {
-    //     value: tagValue,
-    //     added: newAddedState,
-    //     isCustom: tags[searchedIndex].isCustom,
-    //   },
-    // ])
   }
 }

@@ -8,7 +8,7 @@ import Header from '../Components/Header'
 import Taglist from '../Components/Taglist'
 import KeepitList from '../Components/KeepitList'
 import ResetFilterButton from '../Components/ResetFilterButton'
-import ContentSeperatorText from '../Components/ContentSeperatorText'
+import ContentSeparator from '../Components/ContentSeparator'
 import { ReactComponent as FilterIcon } from '../Assets/filter.svg'
 import LogoutButton from '../Components/LogoutButton.js'
 
@@ -40,7 +40,7 @@ export default function HomePage() {
         <StyledKeepitList filterHeight={filterHeight} keepits={keepits} />
         <StyledFilterArea filterHeight={filterHeight}>
           <StyledDiv>
-            <StyledContentSeperatorText
+            <StyledContentSeparator
               text="FILTER"
               icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
             />
@@ -56,7 +56,7 @@ export default function HomePage() {
         </StyledFilterArea>
       </StyledLayout>
       <Footer
-        actionButtonText="New Keepit"
+        actionButtonText="New Keepit2"
         actionButton={<UploadButtonFooter />}
         left={<LogoutButton onClick={logout} height="30px" width="30px" />}
         right={<SearchButton onClick={toggleShowFilter} />}
@@ -144,7 +144,7 @@ export default function HomePage() {
   }
 }
 
-const StyledContentSeperatorText = styled(ContentSeperatorText)`
+const StyledContentSeparator = styled(ContentSeparator)`
   padding-right: 30px;
 `
 const StyledDiv = styled.div`

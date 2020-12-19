@@ -3,12 +3,6 @@ import styled from 'styled-components/macro'
 import { ReactComponent as PlusIcon } from '../Assets/plus.svg'
 
 export default function CustomTagForm({ onSubmit }) {
-  CustomTagForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    tags: PropTypes.array.isRequired,
-    targetState: PropTypes.bool.isRequired,
-  }
-
   return (
     <StyledForm onSubmit={onSubmit}>
       <input

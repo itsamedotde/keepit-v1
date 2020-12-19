@@ -29,7 +29,7 @@ export default function KeepitList({ keepits, className }) {
   return (
     <StyledUl className={className}>
       {keepits.map((keepit, index) => (
-        <StyledLi key={keepit.images[0]}>
+        <StyledLi key={index}>
           <StyledImg
             src={'http://keepit-be.local/' + keepit.images[0]}
             alt=""

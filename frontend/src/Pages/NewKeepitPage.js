@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
 import styled from 'styled-components/macro'
-import Taglist2 from '../Components/Taglist2'
+import TaglistNewKeepit from '../Components/TaglistNewKeepit'
 import CustomTagForm from '../Components/CustomTagForm'
 import Footer from '../Components/Footer'
 import BackButton from '../Components/BackButton'
@@ -10,84 +10,56 @@ import SearchButton from '../Components/SearchButton'
 import SaveButtonFooter from '../Components/SaveButtonFooter'
 import useTags from '../Hooks/useTags'
 import Header from '../Components/Header'
-import StarRating from '../Components/StarRating'
+import StarRatingForm from '../Components/StarRatingForm'
 import { ReactComponent as Star } from '../Assets/star.svg'
 import { ReactComponent as TagIcon } from '../Assets/tag.svg'
 import Modal from 'react-modal'
 import { ReactComponent as Done } from '../Assets/done.svg'
 import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
 
-import ContentSeperatorText from '../Components/ContentSeperatorText'
+import ContentSeparator from '../Components/ContentSeparator'
 
 export default function NewKeepitPage() {
-  // MODAL
-  const [modalIsOpen, setIsOpen] = useState(false)
-  Modal.setAppElement('#root')
-  var subtitle
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      border: 'none',
-      background: 'none',
-    },
-    overlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: '#000000c7',
-    },
-  }
-  function openModal(url) {
-    setIsOpen(true)
-  }
-  function afterOpenModal() {}
-  function closeModal() {
-    setIsOpen(false)
-  }
-  // MODAL END
-
   const history = useHistory()
   const [images, setImages] = useState([])
-  const [imageIds, setImageIds] = useState([])
   const [rated, setRated] = useState([])
 
   const {
     tags,
+    setTags,
     addedTags,
-    newTags,
     handleSubmitTag,
     updateTag,
-    updateTag2,
-    setTags,
+    loadApiTags,
+    handleApiTags,
+    imageIds,
   } = useTags()
 
   useEffect(() => {
-    loadApiTags()
+    loadHistoryImages()
   }, [])
 
-  const MyModal = () => {
-    return (
-      <>
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <StyledModalText>SAVED</StyledModalText>
-          <br></br>
-          <Done fill="var(--color-primary)"></Done>
-        </Modal>
-      </>
-    )
+  useEffect(() => {
+    console.log('images', images)
+    loadApiTags(images)
+  }, [images])
+
+  async function loadHistoryImages() {
+    const newImagesPromises = []
+    Array.from(history.location.state.images).forEach((file) => {
+      newImagesPromises.push(setBase64(file))
+    })
+    setImages(await Promise.all(newImagesPromises))
+  }
+
+  function setBase64(file) {
+    return new Promise((res) => {
+      const reader = new FileReader()
+      reader.addEventListener('load', () => {
+        res(reader.result)
+      })
+      reader.readAsDataURL(file)
+    })
   }
 
   return (
@@ -99,7 +71,7 @@ export default function NewKeepitPage() {
           {images &&
             images.map((image, index) => (
               <div key={index}>
-                <StyledImage src={image['data_url']} alt="" height="160" />
+                <StyledImage src={image} alt="" height="160" />
                 <StyledRemoveWrapper>
                   <StyledRemove onClick={() => removeImage(index)}>
                     <DeleteIcon width="11"></DeleteIcon> Delete
@@ -109,22 +81,22 @@ export default function NewKeepitPage() {
             ))}
         </StyledImageArea>
         <StyledTagArea>
-          <ContentSeperatorText
+          <ContentSeparator
             text="RATING"
             icon={<Star fill="#c7c7c7" width="12" height="12" />}
           />
-          <StarRating onClick={rating}></StarRating>
-          <ContentSeperatorText
+          <StarRatingForm onClick={rating}></StarRatingForm>
+          <ContentSeparator
             text="TAGS"
             icon={<TagIcon fill="#c7c7c7" width="11" height="11" />}
           />
-          <Taglist2
+          <TaglistNewKeepit
             tags={tags}
-            onClick={updateTag2}
+            onClick={updateTag}
             bgColor="var(--color-primary)"
             showIsCustom={true}
             showIsloading={true}
-          ></Taglist2>
+          ></TaglistNewKeepit>
 
           <CustomTagForm onSubmit={handleSubmitTag} />
         </StyledTagArea>
@@ -135,53 +107,22 @@ export default function NewKeepitPage() {
         left={<BackButton height="30px" width="30px" />}
         right={<SearchButton />}
       ></Footer>
-      <MyModal></MyModal>
     </>
   )
 
   function rating(rating) {
     setRated(rating)
-    console.log('rating...', rating)
   }
 
   function setBgImg() {
     if (images.length > 0) {
-      return images[0]['data_url']
+      return images[0]
     } else {
       return '#'
     }
   }
 
-  function loadApiTags() {
-    const historyImages = history.location.state.images
-    console.log('historyImages', historyImages)
-    if (historyImages) {
-      setImages(historyImages)
-      history.replace('/new', { images: '' })
-      const files = historyImages
-      const labelRequest = {
-        email: 'user@email',
-        password: 'test',
-        files,
-      }
-      apiGetVisionLabels(labelRequest)
-        .then((result) => handleApiTags(result))
-        .catch((error) => console.log('error', error))
-    }
-  }
-
-  function handleApiTags(response) {
-    const uniqueApiTags = [...new Set(response.labels)]
-    const expandedTags = uniqueApiTags.map((value, index) => {
-      return { value: value, added: false, isCustom: false }
-    })
-    setTags(expandedTags)
-    setImageIds(response.ids)
-  }
-
   function saveKeepit() {
-    setIsOpen(true)
-
     const requestTags = addedTags.map((addedTag) => {
       return { value: addedTag.value, isCustom: addedTag.isCustom }
     })
@@ -210,10 +151,6 @@ export default function NewKeepitPage() {
   }
 }
 
-const StyledModalText = styled.div`
-  color: white;
-  font-size: 35px;
-`
 const StyledLayout = styled.div`
   display: grid;
   grid-template-rows: 100px 35vh auto 90px;

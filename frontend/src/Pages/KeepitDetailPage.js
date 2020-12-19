@@ -247,34 +247,3 @@ const StyledModalImage = styled.img`
   box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
   border-radius: 3px;
 `
-
-/*
-
-  <iframe
-    title="test"
-    width="150"
-    height="150"
-    frameborder="0"
-    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC7dbuH6DnrjMDEWSgb2wnTGuXtS00GPQU&q=Space+Needle,Seattle+WA"
-    allowfullscreen
-  ></iframe>
-
-      {keepit.images.map((image) => (
-            <StyledImage
-              src={'http://keepit-be.local/' + image}
-              onClick={() => openModal('http://keepit-be.local/' + image)}
-            />
-          ))}
-
-*/
-
-/*
-          <StyledImageBg onClick={() => openModal(imageUrl)} bgImg={imageUrl} />
- {keepit.images.map((image) => (
-            <StyledImage
-              src={'http://keepit-be.local/' + image}
-              onClick={() => openModal('http://keepit-be.local/' + image)}
-              height="300"
-            />
-          ))}
-*/

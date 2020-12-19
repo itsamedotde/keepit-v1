@@ -1,18 +1,46 @@
 import styled from 'styled-components/macro'
 
-export default function TagSeparator({ className }) {
+export default function ContentSeperator({ className, icon, text }) {
   return (
     <StyledDiv className={className}>
-      <StyledLine></StyledLine>
+      <span>
+        {icon} {text}
+      </span>
     </StyledDiv>
   )
 }
 
 const StyledDiv = styled.div`
-  border-style: dashed;
-  padding: 10px 0 10px 0;
-`
-const StyledLine = styled.div`
-  border-bottom: 1px solid #e3e3e3;
-  border-style: dashed;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 20px 0 20px 0;
+  text-transform: uppercase;
+
+  &:before {
+    content: '';
+    flex: 1;
+    border-bottom: 1px dashed #e3e3e3;
+    margin-right: 0.25em;
+  }
+
+  &:after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px dashed #e3e3e3;
+    margin-left: 0.25em;
+  }
+
+  span {
+    font-weight: 600;
+    font-size: 13px;
+    color: #c7c7c7;
+    padding: 0 5px;
+  }
+
+  svg {
+    margin-bottom: -1px;
+  }
 `
