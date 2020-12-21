@@ -1,21 +1,23 @@
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
+
 export function apiGetAllKeepits() {
   const body = {
     email: 'user@email',
     password: 'test',
   }
-  return requestApi(body, 'http://keepit-be.local/keepit/getall', 'POST')
+  return requestApi(body, `${apiBaseUrl}/keepit/getall`, 'POST')
 }
 
 export function apiGetVisionLabels(body) {
-  return requestApi(body, 'http://keepit-be.local/images/preload', 'POST')
+  return requestApi(body, `${apiBaseUrl}/images/preload`, 'POST')
 }
 
 export function apiSaveKeepit(body) {
-  return requestApi(body, 'http://keepit-be.local/keepit/add', 'POST')
+  return requestApi(body, `${apiBaseUrl}/keepit/add`, 'POST')
 }
 
 export function apiDeleteKeepit(id) {
-  return requestApi('', 'http://keepit-be.local/keepit/' + id, 'DELETE')
+  return requestApi('', `${apiBaseUrl}/keepit/` + id, 'DELETE')
 }
 
 export function requestApi(body, url, method) {

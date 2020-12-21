@@ -18,7 +18,8 @@ import Overlay from '../Components/Overlay'
 export default function KeepitDetailPage({ props }) {
   const history = useHistory()
   const keepit = history.location.state.keepit
-  const imageUrl = 'http://keepit-be.local/' + keepit.images[0]
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
+  const imageUrl = apiBaseUrl + '/' + keepit.images[0]
   const tags = keepit.tags
 
   function deleteTheKeepit() {

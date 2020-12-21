@@ -7,6 +7,7 @@ import { ReactComponent as Star } from '../Assets/star.svg'
 
 export default function KeepitList({ keepits, className }) {
   const history = useHistory()
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
 
   const StyledLoading = styled.div`
     text-align: center;
@@ -31,7 +32,7 @@ export default function KeepitList({ keepits, className }) {
       {keepits.map((keepit, index) => (
         <StyledLi key={index}>
           <StyledImg
-            src={'http://keepit-be.local/' + keepit.images[0]}
+            src={apiBaseUrl + '/' + keepit.images[0]}
             alt=""
             onClick={() => gotoDetail(keepit)}
           ></StyledImg>
