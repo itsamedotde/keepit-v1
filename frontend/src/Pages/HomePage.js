@@ -56,7 +56,7 @@ export default function HomePage() {
         </StyledFilterArea>
       </StyledLayout>
       <Footer
-        actionButtonText="New Keepit2"
+        actionButtonText="New Keepit"
         actionButton={<UploadButtonFooter />}
         left={<LogoutButton onClick={logout} height="30px" width="30px" />}
         right={<SearchButton onClick={toggleShowFilter} />}
