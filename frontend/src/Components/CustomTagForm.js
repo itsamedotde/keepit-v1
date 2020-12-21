@@ -38,13 +38,3 @@ const StyledForm = styled.form`
     width: 40px;
   }
 `
-
-/*
-
- button:hover {
-    svg {
-      transform: rotate(45deg);
-      transition: 3s;
-    }
-  }
-*/
