@@ -38,7 +38,7 @@ class KeepitApiController extends AbstractController
         TagRepository $tagRepository, 
         UserRepository $userRepository, 
         KeepitRepository $keepitRepository,
-        GeoService $geoService
+        GeoService $geoService = null
         ) {
 
         $requestContent = json_decode($request->getContent(), true); 
