@@ -21,6 +21,7 @@ export default function KeepitDetailPage({ props }) {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
   const imageUrl = apiBaseUrl + '/' + keepit.images[0]
   const tags = keepit.tags
+  //const date2 = new Date(keepit.date)
 
   function deleteTheKeepit() {
     console.log(keepit.id)
@@ -43,6 +44,25 @@ export default function KeepitDetailPage({ props }) {
   const [overlayContent, setOverlayContent] = useState()
   const [overlayStatus, setOverlayStatus] = useState()
 
+  function showDate() {
+    if (keepit.date) {
+      var date = keepit.date.date.split(' ')
+      return date[0]
+    } else {
+      console.log('ISNULL')
+      return 'Long time ago'
+    }
+  }
+
+  function showLocation() {
+    if (keepit.city) {
+      return keepit.city + ', ' + keepit.country
+    } else {
+      console.log('ISNULL')
+      return 'In a galaxy far, far away'
+    }
+  }
+
   return (
     <>
       <StyledLayout>
@@ -61,11 +81,13 @@ export default function KeepitDetailPage({ props }) {
           />
           <StyledSubInfos>
             <StyledDate>
-              28.11.2015<br></br>Dublin
+              {showDate()}
+              <br></br>
+              {showLocation()}
             </StyledDate>
             <StyledSubMenu>
               <StyedIconWrapperLeft onClick={deleteTheKeepit}>
-                <DeleteIcon />
+                <DeleteIcon width="14" fill="#666" />
                 Delete
               </StyedIconWrapperLeft>
               <StyedIconWrapperRight
