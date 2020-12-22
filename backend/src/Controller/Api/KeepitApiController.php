@@ -59,6 +59,8 @@ class KeepitApiController extends AbstractController
         if($geoData !== null){
             $latitude = $geoData[0];
             $longitude = $geoData[1];
+            var_dump($latitude);
+
             $locationData = $locationService->getLocationData($latitude, $longitude);
             $city = $locationData[0];
             $country = $locationData[1];
