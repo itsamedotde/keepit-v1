@@ -37,8 +37,8 @@ class KeepitApiController extends AbstractController
         ImageRepository $imageRepository, 
         TagRepository $tagRepository, 
         UserRepository $userRepository, 
-        KeepitRepository $keepitRepository
-        //GeoService $locationService
+        KeepitRepository $keepitRepository,
+        GeoService $geoService
         ) {
 
         $requestContent = json_decode($request->getContent(), true); 
