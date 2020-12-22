@@ -57,50 +57,51 @@ class KeepitApiController extends AbstractController
 
         $geoData = $requestContent['geolocation'];
 
-        $response = new JsonResponse($geoData);
-        return $response;
-        // if($geoData !== null){
-        //     $latitude = $geoData[0];
-        //     $longitude = $geoData[1];
        
+        if($geoData !== null){
+            $latitude = $geoData[0];
+            $longitude = $geoData[1];
+            $response = new JsonResponse($longitude);
+            return $response;
+            die;
       
-        //     $locationData = $locationService->getLocationData($latitude, $longitude);
-        //     $city = $locationData[0];
-        //     $country = $locationData[1];
-        //     $newKeepit->setCity($city);
-        //     $newKeepit->setCountry($country);
-        //     $newKeepit->setLatitude($latitude);
-        //     $newKeepit->setLongitude($longitude);
-        // }
-        // $now = new \DateTime();
-        // $newKeepit->setDate($now);
-        // $newKeepit->setUser($user);
-        // $newKeepit->setRating($requestContent['rated']);
+            $locationData = $locationService->getLocationData($latitude, $longitude);
+            $city = $locationData[0];
+            $country = $locationData[1];
+            $newKeepit->setCity($city);
+            $newKeepit->setCountry($country);
+            $newKeepit->setLatitude($latitude);
+            $newKeepit->setLongitude($longitude);
+        }
+        $now = new \DateTime();
+        $newKeepit->setDate($now);
+        $newKeepit->setUser($user);
+        $newKeepit->setRating($requestContent['rated']);
 
-        // if($tags){
-        //     foreach($tags as $key => $value){
-        //         $newTag = new Tag();
-        //         $newTag->setValue($value['value']);
-        //         $newTag->setIsCustom($value['isCustom']);
-        //         $newTag->setUser($user);
-        //         foreach($imageIds as $key => $value){
-        //             $newTag->setImage($imageRepository->findById($imageIds[$key]));
-        //         }
-        //         $newTag = $tagRepository->save($newTag);
-        //         $newKeepit->addTag($newTag);
-        //     }
-        // }
+        if($tags){
+            foreach($tags as $key => $value){
+                $newTag = new Tag();
+                $newTag->setValue($value['value']);
+                $newTag->setIsCustom($value['isCustom']);
+                $newTag->setUser($user);
+                foreach($imageIds as $key => $value){
+                    $newTag->setImage($imageRepository->findById($imageIds[$key]));
+                }
+                $newTag = $tagRepository->save($newTag);
+                $newKeepit->addTag($newTag);
+            }
+        }
 
-        // $newAddedKeepit = $keepitRepository->save($newKeepit);
-        // foreach($imageIds as $key => $value){
-        //     $image = $imageRepository->findById($imageIds[$key]);
-        //     $image->setKeepit($newAddedKeepit);
-        //     $image->setSubmitted(true);
-        //     $imageRepository->save($image);
-        // }
+        $newAddedKeepit = $keepitRepository->save($newKeepit);
+        foreach($imageIds as $key => $value){
+            $image = $imageRepository->findById($imageIds[$key]);
+            $image->setKeepit($newAddedKeepit);
+            $image->setSubmitted(true);
+            $imageRepository->save($image);
+        }
 
-        // $response = new JsonResponse($newAddedKeepit);
-        // return $response;
+        $response = new JsonResponse($newAddedKeepit);
+        return $response;
     }
 
     /**
