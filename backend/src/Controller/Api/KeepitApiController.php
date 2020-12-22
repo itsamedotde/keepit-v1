@@ -68,7 +68,8 @@ class KeepitApiController extends AbstractController
             $test = $_ENV['MAP_API_KEY'];
       
             //$locationData = $locationService->getLocationData($latitude, $longitude);
-            return $test;
+            $response = new JsonResponse($test);
+            return $response;
             die;
 
             $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.$latitude.','.$longitude.'&sensor=false&key='.$_ENV['MAP_API_KEY'];
