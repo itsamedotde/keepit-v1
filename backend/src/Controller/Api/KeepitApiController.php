@@ -17,6 +17,7 @@ use App\Entity\User;
 
 use App\Repository\TagRepository;
 use App\Entity\Tag;
+use App\Utils\VisionApi;
 
 use App\Repository\KeepitRepository;
 use App\Entity\Keepit;
@@ -198,6 +199,8 @@ class KeepitApiController extends AbstractController
 
         $requestContent = json_decode($request->getContent(), true);
         $images = $requestContent['files'];
+
+        var_dump($images);
         $imagelabels = [];
         foreach($images as $image){
 
