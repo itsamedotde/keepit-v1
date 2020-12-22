@@ -45,8 +45,6 @@ class KeepitApiController extends AbstractController
         $tags = $requestContent['requestTags'];
         $imageIds = $requestContent['imageIds'];
 
-       
-   
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
         if ($user === null) {
             return new JsonResponse(
