@@ -55,22 +55,20 @@ class KeepitApiController extends AbstractController
 
         $newKeepit = new Keepit();
 
-        // $geoData = $requestContent['geolocation'];
-        // if($geoData !== null){
-        //     $latitude = $geoData[0];
-        //     $longitude = $geoData[1];
-        //     var_dump($latitude);
-        //     $response = new JsonResponse($latitude);
-        //     return $response;
-        //     die;
-        //     $locationData = $locationService->getLocationData($latitude, $longitude);
-        //     $city = $locationData[0];
-        //     $country = $locationData[1];
-        //     $newKeepit->setCity($city);
-        //     $newKeepit->setCountry($country);
-        //     $newKeepit->setLatitude($latitude);
-        //     $newKeepit->setLongitude($longitude);
-        // }
+        $geoData = $requestContent['geolocation'];
+        if($geoData !== null){
+            $latitude = $geoData[0];
+            $longitude = $geoData[1];
+       
+      
+            $locationData = $locationService->getLocationData($latitude, $longitude);
+            $city = $locationData[0];
+            $country = $locationData[1];
+            $newKeepit->setCity($city);
+            $newKeepit->setCountry($country);
+            $newKeepit->setLatitude($latitude);
+            $newKeepit->setLongitude($longitude);
+        }
         $now = new \DateTime();
         $newKeepit->setDate($now);
         $newKeepit->setUser($user);
