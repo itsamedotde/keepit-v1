@@ -32,7 +32,7 @@ class KeepitApiController extends AbstractController
      *
      * @Route("/keepit/add", methods={"POST"})
      */
-    public function add(
+    public function preload(
         Request $request, 
         ImageRepository $imageRepository, 
         TagRepository $tagRepository, 
