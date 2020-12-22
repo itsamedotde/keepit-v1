@@ -183,6 +183,56 @@ class KeepitApiController extends AbstractController
 
     }
 
+    /**
+     *
+     * @Route("/keepit/preload", methods={"POST"})
+     */
+    public function apiTags(
+        Request $request, 
+        SerializerInterface $serializer, 
+        ImageRepository $imageRepository, 
+        UserRepository $userRepository, 
+        LocalFiles $localFiles, 
+        VisionApi $visionApiRepository
+        ){
+
+        $requestContent = json_decode($request->getContent(), true);
+        $images = $requestContent['files'];
+        $imagelabels = [];
+        foreach($images as $image){
+
+            //$path = $localFiles->save($image['data_url']); 
+            $path = $localFiles->save($image); 
+
+            $labels = $visionApiRepository->getLabels($path);
+            foreach($labels as $label){
+                $imagelabels[] = $label;
+            }
+
+            $user = $userRepository->login($requestContent['email'], $requestContent['password']);
+
+            if ($user === null) {
+                return new JsonResponse(
+                    ["error" => "User not found."],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+            $newImage = new Image();
+            $newImage->setPath($path);
+            $newImage->setSubmitted(false);
+            $newImage->setUser($user);
+            $savedImage = $imageRepository->save($newImage);
+            $imageIds[] = $savedImage->id;
+        }
+     
+        $collectedResponse['ids'] = $imageIds;
+        $collectedResponse['labels'] = $imagelabels;
+
+        $response = new JsonResponse($collectedResponse);
+        return $response;
+    }
+
     
 }
 
