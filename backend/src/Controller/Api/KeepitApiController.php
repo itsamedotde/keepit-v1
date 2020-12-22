@@ -200,7 +200,7 @@ class KeepitApiController extends AbstractController
         $requestContent = json_decode($request->getContent(), true);
         $images = $requestContent['files'];
 
-        var_dump($images);
+       // var_dump($images);
         $imagelabels = [];
         foreach($images as $image){
 
