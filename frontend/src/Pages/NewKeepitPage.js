@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
 import styled from 'styled-components/macro'
 import TaglistNewKeepit from '../Components/TaglistNewKeepit'
@@ -13,9 +13,9 @@ import Header from '../Components/Header'
 import StarRatingForm from '../Components/StarRatingForm'
 import { ReactComponent as Star } from '../Assets/star.svg'
 import { ReactComponent as TagIcon } from '../Assets/tag.svg'
-import Modal from 'react-modal'
 import { ReactComponent as Done } from '../Assets/done.svg'
 import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
+import useGeolocation from '../Hooks/useGeolocation'
 
 import ContentSeparator from '../Components/ContentSeparator'
 
@@ -35,8 +35,11 @@ export default function NewKeepitPage() {
     imageIds,
   } = useTags()
 
+  const { geolocation, getBrowserLocation } = useGeolocation()
+
   useEffect(() => {
     loadHistoryImages()
+    getBrowserLocation()
   }, [])
 
   useEffect(() => {
@@ -132,6 +135,7 @@ export default function NewKeepitPage() {
       requestTags,
       imageIds,
       rated,
+      geolocation,
     }
     apiSaveKeepit(request)
       .then((result) => handleApiTags(result))

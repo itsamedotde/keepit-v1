@@ -23,6 +23,7 @@ use App\Repository\KeepitRepository;
 use App\Entity\Keepit;
 
 use App\Utils\LocalFiles;
+use App\Utils\GeoService;
 
 
 class KeepitApiController extends AbstractController
@@ -31,18 +32,21 @@ class KeepitApiController extends AbstractController
      *
      * @Route("/keepit/add", methods={"POST"})
      */
-    public function preload(
+    public function addKeepit(
         Request $request, 
         ImageRepository $imageRepository, 
         TagRepository $tagRepository, 
         UserRepository $userRepository, 
-        KeepitRepository $keepitRepository
+        KeepitRepository $keepitRepository,
+        GeoService $locationService
         ) {
 
         $requestContent = json_decode($request->getContent(), true); 
         $tags = $requestContent['requestTags'];
         $imageIds = $requestContent['imageIds'];
-        
+
+       
+   
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
         if ($user === null) {
             return new JsonResponse(
@@ -53,6 +57,20 @@ class KeepitApiController extends AbstractController
 
         $newKeepit = new Keepit();
 
+        $geoData = $requestContent['geolocation'];
+        if($geoData !== null){
+            $latitude = $geoData[0];
+            $longitude = $geoData[1];
+            $locationData = $locationService->getLocationData($latitude, $longitude);
+            $city = $locationData[0];
+            $country = $locationData[1];
+            $newKeepit->setCity($city);
+            $newKeepit->setCountry($country);
+            $newKeepit->setLatitude($latitude);
+            $newKeepit->setLongitude($longitude);
+        }
+        $now = new \DateTime();
+        $newKeepit->setDate($now);
         $newKeepit->setUser($user);
         $newKeepit->setRating($requestContent['rated']);
 
@@ -111,6 +129,11 @@ class KeepitApiController extends AbstractController
             $tags = $keepit->getTags();
             $images = $keepit->getImage();
             $responseArr[$key]['rated'] = $keepit->getRating();
+
+            $responseArr[$key]['city'] = $keepit->getCity();
+            $responseArr[$key]['country'] = $keepit->getCountry();
+            $responseArr[$key]['date'] = $keepit->getDate();
+
 
             $responseArr[$key]['id'] = $keepit->id;
             foreach($images as $imageKey => $image){
