@@ -62,10 +62,11 @@ class KeepitApiController extends AbstractController
             $latitude = $geoData[0];
             $longitude = $geoData[1];
             $response = new JsonResponse($longitude);
-            return $response;
-            die;
+          
       
             $locationData = $locationService->getLocationData($latitude, $longitude);
+            return $locationData;
+            die;
             $city = $locationData[0];
             $country = $locationData[1];
             $newKeepit->setCity($city);
