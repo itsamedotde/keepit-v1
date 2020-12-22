@@ -17,7 +17,7 @@ export function apiSaveKeepit(body) {
 }
 
 export function apiDeleteKeepit(id) {
-  return requestApi('', `${apiBaseUrl}/keepit/` + id, 'DELETE')
+  return requestApi('', `${apiBaseUrl}/keepit/delete/` + id, 'POST')
 }
 
 export function requestApi(body, url, method) {

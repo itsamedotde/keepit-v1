@@ -55,11 +55,7 @@ class KeepitApiController extends AbstractController
         $newKeepit = new Keepit();
 
         $geoData = $requestContent['geolocation'];
-        /****************************** */
-
-     
-
-       /********************************* */
+      
         if($geoData !== null){
             $latitude = $geoData[0];
             $longitude = $geoData[1];
@@ -183,7 +179,7 @@ class KeepitApiController extends AbstractController
 
      /**
      *
-     * @Route("/keepit/{id}", methods={"DELETE"})
+     * @Route("/keepit/delete/{id}", methods={"POST"})
      */
     public function removeKeepit(
         $id,
