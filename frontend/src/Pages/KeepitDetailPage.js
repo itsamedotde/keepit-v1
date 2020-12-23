@@ -5,29 +5,32 @@ import Header from '../Components/Header'
 import UploadButtonFooter from '../Components/UploadButtonFooter'
 import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
+import StarRating from '../Components/StarRating'
+
 import Taglist from '../Components/Taglist'
 import ContentSeparator from '../Components/ContentSeparator'
 import { useHistory } from 'react-router-dom'
 import { ReactComponent as EditIcon } from '../Assets/edit.svg'
 import { ReactComponent as TagIcon } from '../Assets/tag.svg'
-import { ReactComponent as Star } from '../Assets/star.svg'
 import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
-import { apiDeleteKeepit } from '../Services/apiRequests.js'
+// import { apiDeleteKeepit } from '../Services/apiRequests.js'
 import Overlay from '../Components/Overlay'
+import useKeepit from '../Hooks/useKeepit'
 
 export default function KeepitDetailPage({ props }) {
+  const { deleteKeepit } = useKeepit()
+
   const history = useHistory()
   const keepit = history.location.state.keepit
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
   const imageUrl = apiBaseUrl + '/' + keepit.images[0]
   const tags = keepit.tags
-  //const date2 = new Date(keepit.date)
 
-  function deleteTheKeepit() {
-    console.log(keepit.id)
-    apiDeleteKeepit(keepit.id)
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error))
+  function handleDelete() {
+    deleteKeepit(keepit.id)
+    // apiDeleteKeepit(keepit.id)
+    //   .then((result) => console.log(result))
+    //   .catch((error) => console.log('error', error))
 
     setOverlayContent(
       <StyledDeleteOverlay>
@@ -58,7 +61,6 @@ export default function KeepitDetailPage({ props }) {
     if (keepit.city) {
       return keepit.city + ', ' + keepit.country
     } else {
-      console.log('ISNULL')
       return 'In a galaxy far, far away'
     }
   }
@@ -70,7 +72,6 @@ export default function KeepitDetailPage({ props }) {
         <Overlay status={overlayStatus} onClick={() => setOverlayStatus(false)}>
           {overlayContent}
         </Overlay>
-
         <StyledImageArea>
           <StyledImageBg
             onClick={() => {
@@ -86,7 +87,7 @@ export default function KeepitDetailPage({ props }) {
               {showLocation()}
             </StyledDate>
             <StyledSubMenu>
-              <StyedIconWrapperLeft onClick={deleteTheKeepit}>
+              <StyedIconWrapperLeft onClick={handleDelete}>
                 <DeleteIcon width="14" fill="#666" />
                 Delete
               </StyedIconWrapperLeft>
@@ -104,16 +105,7 @@ export default function KeepitDetailPage({ props }) {
         <StyledTagArea>
           <TagIcon />
           <StyledTagHeadline>Tags</StyledTagHeadline>
-          <StyledStarRating>
-            {[...Array(keepit.rated)].map(() => (
-              <Star
-                width="30"
-                height="30"
-                stroke="#e3e3e3"
-                fill="var(--color-primary)"
-              ></Star>
-            ))}
-          </StyledStarRating>
+          <StyledStarRating rating={keepit.rated} />
           <ContentSeparator></ContentSeparator>
           <Taglist
             tags={tags}
@@ -133,6 +125,12 @@ export default function KeepitDetailPage({ props }) {
   )
 }
 
+const StyledStarRating = styled(StarRating)`
+  float: right;
+  padding-right: 5px;
+  margin-top: 4px;
+`
+
 const StyledDeleteOverlay = styled.div`
   display: flex;
   flex-direction: column;
@@ -142,28 +140,6 @@ const StyledDeleteOverlay = styled.div`
 `
 const StyledOverlayImage = styled.img`
   width: 100%;
-`
-const StyledStarRating = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  border-top-right-radius: 6px;
-  font-weight: 600;
-  bottom: 1px;
-  left: 1px;
-  float: right;
-  height: 12px;
-  z-index: 1;
-  padding-right: 5px;
-  height: 15px;
-  color: white;
-  text-align: center;
-  margin-top: 4px;
-  svg {
-    height: 12px;
-    margin-left: 3px;
-  }
 `
 
 const StyledDate = styled.div`
