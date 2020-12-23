@@ -2,9 +2,16 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { useState } from 'react'
 
-export default function OverlayMessage({ status, children, onClick }) {
+export default function OverlayMessage({
+  className,
+  status,
+  children,
+  onClick,
+}) {
   return status ? (
-    <StyledOverlay onClick={onClick}>{children}</StyledOverlay>
+    <StyledOverlay className={className} onClick={onClick}>
+      {children}
+    </StyledOverlay>
   ) : (
     ''
   )

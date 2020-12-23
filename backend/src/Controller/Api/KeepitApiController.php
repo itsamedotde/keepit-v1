@@ -41,7 +41,7 @@ class KeepitApiController extends AbstractController
         ) {
 
         $requestContent = json_decode($request->getContent(), true); 
-        $tags = $requestContent['requestTags'];
+        $tags = $requestContent['addedTags'];
 
         $imageIds = $requestContent['imageIds'];
         if ($imageIds === null) {

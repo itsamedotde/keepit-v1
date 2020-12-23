@@ -6,32 +6,34 @@ import UploadButtonFooter from '../Components/UploadButtonFooter'
 import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import StarRating from '../Components/StarRating'
-
 import Taglist from '../Components/Taglist'
 import ContentSeparator from '../Components/ContentSeparator'
 import { useHistory } from 'react-router-dom'
 import { ReactComponent as EditIcon } from '../Assets/edit.svg'
 import { ReactComponent as TagIcon } from '../Assets/tag.svg'
 import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
-// import { apiDeleteKeepit } from '../Services/apiRequests.js'
 import Overlay from '../Components/Overlay'
+import useOverlay from '../Hooks/useOverlay'
 import useKeepit from '../Hooks/useKeepit'
 
 export default function KeepitDetailPage({ props }) {
   const { deleteKeepit } = useKeepit()
+  const {
+    overlayStatus,
+    setOverlayStatus,
+    overlayContent,
+    setOverlayContent,
+  } = useOverlay()
 
   const history = useHistory()
   const keepit = history.location.state.keepit
+  const tags = keepit.tags
+
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
   const imageUrl = apiBaseUrl + '/' + keepit.images[0]
-  const tags = keepit.tags
 
   function handleDelete() {
     deleteKeepit(keepit.id)
-    // apiDeleteKeepit(keepit.id)
-    //   .then((result) => console.log(result))
-    //   .catch((error) => console.log('error', error))
-
     setOverlayContent(
       <StyledDeleteOverlay>
         DELETED
@@ -43,9 +45,6 @@ export default function KeepitDetailPage({ props }) {
       history.push('/')
     }, 1500)
   }
-
-  const [overlayContent, setOverlayContent] = useState()
-  const [overlayStatus, setOverlayStatus] = useState()
 
   function showDate() {
     if (keepit.date) {
@@ -73,19 +72,19 @@ export default function KeepitDetailPage({ props }) {
           {overlayContent}
         </Overlay>
         <StyledImageArea>
-          <StyledImageBg
+          <StyledImage
             onClick={() => {
               setOverlayContent(<StyledOverlayImage src={imageUrl} />)
               setOverlayStatus(true)
             }}
             bgImg={imageUrl}
           />
-          <StyledSubInfos>
-            <StyledDate>
+          <StyledSubInfoArea>
+            <StyledDateLocationArea>
               {showDate()}
               <br></br>
               {showLocation()}
-            </StyledDate>
+            </StyledDateLocationArea>
             <StyledSubMenu>
               <StyedIconWrapperLeft onClick={handleDelete}>
                 <DeleteIcon width="14" fill="#666" />
@@ -100,7 +99,7 @@ export default function KeepitDetailPage({ props }) {
                 Edit
               </StyedIconWrapperRight>
             </StyledSubMenu>
-          </StyledSubInfos>
+          </StyledSubInfoArea>
         </StyledImageArea>
         <StyledTagArea>
           <TagIcon />
@@ -142,7 +141,7 @@ const StyledOverlayImage = styled.img`
   width: 100%;
 `
 
-const StyledDate = styled.div`
+const StyledDateLocationArea = styled.div`
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -177,7 +176,7 @@ const StyledSubMenu = styled.div`
   font-size: 12px;
 `
 
-const StyledSubInfos = styled.div`
+const StyledSubInfoArea = styled.div`
   font-size: 15px;
   bottom: 0;
   height: 50px;
@@ -226,7 +225,7 @@ const StyledImageArea = styled.div`
   padding: 10px 0;
 `
 
-const StyledImageBg = styled.div`
+const StyledImage = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -235,14 +234,4 @@ const StyledImageBg = styled.div`
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-`
-const StyledImage = styled.img`
-  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
-  border-radius: 3px;
-  max-width: 40%;
-  max-height: 500px;
-`
-const StyledModalImage = styled.img`
-  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
-  border-radius: 3px;
 `

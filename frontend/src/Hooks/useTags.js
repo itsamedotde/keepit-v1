@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { firstToUpper } from '../Lib/string'
+import { firstToUpper } from '../Util/string'
 import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
 
 export default function useTags() {
@@ -14,7 +14,7 @@ export default function useTags() {
     addedTags,
     newTags,
     handleSubmitTag,
-    updateTag,
+    toggleTagAdded,
     loadApiTags,
     handleApiTags,
     imageIds,
@@ -33,9 +33,6 @@ export default function useTags() {
   }
 
   function handleApiTags(response) {
-    var d = new Date()
-    var n = d.getMilliseconds()
-    console.log('get response:', n)
     const uniqueApiTags = [...new Set(response.labels)]
     const expandedTags = uniqueApiTags.map((value, index) => {
       return { value: value, added: false, isCustom: false }
@@ -54,7 +51,7 @@ export default function useTags() {
     event.target.customTag.focus()
   }
 
-  function updateTag(tagValue, newAddedState, isCustom) {
+  function toggleTagAdded(tagValue, newAddedState, isCustom) {
     var searchedIndex = tags.findIndex((tag) => tag.value === tagValue)
     var newTags = tags
     setTags([
