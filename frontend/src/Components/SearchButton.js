@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { ReactComponent as SearchSvg } from '../Assets/search.svg'
 import { useHistory, useLocation } from 'react-router-dom'
+import { SearchIcon } from './Icons'
 
 export default function SearchButton({ onClick }) {
-  return <SearchSvg onClick={onClick}></SearchSvg>
+  return <SearchIcon onClick={onClick}></SearchIcon>
 }
+//

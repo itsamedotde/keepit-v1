@@ -1,6 +1,5 @@
 import ImageUploading from 'react-images-uploading'
 import { useHistory, useLocation } from 'react-router-dom'
-import { ReactComponent as ActionButtonSvg } from '../Assets/keepit-button.svg'
 import styled from 'styled-components/macro'
 import { ReactComponent as SaveFooterButton } from '../Assets/save-footer-button.svg'
 

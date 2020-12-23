@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { ReactComponent as Star } from '../Assets/star.svg'
 import { useState, useEffect } from 'react'
+import { StarIcon } from './Icons'
 
 export default function StarRating({ onClick }) {
   const [rating, setRating] = useState(null)
@@ -24,14 +24,14 @@ export default function StarRating({ onClick }) {
                 name="rating"
                 onClick={() => setRating(ratingValue)}
               />
-              <Star
+              <StarIcon
                 fill={
                   ratingValue <= rating
                     ? 'var(--color-primary)'
                     : 'var(--color-tertiary)'
                 }
                 width="25"
-              ></Star>
+              ></StarIcon>
             </label>
           )
         })}

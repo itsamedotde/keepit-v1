@@ -1,28 +1,25 @@
 import { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
-import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
+import { useHistory } from 'react-router-dom'
+import { StarIcon, TagIcon, DoneIcon, DeleteIcon } from '../Components/Icons'
 import styled from 'styled-components/macro'
+
 import TaglistNewKeepit from '../Components/TaglistNewKeepit'
 import CustomTagForm from '../Components/CustomTagForm'
 import Footer from '../Components/Footer'
 import BackButton from '../Components/BackButton'
 import SearchButton from '../Components/SearchButton'
 import SaveButtonFooter from '../Components/SaveButtonFooter'
-import useTags from '../Hooks/useTags'
 import Header from '../Components/Header'
 import StarRatingForm from '../Components/StarRatingForm'
-import { ReactComponent as Star } from '../Assets/star.svg'
-import { ReactComponent as TagIcon } from '../Assets/tag.svg'
-import { ReactComponent as DoneIcon } from '../Assets/done.svg'
-import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
-import useGeolocation from '../Hooks/useGeolocation'
+import Overlay from '../Components/Overlay'
+import ContentSeparator from '../Components/ContentSeparator'
+
 import setBase64 from '../Util/setBase64'
 
+import useTags from '../Hooks/useTags'
 import useOverlay from '../Hooks/useOverlay'
-import Overlay from '../Components/Overlay'
 import useKeepit from '../Hooks/useKeepit'
-
-import ContentSeparator from '../Components/ContentSeparator'
+import useGeolocation from '../Hooks/useGeolocation'
 
 export default function NewKeepitPage() {
   const history = useHistory()
@@ -82,7 +79,7 @@ export default function NewKeepitPage() {
         <StyledTagArea>
           <ContentSeparator
             text="RATING"
-            icon={<Star fill="#c7c7c7" width="12" height="12" />}
+            icon={<StarIcon fill="#c7c7c7" width="12" height="12" />}
           />
           <StarRatingForm onClick={rating}></StarRatingForm>
           <ContentSeparator
@@ -130,9 +127,6 @@ export default function NewKeepitPage() {
   }
 
   function handleSaveKeepit() {
-    // const requestTags = addedTags.map((addedTag) => {
-    //   return { value: addedTag.value, isCustom: addedTag.isCustom }
-    // })
     const request = {
       email: 'user@email',
       password: 'test',
@@ -143,10 +137,6 @@ export default function NewKeepitPage() {
     }
     saveKeepit(request)
     setOverlayStatus(true)
-    // apiSaveKeepit(request)
-    //   .then((result) => handleApiTags(result))
-    //   .catch((error) => console.log('error', error))
-
     setTimeout(function () {
       history.push('/')
     }, 1500)
