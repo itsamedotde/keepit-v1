@@ -2,8 +2,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import loading from '../Assets/loading.gif'
 import { useHistory } from 'react-router-dom'
-import { useState, Suspense, react } from 'react'
-import { ReactComponent as Star } from '../Assets/star.svg'
+import { StarIcon } from './Icons'
 
 export default function KeepitList({ keepits, className }) {
   const history = useHistory()
@@ -17,7 +16,7 @@ export default function KeepitList({ keepits, className }) {
   if (keepits.length === 0) {
     return (
       <StyledLoading>
-        <img width="20" src={loading}></img>
+        <img width="20" alt="" src={loading}></img>
       </StyledLoading>
     )
   }
@@ -38,7 +37,7 @@ export default function KeepitList({ keepits, className }) {
           ></StyledImg>
           <StyledStarRating>
             {[...Array(keepit.rated)].map(() => (
-              <Star width="5" fill="var(--color-primary)"></Star>
+              <StarIcon width="5" fill="var(--color-primary)"></StarIcon>
             ))}
           </StyledStarRating>
         </StyledLi>

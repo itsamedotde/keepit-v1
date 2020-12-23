@@ -9,8 +9,8 @@ import Taglist from '../Components/Taglist'
 import KeepitList from '../Components/KeepitList'
 import ResetFilterButton from '../Components/ResetFilterButton'
 import ContentSeparator from '../Components/ContentSeparator'
-import { ReactComponent as FilterIcon } from '../Assets/filter.svg'
 import LogoutButton from '../Components/LogoutButton.js'
+import { FilterIcon } from '../Components/Icons'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])

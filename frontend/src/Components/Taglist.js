@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { ReactComponent as TagCloudIcon } from '../Assets/tag-cloud.svg'
-import { ReactComponent as TagMinusIcon } from '../Assets/tag-minus.svg'
-import { ReactComponent as TagPlusIcon } from '../Assets/tag-plus.svg'
-import { ReactComponent as TagUserIcon } from '../Assets/tag-user.svg'
 import loading from '../Assets/loading.gif'
+
+import { CloudIcon, UserIcon } from './Icons'
 
 export default function Taglist({
   onClick,
@@ -21,9 +19,9 @@ export default function Taglist({
   function IsCustomIcon(tag) {
     if (showIsCustom) {
       if (tag.isCustom) {
-        return <TagUserIcon />
+        return <UserIcon />
       } else {
-        return <TagCloudIcon />
+        return <CloudIcon />
       }
     } else {
       return ''

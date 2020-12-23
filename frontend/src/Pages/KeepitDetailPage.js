@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import Footer from '../Components/Footer'
 import Header from '../Components/Header'
@@ -8,13 +9,11 @@ import SearchButton from '../Components/SearchButton'
 import StarRating from '../Components/StarRating'
 import Taglist from '../Components/Taglist'
 import ContentSeparator from '../Components/ContentSeparator'
-import { useHistory } from 'react-router-dom'
-import { ReactComponent as EditIcon } from '../Assets/edit.svg'
-import { ReactComponent as TagIcon } from '../Assets/tag.svg'
-import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
 import Overlay from '../Components/Overlay'
 import useOverlay from '../Hooks/useOverlay'
 import useKeepit from '../Hooks/useKeepit'
+
+import { EditIcon, TagIcon, DeleteIcon } from '../Components/Icons'
 
 export default function KeepitDetailPage({ props }) {
   const { deleteKeepit } = useKeepit()

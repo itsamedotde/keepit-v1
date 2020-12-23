@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { ReactComponent as Star } from '../Assets/star.svg'
+import { StarIcon } from './Icons'
 
 export default function StarRating({ rating, className }) {
   return (
     <StyledStarRatingDiv className={className}>
       {[...Array(rating)].map(() => (
-        <Star
+        <StarIcon
           width="30"
           height="30"
           stroke="#e3e3e3"
           fill="var(--color-primary)"
-        ></Star>
+        ></StarIcon>
       ))}
     </StyledStarRatingDiv>
   )
