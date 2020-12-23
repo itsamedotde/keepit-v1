@@ -20,8 +20,8 @@ class GeoService {
             }
             return [$city , $country];
          } else{
-           $city = 'Unknown';
-           $country = 'Unknown';
+           $city = null;
+           $country = null;
            return [$city , $country];
          }
     }

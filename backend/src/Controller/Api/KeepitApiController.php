@@ -37,13 +37,20 @@ class KeepitApiController extends AbstractController
         ImageRepository $imageRepository, 
         TagRepository $tagRepository, 
         UserRepository $userRepository, 
-        KeepitRepository $keepitRepository,
-        GeoService $locationService
+        KeepitRepository $keepitRepository
         ) {
 
         $requestContent = json_decode($request->getContent(), true); 
         $tags = $requestContent['requestTags'];
+
         $imageIds = $requestContent['imageIds'];
+        if ($imageIds === null) {
+            return new JsonResponse(
+                ["error" => "No image ids given"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
 
         $user = $userRepository->login($requestContent['email'], $requestContent['password']);
         if ($user === null) {
@@ -55,53 +62,42 @@ class KeepitApiController extends AbstractController
 
         $newKeepit = new Keepit();
 
+        // GEO DATA
         $geoData = $requestContent['geolocation'];
-      
         if($geoData !== null){
             $latitude = $geoData[0];
             $longitude = $geoData[1];
-            $response = new JsonResponse($longitude);
-            error_log("Your message here");
-
-            //$path = $localFiles->save($image); 
-            $locationData = $locationService->getLocationData($latitude, $longitude);
-            // $response = new JsonResponse($test);
-            // return $response;
-            // die;
-            // $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.$latitude.','.$longitude.'&sensor=false&key='.$_ENV['MAP_API_KEY'];
-            // $json = @file_get_contents($url);
-            // $data = json_decode($json);
-            // $status = $data->status;
-            // if($status=="OK") {
-            //     for ($j=0;$j<count($data->results[0]->address_components);$j++) {
-            //         $cn=array($data->results[0]->address_components[$j]->types[0]);
-            //         if(in_array("locality", $cn)) {
-            //             $city= $data->results[0]->address_components[$j]->long_name;
-            //         }
-            //         if(in_array("country", $cn)) {
-            //             $country= $data->results[0]->address_components[$j]->long_name;
-            //         }
-            //     }
-            //     //return [$city , $country];
-            //  } else{
-            //    $city = 'Unknown';
-            //    $country = 'Unknown';
-            //    //return [$city , $country];
-            //  }
-
-
-            $city = $locationData[0];
-            $country = $locationData[1];
+            $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.$latitude.','.$longitude.'&sensor=false&key='.$_ENV['MAP_API_KEY'];
+            $json = @file_get_contents($url);
+            $data = json_decode($json);
+            $status = $data->status;
+            if($status=="OK") {
+                for ($j=0;$j<count($data->results[0]->address_components);$j++) {
+                    $cn=array($data->results[0]->address_components[$j]->types[0]);
+                    if(in_array("locality", $cn)) {
+                        $city= $data->results[0]->address_components[$j]->long_name;
+                    }
+                    if(in_array("country", $cn)) {
+                        $country= $data->results[0]->address_components[$j]->long_name;
+                    }
+                }
+             } else{
+               $city = null;
+               $country = null;
+             }
             $newKeepit->setCity($city);
             $newKeepit->setCountry($country);
             $newKeepit->setLatitude($latitude);
             $newKeepit->setLongitude($longitude);
         }
+
+        // DATE
         $now = new \DateTime();
         $newKeepit->setDate($now);
         $newKeepit->setUser($user);
         $newKeepit->setRating($requestContent['rated']);
 
+        // Tags
         if($tags){
             foreach($tags as $key => $value){
                 $newTag = new Tag();
@@ -116,6 +112,7 @@ class KeepitApiController extends AbstractController
             }
         }
 
+        // Update Image Status
         $newAddedKeepit = $keepitRepository->save($newKeepit);
         foreach($imageIds as $key => $value){
             $image = $imageRepository->findById($imageIds[$key]);
@@ -220,8 +217,6 @@ class KeepitApiController extends AbstractController
         }
 
         $keepitRepository->delete($keepit);
-
-        // var_dump($imageIdsToDelete);
 
         foreach($imageIdsToDelete as $imageIdToDelete){
             $imageToDelete = $imageRepository->findOneBy(['id' => $imageIdToDelete]);
