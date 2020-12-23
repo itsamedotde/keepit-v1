@@ -37,7 +37,8 @@ class KeepitApiController extends AbstractController
         ImageRepository $imageRepository, 
         TagRepository $tagRepository, 
         UserRepository $userRepository, 
-        KeepitRepository $keepitRepository
+        KeepitRepository $keepitRepository,
+        GeoService $locationService
         ) {
 
         $requestContent = json_decode($request->getContent(), true); 
@@ -61,7 +62,7 @@ class KeepitApiController extends AbstractController
             $longitude = $geoData[1];
             $response = new JsonResponse($longitude);
             
-      
+            //$path = $localFiles->save($image); 
             $locationData = $locationService->getLocationData($latitude, $longitude);
             // $response = new JsonResponse($test);
             // return $response;
