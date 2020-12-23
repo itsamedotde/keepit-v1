@@ -13,9 +13,14 @@ import Header from '../Components/Header'
 import StarRatingForm from '../Components/StarRatingForm'
 import { ReactComponent as Star } from '../Assets/star.svg'
 import { ReactComponent as TagIcon } from '../Assets/tag.svg'
-import { ReactComponent as Done } from '../Assets/done.svg'
+import { ReactComponent as DoneIcon } from '../Assets/done.svg'
 import { ReactComponent as DeleteIcon } from '../Assets/delete.svg'
 import useGeolocation from '../Hooks/useGeolocation'
+import setBase64 from '../Util/setBase64'
+
+import useOverlay from '../Hooks/useOverlay'
+import Overlay from '../Components/Overlay'
+import useKeepit from '../Hooks/useKeepit'
 
 import ContentSeparator from '../Components/ContentSeparator'
 
@@ -24,18 +29,20 @@ export default function NewKeepitPage() {
   const [images, setImages] = useState([])
   const [rated, setRated] = useState([])
 
+  const { overlayStatus, setOverlayStatus } = useOverlay()
+
   const {
     tags,
     setTags,
     addedTags,
     handleSubmitTag,
-    updateTag,
+    toggleTagAdded,
     loadApiTags,
-    handleApiTags,
     imageIds,
   } = useTags()
 
   const { geolocation, getBrowserLocation } = useGeolocation()
+  const { saveKeepit } = useKeepit()
 
   useEffect(() => {
     loadHistoryImages()
@@ -47,26 +54,15 @@ export default function NewKeepitPage() {
     loadApiTags(images)
   }, [images])
 
-  async function loadHistoryImages() {
-    const newImagesPromises = []
-    Array.from(history.location.state.images).forEach((file) => {
-      newImagesPromises.push(setBase64(file))
-    })
-    setImages(await Promise.all(newImagesPromises))
-  }
-
-  function setBase64(file) {
-    return new Promise((res) => {
-      const reader = new FileReader()
-      reader.addEventListener('load', () => {
-        res(reader.result)
-      })
-      reader.readAsDataURL(file)
-    })
-  }
-
   return (
     <>
+      <StyledSaveOverlay
+        status={overlayStatus}
+        onClick={() => setOverlayStatus(false)}
+      >
+        SAVE
+        <DoneIcon width="40" fill="var(--color-primary)" />
+      </StyledSaveOverlay>
       <StyledLayout>
         <Header />
         <StyledImageArea>
@@ -95,7 +91,7 @@ export default function NewKeepitPage() {
           />
           <TaglistNewKeepit
             tags={tags}
-            onClick={updateTag}
+            onClick={toggleTagAdded}
             bgColor="var(--color-primary)"
             showIsCustom={true}
             showIsloading={true}
@@ -106,12 +102,20 @@ export default function NewKeepitPage() {
       </StyledLayout>
       <Footer
         actionButtonText="Save Keepit"
-        actionButton={<SaveButtonFooter onClick={saveKeepit} />}
+        actionButton={<SaveButtonFooter onClick={handleSaveKeepit} />}
         left={<BackButton height="30px" width="30px" />}
         right={<SearchButton />}
       ></Footer>
     </>
   )
+
+  async function loadHistoryImages() {
+    const newImagesPromises = []
+    Array.from(history.location.state.images).forEach((file) => {
+      newImagesPromises.push(setBase64(file))
+    })
+    setImages(await Promise.all(newImagesPromises))
+  }
 
   function rating(rating) {
     setRated(rating)
@@ -125,25 +129,27 @@ export default function NewKeepitPage() {
     }
   }
 
-  function saveKeepit() {
-    const requestTags = addedTags.map((addedTag) => {
-      return { value: addedTag.value, isCustom: addedTag.isCustom }
-    })
+  function handleSaveKeepit() {
+    // const requestTags = addedTags.map((addedTag) => {
+    //   return { value: addedTag.value, isCustom: addedTag.isCustom }
+    // })
     const request = {
       email: 'user@email',
       password: 'test',
-      requestTags,
+      addedTags,
       imageIds,
       rated,
       geolocation,
     }
-    apiSaveKeepit(request)
-      .then((result) => handleApiTags(result))
-      .catch((error) => console.log('error', error))
+    saveKeepit(request)
+    setOverlayStatus(true)
+    // apiSaveKeepit(request)
+    //   .then((result) => handleApiTags(result))
+    //   .catch((error) => console.log('error', error))
+
     setTimeout(function () {
       history.push('/')
     }, 1500)
-    // history.push('/')
   }
 
   function removeImage(deleteIndex) {
@@ -155,11 +161,17 @@ export default function NewKeepitPage() {
   }
 }
 
+const StyledSaveOverlay = styled(Overlay)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`
 const StyledLayout = styled.div`
   display: grid;
   grid-template-rows: 100px 35vh auto 90px;
   max-width: 600px;
-
   overflow: scroll;
   left: 0;
   top: 0;
@@ -168,6 +180,7 @@ const StyledLayout = styled.div`
   font-size: 112.5%;
   align-items: end;
 `
+
 const StyledTagArea = styled.div`
   padding: 0 30px;
   margin-bottom: 10px;
