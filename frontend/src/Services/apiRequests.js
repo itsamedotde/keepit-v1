@@ -21,20 +21,14 @@ export function apiDeleteKeepit(id) {
 }
 
 export function requestApi(body, url, method) {
-  console.log('Api Request - url', url)
-  console.log('Api Request - body', body)
-  console.log('Api Request - method', method)
+  // console.log('Api Request - url', url)
+  // console.log('Api Request - body', body)
+  // console.log('Api Request - method', method)
 
   const myHeaders = new Headers()
   let requestOptions = ''
   myHeaders.append('Content-Type', 'application/json')
-  if (method === 'DELETE') {
-    requestOptions = {
-      method: method,
-      headers: myHeaders,
-      redirect: 'follow',
-    }
-  }
+
   if (method === 'POST') {
     requestOptions = {
       method: method,

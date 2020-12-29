@@ -20,6 +20,7 @@ export default function TaglistNewKeepit({
       return ''
     }
   }
+
   function IsAdded(tag) {
     if (!tag.added) {
       return <TagPlusIcon />
@@ -28,7 +29,13 @@ export default function TaglistNewKeepit({
     }
   }
 
-  if (tags.length === 0 && showIsloading) {
+  if (tags.length === 1 && tags[0].value === 'No tags found') {
+    return (
+      <StyledNoTagsResponse>
+        No tags found for your image :(
+      </StyledNoTagsResponse>
+    )
+  } else if (tags.length === 0 && showIsloading) {
     return <LoadingSpinner />
   }
 
@@ -51,6 +58,14 @@ export default function TaglistNewKeepit({
     </StyledTagList>
   )
 }
+
+const StyledNoTagsResponse = styled.div`
+  font-size: 13px;
+  color: #a6a6a6;
+  display: grid;
+  place-items: center;
+  min-height: 45px;
+`
 
 const StyledTagText = styled.span`
   font-weight: 400;
