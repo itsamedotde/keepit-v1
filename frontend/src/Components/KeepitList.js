@@ -3,22 +3,14 @@ import styled from 'styled-components/macro'
 import loading from '../Assets/loading.gif'
 import { useHistory } from 'react-router-dom'
 import { StarIcon } from './Icons'
+import LoadingSpinner from './LoadingSpinner'
 
 export default function KeepitList({ keepits, className }) {
   const history = useHistory()
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
 
-  const StyledLoading = styled.div`
-    text-align: center;
-    font-size: 12px;
-  `
-
   if (keepits.length === 0) {
-    return (
-      <StyledLoading>
-        <img width="20" alt="" src={loading}></img>
-      </StyledLoading>
-    )
+    return <LoadingSpinner />
   }
 
   function gotoDetail(keepit) {
