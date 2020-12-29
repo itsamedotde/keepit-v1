@@ -8,7 +8,6 @@ export default function StarRating({ onClick }) {
 
   useEffect(() => {
     onClick(rating)
-    console.log(rating)
   }, [rating])
 
   return (

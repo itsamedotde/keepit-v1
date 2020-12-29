@@ -44,11 +44,13 @@ export default function NewKeepitPage() {
   useEffect(() => {
     loadHistoryImages()
     getBrowserLocation()
+    setOverlayStatus(false)
   }, [])
 
   useEffect(() => {
-    console.log('images', images)
-    loadApiTags(images)
+    if (images.length > 0) {
+      loadApiTags(images)
+    }
   }, [images])
 
   return (
@@ -76,14 +78,14 @@ export default function NewKeepitPage() {
               </div>
             ))}
         </StyledImageArea>
-        <StyledTagArea>
+        <StyledOptionArea>
           <ContentSeparator
-            text="RATING"
+            text="RATE IT"
             icon={<StarIcon fill="#c7c7c7" width="12" height="12" />}
           />
           <StarRatingForm onClick={rating}></StarRatingForm>
           <ContentSeparator
-            text="TAGS"
+            text="TAG IT"
             icon={<TagIcon fill="#c7c7c7" width="11" height="11" />}
           />
           <TaglistNewKeepit
@@ -93,9 +95,8 @@ export default function NewKeepitPage() {
             showIsCustom={true}
             showIsloading={true}
           ></TaglistNewKeepit>
-
           <CustomTagForm onSubmit={handleSubmitTag} />
-        </StyledTagArea>
+        </StyledOptionArea>
       </StyledLayout>
       <Footer
         actionButtonText="Save Keepit"
@@ -171,7 +172,7 @@ const StyledLayout = styled.div`
   align-items: end;
 `
 
-const StyledTagArea = styled.div`
+const StyledOptionArea = styled.div`
   padding: 0 30px;
   margin-bottom: 10px;
 `

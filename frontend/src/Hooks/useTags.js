@@ -33,11 +33,15 @@ export default function useTags() {
   }
 
   function handleApiTags(response) {
-    const uniqueApiTags = [...new Set(response.labels)]
-    const expandedTags = uniqueApiTags.map((value, index) => {
-      return { value: value, added: false, isCustom: false }
-    })
-    setTags(expandedTags)
+    if (response.labels.length) {
+      const uniqueApiTags = [...new Set(response.labels)]
+      const expandedTags = uniqueApiTags.map((value, index) => {
+        return { value: value, added: false, isCustom: false }
+      })
+      setTags(expandedTags)
+    } else {
+      setTags([{ value: 'No tags found', added: false, isCustom: false }])
+    }
     setImageIds(response.ids)
   }
 
