@@ -8,15 +8,7 @@ export default createGlobalStyle`
     box-sizing: border-box;
     outline: 0;
     outline: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     -webkit-tap-highlight-color: transparent;
-
 }
 
 html, body, div, span, applet, object, iframe,
@@ -39,7 +31,9 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
+
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
     display: block;
@@ -67,9 +61,7 @@ table {
 textarea:focus, input:focus, button:focus{
     outline: none;
 }
-*:focus {
 
-    }
 
 /*************/
 
@@ -80,8 +72,6 @@ textarea:focus, input:focus, button:focus{
     --color-tertiary: #999999;
     --color-bg: #F4F4F4;
     --color-text: #8E8E8E;
-
-
 }
 
 body {

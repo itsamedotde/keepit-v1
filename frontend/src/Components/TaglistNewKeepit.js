@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-
-import loading from '../Assets/loading.gif'
 import { CloudIcon, UserIcon, TagMinusIcon, TagPlusIcon } from './Icons'
+import LoadingSpinner from './LoadingSpinner'
 
 export default function TaglistNewKeepit({
   onClick,
@@ -15,7 +14,7 @@ export default function TaglistNewKeepit({
       if (tag.isCustom) {
         return <UserIcon />
       } else {
-        return <CloudIcon />
+        return <CloudIcon fill="#fff" />
       }
     } else {
       return ''
@@ -30,11 +29,7 @@ export default function TaglistNewKeepit({
   }
 
   if (tags.length === 0 && showIsloading) {
-    return (
-      <StyledLoading>
-        <img width="20" alt="" src={loading}></img>
-      </StyledLoading>
-    )
+    return <LoadingSpinner />
   }
 
   return (
@@ -89,7 +84,4 @@ const StyledLi = styled.li`
   font-size: 14px;
 `
 
-const StyledLoading = styled.div`
-  text-align: center;
-  font-size: 12px;
-`
+const StyledLoading = styled.div``

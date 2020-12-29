@@ -21,7 +21,7 @@ export default function Taglist({
       if (tag.isCustom) {
         return <UserIcon />
       } else {
-        return <CloudIcon />
+        return <CloudIcon fill="#fff" />
       }
     } else {
       return ''
