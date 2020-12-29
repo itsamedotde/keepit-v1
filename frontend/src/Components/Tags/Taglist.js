@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import loading from '../Assets/loading.gif'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
-import { CloudIcon, UserIcon } from './Icons'
+import { CloudIcon, UserIcon } from '../Icons'
 
 export default function Taglist({
   onClick,
@@ -29,11 +29,7 @@ export default function Taglist({
   }
 
   if (tags.length === 0 && showIsloading) {
-    return (
-      <StyledLoading>
-        <img width="20" src={loading}></img>
-      </StyledLoading>
-    )
+    return <LoadingSpinner />
   }
 
   return (

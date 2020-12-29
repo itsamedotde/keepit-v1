@@ -1,19 +1,20 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
-import Footer from '../Components/Footer'
-import Header from '../Components/Header'
-import UploadButtonFooter from '../Components/UploadButtonFooter'
-import BackButton from '../Components/BackButton'
-import SearchButton from '../Components/SearchButton'
-import StarRating from '../Components/StarRating'
-import Taglist from '../Components/Taglist'
-import ContentSeparator from '../Components/ContentSeparator'
-import Overlay from '../Components/Overlay'
+
+import Footer from '../Components/Footer/Footer'
+import Header from '../Components/Header/Header'
+import UploadButtonFooter from '../Components/Buttons/UploadButtonFooter'
+import BackButton from '../Components/Buttons/BackButton'
+import SearchButton from '../Components/Buttons/SearchButton'
+import StarRating from '../Components/StarRating/StarRating'
+import Taglist from '../Components/Tags/Taglist'
+import ContentSeparator from '../Components/Separator/ContentSeparator'
+import Overlay from '../Components/Overlay/Overlay'
+import { EditIcon, TagIcon, DeleteIcon } from '../Components/Icons'
+
 import useOverlay from '../Hooks/useOverlay'
 import useKeepit from '../Hooks/useKeepit'
-
-import { EditIcon, TagIcon, DeleteIcon } from '../Components/Icons'
 
 export default function KeepitDetailPage({ props }) {
   const { deleteKeepit } = useKeepit()

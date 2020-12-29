@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { CloudIcon, UserIcon, TagMinusIcon, TagPlusIcon } from './Icons'
-import LoadingSpinner from './LoadingSpinner'
+import { CloudIcon, UserIcon, TagMinusIcon, TagPlusIcon } from '../Icons'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
 export default function TaglistNewKeepit({
   onClick,

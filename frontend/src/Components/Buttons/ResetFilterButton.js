@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { CloseIcon } from './Icons'
+import { CloseIcon } from '../Icons'
 export default function ResetFilterButton({ onClick, buttonText, className }) {
   return (
     <StyledResetFilterButton className={className} onClick={onClick}>

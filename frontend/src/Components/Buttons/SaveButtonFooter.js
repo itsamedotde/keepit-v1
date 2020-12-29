@@ -1,7 +1,7 @@
 import ImageUploading from 'react-images-uploading'
 import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components/macro'
-import { ReactComponent as SaveFooterButton } from '../Assets/save-footer-button.svg'
+import { ReactComponent as SaveFooterButton } from '../../Assets/save-footer-button.svg'
 
 export default function SaveButtonFooter({ onClick }) {
   const history = useHistory()

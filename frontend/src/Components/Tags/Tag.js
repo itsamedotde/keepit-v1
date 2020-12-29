@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-// import { ReactComponent as  } from '../Assets/tag-cloud.svg'
-// import { ReactComponent as TagMinusIcon } from '../Assets/tag-minus.svg'
-// import { ReactComponent as TagPlusIcon } from '../Assets/tag-plus.svg'
-// import { ReactComponent as TagUserIcon } from '../Assets/tag-user.svg'
-import { CloudIcon, UserIcon, TagMinusIcon, TagPlusIcon } from './Icons'
+import { CloudIcon, UserIcon, TagMinusIcon, TagPlusIcon } from '../Icons'
 
 export default function Tag({ onClick, tagValue, targetState }) {
   const stateIcon = targetState ? <TagPlusIcon /> : <TagMinusIcon />
