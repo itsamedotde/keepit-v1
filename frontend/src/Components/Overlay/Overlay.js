@@ -21,7 +21,8 @@ const StyledOverlay = styled.div`
   height: 100%;
   color: white;
   background-color: #000000c7;
-  position: absolute;
+  top: 0;
+  position: fixed;
   z-index: 1000;
   display: grid;
   align-items: center;
@@ -29,4 +30,5 @@ const StyledOverlay = styled.div`
   padding: 0 30px;
   font-size: 35px;
   gap: 10px;
+  max-width: 500px;
 `

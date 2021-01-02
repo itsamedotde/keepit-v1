@@ -208,7 +208,6 @@ const StyledImageBg = styled.div`
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: contain;
-
   filter: opacity(69%);
 `
 
