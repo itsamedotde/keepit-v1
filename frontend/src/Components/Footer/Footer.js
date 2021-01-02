@@ -56,6 +56,7 @@ const StyledFooter = styled.footer`
   width: 100%;
   position: fixed;
   max-width: 500px;
+  z-index: 300;
 `
 const StyledBgArea = styled.div`
   display: flex;
