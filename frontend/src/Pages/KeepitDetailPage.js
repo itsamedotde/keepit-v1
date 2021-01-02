@@ -235,5 +235,5 @@ const StyledImage = styled.div`
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: cover;
+  background-size: contain;
 `
