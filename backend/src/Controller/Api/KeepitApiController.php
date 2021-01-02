@@ -64,7 +64,7 @@ class KeepitApiController extends AbstractController
 
         // GEO DATA
         $geoData = $requestContent['geolocation'];
-        if($geoData !== null){
+        if(count($geoData) > 0){
             $latitude = $geoData[0];
             $longitude = $geoData[1];
             $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.$latitude.','.$longitude.'&sensor=false&key='.$_ENV['MAP_API_KEY'];

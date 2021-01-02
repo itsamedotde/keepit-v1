@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SaveButtonFooter renders correctly 1`] = `
+<div
+  class="SaveButtonFooter__StyledIcon-r9ejj3-0 hLypKd"
+>
+  <svg
+    height="50px"
+  >
+    save-footer-button.svg
+  </svg>
+</div>
+`;

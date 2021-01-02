@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer renders correctly 1`] = `
+<footer
+  class="Footer__StyledFooter-kov3c2-5 hjPJiY"
+>
+  <div
+    class="Footer__StyledBgArea-kov3c2-6 dBXlkS"
+  >
+    <div
+      class="Footer__StyleBgLeft-kov3c2-7 chuLzJ"
+    />
+    <div
+      class="Footer__StyleBgRight-kov3c2-9 hTIero"
+    />
+    <div
+      class="Footer__StyledBgMiddle-kov3c2-8 fwVafl"
+      style="background-image: url(data:image/svg+xml,%3Csvg%3Ebg-foot3.svg%3C%2Fsvg%3E);"
+    >
+      <div
+        class="Footer__StyledText-kov3c2-10 dKkmHj"
+      />
+    </div>
+  </div>
+  <div
+    class="Footer__StyledButtonArea-kov3c2-1 UpbrS"
+  >
+    <div
+      class="Footer__StyledLeftIconWrapper-kov3c2-2 caPQvi"
+    />
+    <div
+      class="Footer__StyledIcon-kov3c2-0 hUpnFY"
+    />
+    <div
+      class="Footer__StyledRightIconWrapper-kov3c2-3 kvokXI"
+    />
+  </div>
+</footer>
+`;
