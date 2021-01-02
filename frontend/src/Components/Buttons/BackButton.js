@@ -6,5 +6,5 @@ export default function BackButton({ onClick, buttonText }) {
     history.goBack()
   }
   const history = useHistory()
-  return <BackIcon onClick={handleOnClick}></BackIcon>
+  return <BackIcon></BackIcon>
 }

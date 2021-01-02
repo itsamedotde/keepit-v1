@@ -11,13 +11,14 @@ import StarRating from '../Components/StarRating/StarRating'
 import Taglist from '../Components/Tags/Taglist'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
 import Overlay from '../Components/Overlay/Overlay'
-import { EditIcon, TagIcon, DeleteIcon } from '../Components/Icons'
+import { BackIcon, EditIcon, TagIcon, DeleteIcon } from '../Components/Icons'
 
 import useOverlay from '../Hooks/useOverlay'
 import useKeepit from '../Hooks/useKeepit'
 
 export default function KeepitDetailPage({ props }) {
   const { deleteKeepit } = useKeepit()
+
   const {
     overlayStatus,
     setOverlayStatus,
@@ -117,7 +118,8 @@ export default function KeepitDetailPage({ props }) {
       <Footer
         actionButtonText="New Keepit"
         actionButton={<UploadButtonFooter />}
-        left={<BackButton height="30px" width="30px" />}
+        leftIcon={<BackIcon />}
+        leftOnClick={() => history.push('/')}
         right={<SearchButton />}
       ></Footer>
     </>

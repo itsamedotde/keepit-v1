@@ -36,5 +36,6 @@ const StyledForm = styled.form`
     background-color: white;
     margin-left: 5px;
     width: 40px;
+    height: 40px;
   }
 `

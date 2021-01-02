@@ -40,7 +40,6 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
     line-height: 1;
-  
 }
 ol, ul {
     list-style: none;
@@ -79,7 +78,12 @@ body {
     font-weight: 400;
     font-size: 100%;
     color: var(--color-text);
+    background-color: #414141;
 }
-
+input[type='text'],
+input[type='number'],
+textarea {
+  font-size: 16px;
+}
 
 `

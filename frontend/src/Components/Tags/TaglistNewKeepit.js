@@ -79,7 +79,7 @@ const StyledTagList = styled.ul`
   color: white;
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+
   min-height: 24px;
 `
 
@@ -97,6 +97,7 @@ const StyledLi = styled.li`
   cursor: pointer;
   font-weight: 400;
   font-size: 14px;
+  margin: 0 5px 5px 0;
 `
 
 const StyledLoading = styled.div``

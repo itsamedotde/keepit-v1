@@ -23,7 +23,7 @@ const StyledResetFilterButton = styled.button`
   cursor: pointer;
   font-weight: 400;
   font-size: 14px;
-  margin-bottom: 90px;
+
   svg {
     margin-bottom: -2px;
   }

@@ -18,6 +18,7 @@ const StyledDiv = styled.div`
   text-align: center;
   padding: 20px 0 20px 0;
   text-transform: uppercase;
+  max-width: 500px;
 
   &:before {
     content: '';

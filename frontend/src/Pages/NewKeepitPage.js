@@ -12,7 +12,13 @@ import SaveButtonFooter from '../Components/Buttons/SaveButtonFooter'
 import StarRatingForm from '../Components/StarRating/StarRatingForm'
 import Overlay from '../Components/Overlay/Overlay'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
-import { StarIcon, TagIcon, DoneIcon, DeleteIcon } from '../Components/Icons'
+import {
+  BackIcon,
+  StarIcon,
+  TagIcon,
+  DoneIcon,
+  DeleteIcon,
+} from '../Components/Icons'
 
 import setBase64 from '../Util/setBase64'
 
@@ -68,14 +74,14 @@ export default function NewKeepitPage() {
           <StyledImageBg bgImg={setBgImg}></StyledImageBg>
           {images &&
             images.map((image, index) => (
-              <div key={index}>
+              <StyledImageWrapper key={index}>
                 <StyledImage src={image} alt="" height="160" />
                 <StyledRemoveWrapper>
                   <StyledRemove onClick={() => removeImage(index)}>
                     <DeleteIcon width="11"></DeleteIcon> Delete
                   </StyledRemove>
                 </StyledRemoveWrapper>
-              </div>
+              </StyledImageWrapper>
             ))}
         </StyledImageArea>
         <StyledOptionArea>
@@ -101,7 +107,8 @@ export default function NewKeepitPage() {
       <Footer
         actionButtonText="Save Keepit"
         actionButton={<SaveButtonFooter onClick={handleSaveKeepit} />}
-        left={<BackButton height="30px" width="30px" />}
+        leftIcon={<BackIcon />}
+        leftOnClick={() => history.push('/')}
         right={<SearchButton />}
       ></Footer>
     </>
@@ -152,6 +159,9 @@ export default function NewKeepitPage() {
   }
 }
 
+const StyledImageWrapper = styled.div`
+  z-index: 100;
+`
 const StyledSaveOverlay = styled(Overlay)`
   display: flex;
   flex-direction: column;
@@ -167,9 +177,9 @@ const StyledLayout = styled.div`
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
   font-size: 112.5%;
   align-items: end;
+  background-color: white;
 `
 
 const StyledOptionArea = styled.div`
@@ -193,7 +203,6 @@ const StyledImageBg = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: -1;
   background: url(${(props) => props.bgImg});
   background-position: center center;
   background-repeat: no-repeat;
