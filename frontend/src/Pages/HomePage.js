@@ -10,7 +10,7 @@ import LogoutButton from '../Components/Buttons/LogoutButton.js'
 import KeepitList from '../Components/KeepitList/KeepitList'
 import Taglist from '../Components/Tags/Taglist'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
-import { FilterIcon } from '../Components/Icons'
+import { FilterIcon, LogoutIcon } from '../Components/Icons'
 
 export default function HomePage() {
   const [keepits, setKeepits] = useState([])
@@ -18,7 +18,9 @@ export default function HomePage() {
   const [tags, setTags] = useState([])
 
   const [showFilter, setShowFilter] = useState([])
-  const filterHeight = showFilter ? '38%' : '0px'
+  const filterHeight = showFilter ? '25%' : '0px'
+  const keepitHeight = showFilter ? '65%' : '100%'
+
   useEffect(() => {
     loadKeepitsFromApi()
     setShowFilter(false)
@@ -37,14 +39,13 @@ export default function HomePage() {
     <>
       <StyledLayout>
         <Header />
-        <StyledKeepitList filterHeight={filterHeight} keepits={keepits} />
+        <StyledKeepitList keepitHeight={keepitHeight} keepits={keepits} />
+
         <StyledFilterArea filterHeight={filterHeight}>
-          <StyledDiv>
-            <StyledContentSeparator
-              text="FILTER"
-              icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
-            />
-          </StyledDiv>
+          <StyledContentSeparator
+            text="FILTER"
+            icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
+          />
           <StyledInput placeholder="Search..."></StyledInput>
           <Taglist
             tags={tags}
@@ -58,7 +59,8 @@ export default function HomePage() {
       <Footer
         actionButtonText="New Keepit"
         actionButton={<UploadButtonFooter />}
-        left={<LogoutButton onClick={logout} height="30px" width="30px" />}
+        leftOnClick={logout}
+        leftIcon={<LogoutIcon />}
         right={<SearchButton onClick={toggleShowFilter} />}
       ></Footer>
     </>
@@ -147,18 +149,10 @@ export default function HomePage() {
 const StyledContentSeparator = styled(ContentSeparator)`
   padding-right: 30px;
 `
-const StyledDiv = styled.div`
-  align-self: flex-end;
-  position: fixed;
-  background: white;
-  width: 100%;
-  padding-right: 30px;
-`
 const StyledLayout = styled.div`
   display: grid;
   grid-template-rows: 100px 2fr 20px auto 90px;
   max-width: 600px;
-  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -170,20 +164,22 @@ const StyledKeepitList = styled(KeepitList)`
   overflow: scroll;
   padding-left: 30px;
   padding-right: 30px;
-  margin-bottom: ${(props) => props.filterHeight};
+  height: ${(props) => props.keepitHeight};
   transition: margin-bottom 0.3s ease-out;
+  transition: height 0.3s ease-out;
 `
+
 const StyledFilterArea = styled.div`
   background-color: white;
   position: fixed;
-  bottom: 0px;
+  bottom: 100px;
   width: 100%;
+  max-width: 500px;
   padding-right: 60px;
   overflow: scroll;
-  margin-bottom: 20px;
   padding: 0 30px;
-  height: ${(props) => props.filterHeight};
-  transition: height 0.3s ease-out;
+  max-height: ${(props) => props.filterHeight};
+  transition: max-height 0.3s ease-out;
   z-index: 100;
   align-self: flex-end;
 `
@@ -192,7 +188,6 @@ const StyledInput = styled.input`
   border: 1px solid #eaeaea;
   padding-left: 15px;
   width: 100%;
-  margin: 5px 0 10px 0;
-  font-size: 14px;
-  margin-top: 45px;
+  margin: 5px 0 20px 0;
+  font-size: 16px;
 `

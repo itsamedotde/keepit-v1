@@ -19,7 +19,9 @@ export default function Header(props) {
         </StyledBgMiddle>
       </StyledBgArea>
       <StyledButtonArea>
-        <StyledLeftIconWrapper>{props.left}</StyledLeftIconWrapper>
+        <StyledLeftIconWrapper onClick={props.leftOnClick}>
+          {props.leftIcon}
+        </StyledLeftIconWrapper>
         <StyledIcon>{props.actionButton}</StyledIcon>
         <StyledRightIconWrapper>{props.right}</StyledRightIconWrapper>
       </StyledButtonArea>
@@ -40,41 +42,20 @@ const StyledButtonArea = styled.div`
 const StyledLeftIconWrapper = styled.div`
   width: 25px;
   cursor: pointer;
+  text-align: center;
 `
 const StyledRightIconWrapper = styled.div`
   width: 25px;
   cursor: pointer;
+  text-align: center;
 `
-const StyledSubFooter = styled.div`
-  background-color: white;
-  padding-top: 3px;
 
-  overflow: scroll;
-  padding-left: 30px;
-  padding-right: 30px;
-`
 const StyledFooter = styled.footer`
   background-color: ${(props) => props.bgColor};
   bottom: 0px;
   width: 100%;
   position: fixed;
-
-  &:before {
-    position: absolute;
-    top: -18px;
-    content: '_';
-    color: white;
-    width: 100%;
-    background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 40%,
-      rgba(255, 255, 255, 0) 80%
-    );
-    display: inline-block;
-    vertical-align: middle;
-    line-height: normal;
-  }
+  max-width: 500px;
 `
 const StyledBgArea = styled.div`
   display: flex;
@@ -112,3 +93,24 @@ const StyledText = styled.div`
   font-size: 12px;
   color: rgb(80, 80, 80);
 `
+
+/*
+
+  &:before {
+    position: absolute;
+    top: -18px;
+    content: '_';
+    color: white;
+    width: 100%;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 40%,
+      rgba(255, 255, 255, 0) 80%
+    );
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    z-index: 100;
+  }
+*/

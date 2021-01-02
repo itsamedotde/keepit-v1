@@ -57,8 +57,8 @@ const StyledTagList = styled.ul`
   color: white;
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
   min-height: 24px;
+
   li {
     background-color: ${(props) => props.bgcolor};
     display: inline-block;
@@ -72,6 +72,8 @@ const StyledTagList = styled.ul`
     cursor: pointer;
     font-weight: 400;
     font-size: 14px;
+    margin-bottom: 5px;
+    margin-right: 5px;
   }
 `
 const StyledLoading = styled.div`
