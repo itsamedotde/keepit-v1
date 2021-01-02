@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { useState, useEffect } from 'react'
-import { StarIcon } from './Icons'
+import { StarIcon } from '../Icons'
 
 export default function StarRating({ onClick }) {
   const [rating, setRating] = useState(null)

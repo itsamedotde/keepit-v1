@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { ReactComponent as Bgfoot } from '../Assets/bg-foot3.svg'
+import { ReactComponent as Bgfoot } from '../../Assets/bg-foot3.svg'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 export default function Header(props) {

@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import loading from '../Assets/loading.gif'
 import { useHistory } from 'react-router-dom'
-import { StarIcon } from './Icons'
-import LoadingSpinner from './LoadingSpinner'
+import { StarIcon } from '../Icons'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
 export default function KeepitList({ keepits, className }) {
   const history = useHistory()

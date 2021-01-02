@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { StarIcon } from './Icons'
+import { StarIcon } from '../Icons'
 
 export default function StarRating({ rating, className }) {
   return (

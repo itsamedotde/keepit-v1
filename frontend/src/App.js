@@ -1,7 +1,6 @@
 import { useHistory, Route, Switch } from 'react-router-dom'
 import NewKeepitPage from './Pages/NewKeepitPage'
 import HomePage from './Pages/HomePage'
-import Header from './Components/Header'
 import KeepitDetailPage from './Pages/KeepitDetailPage'
 function App() {
   return (
