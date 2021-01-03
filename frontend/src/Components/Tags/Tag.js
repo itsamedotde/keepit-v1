@@ -28,7 +28,6 @@ const StyledTag = styled.span`
   display: inline-block;
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
-
   display: inline-flex;
   align-items: center;
   padding: 5px;

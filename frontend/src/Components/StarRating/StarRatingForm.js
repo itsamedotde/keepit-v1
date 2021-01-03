@@ -6,9 +6,7 @@ import { StarIcon } from '../Icons'
 export default function StarRating({ onClick }) {
   const [rating, setRating] = useState(null)
 
-  useEffect(() => {
-    onClick(rating)
-  }, [rating])
+  useEffect(() => {}, [rating])
 
   return (
     <div>

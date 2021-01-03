@@ -13,7 +13,6 @@ export default function KeepitList({ keepits, className }) {
   }
 
   function gotoDetail(keepit) {
-    console.log('redirect to', keepit)
     history.push('/detail/' + keepit.id, { keepit: keepit })
   }
 
@@ -27,8 +26,12 @@ export default function KeepitList({ keepits, className }) {
             onClick={() => gotoDetail(keepit)}
           ></StyledImg>
           <StyledStarRating>
-            {[...Array(keepit.rated)].map(() => (
-              <StarIcon width="5" fill="var(--color-primary)"></StarIcon>
+            {[...Array(keepit.rated)].map((index) => (
+              <StarIcon
+                width="5"
+                key={index}
+                fill="var(--color-primary)"
+              ></StarIcon>
             ))}
           </StyledStarRating>
         </StyledLi>

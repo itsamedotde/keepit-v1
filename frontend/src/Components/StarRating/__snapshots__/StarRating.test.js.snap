@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StarRating renders correctly 1`] = `
+<div
+  class="StarRating__StyledStarRatingDiv-sc-1j1dvpg-0 ibdzPz"
+>
+  <svg
+    fill="var(--color-primary)"
+    height="30"
+    stroke="#e3e3e3"
+    width="30"
+  >
+    star.svg
+  </svg>
+</div>
+`;

@@ -5,12 +5,13 @@ import { StarIcon } from '../Icons'
 export default function StarRating({ rating, className }) {
   return (
     <StyledStarRatingDiv className={className}>
-      {[...Array(rating)].map(() => (
+      {[...Array(rating)].map((index) => (
         <StarIcon
           width="30"
           height="30"
           stroke="#e3e3e3"
           fill="var(--color-primary)"
+          key={index}
         ></StarIcon>
       ))}
     </StyledStarRatingDiv>

@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StarRatingForm renders correctly 1`] = `
+<div>
+  <fieldset
+    class="StarRatingForm__StyledFieldset-sc-20xbti-1 vGySl"
+  >
+    <label>
+      <input
+        class="StarRatingForm__StyledInput-sc-20xbti-0 jBIAQs"
+        name="rating"
+        type="radio"
+        value="1"
+      />
+      <svg
+        fill="var(--color-tertiary)"
+        width="25"
+      >
+        star.svg
+      </svg>
+    </label>
+    <label>
+      <input
+        class="StarRatingForm__StyledInput-sc-20xbti-0 jBIAQs"
+        name="rating"
+        type="radio"
+        value="2"
+      />
+      <svg
+        fill="var(--color-tertiary)"
+        width="25"
+      >
+        star.svg
+      </svg>
+    </label>
+    <label>
+      <input
+        class="StarRatingForm__StyledInput-sc-20xbti-0 jBIAQs"
+        name="rating"
+        type="radio"
+        value="3"
+      />
+      <svg
+        fill="var(--color-tertiary)"
+        width="25"
+      >
+        star.svg
+      </svg>
+    </label>
+    <label>
+      <input
+        class="StarRatingForm__StyledInput-sc-20xbti-0 jBIAQs"
+        name="rating"
+        type="radio"
+        value="4"
+      />
+      <svg
+        fill="var(--color-tertiary)"
+        width="25"
+      >
+        star.svg
+      </svg>
+    </label>
+    <label>
+      <input
+        class="StarRatingForm__StyledInput-sc-20xbti-0 jBIAQs"
+        name="rating"
+        type="radio"
+        value="5"
+      />
+      <svg
+        fill="var(--color-tertiary)"
+        width="25"
+      >
+        star.svg
+      </svg>
+    </label>
+  </fieldset>
+</div>
+`;

@@ -76,7 +76,3 @@ const StyledTagList = styled.ul`
     margin-right: 5px;
   }
 `
-const StyledLoading = styled.div`
-  text-align: center;
-  font-size: 12px;
-`

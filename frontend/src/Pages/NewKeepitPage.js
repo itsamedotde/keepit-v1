@@ -6,7 +6,6 @@ import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import TaglistNewKeepit from '../Components/Tags/TaglistNewKeepit'
 import CustomTagForm from '../Components/Tags/CustomTagForm'
-import BackButton from '../Components/Buttons/BackButton'
 import SearchButton from '../Components/Buttons/SearchButton'
 import SaveButtonFooter from '../Components/Buttons/SaveButtonFooter'
 import StarRatingForm from '../Components/StarRating/StarRatingForm'
@@ -17,7 +16,7 @@ import {
   StarIcon,
   TagIcon,
   DoneIcon,
-  DeleteIcon,
+  XIcon,
 } from '../Components/Icons'
 
 import setBase64 from '../Util/setBase64'
@@ -31,8 +30,12 @@ export default function NewKeepitPage() {
   const history = useHistory()
   const [images, setImages] = useState([])
   const [rated, setRated] = useState([])
-
-  const { overlayStatus, setOverlayStatus } = useOverlay()
+  const {
+    overlayStatus,
+    setOverlayStatus,
+    overlayContent,
+    setOverlayContent,
+  } = useOverlay()
 
   const {
     tags,
@@ -61,29 +64,30 @@ export default function NewKeepitPage() {
 
   return (
     <>
-      <StyledSaveOverlay
-        status={overlayStatus}
-        onClick={() => setOverlayStatus(false)}
-      >
-        SAVE
-        <DoneIcon width="40" fill="var(--color-primary)" />
-      </StyledSaveOverlay>
+      <Overlay status={overlayStatus} onClick={() => setOverlayStatus(false)}>
+        {overlayContent}
+      </Overlay>
       <StyledLayout>
         <Header />
-        <StyledImageArea>
-          <StyledImageBg bgImg={setBgImg}></StyledImageBg>
+        <StyledPreviewArea bgImg={setBgImg}>
           {images &&
             images.map((image, index) => (
-              <StyledImageWrapper key={index}>
-                <StyledImage src={image} alt="" height="160" />
-                <StyledRemoveWrapper>
-                  <StyledRemove onClick={() => removeImage(index)}>
-                    <DeleteIcon width="11"></DeleteIcon> Delete
-                  </StyledRemove>
-                </StyledRemoveWrapper>
-              </StyledImageWrapper>
+              <StyledImageArea key={index}>
+                <img
+                  onClick={() => {
+                    setOverlayContent(<StyledOverlayImage src={image} />)
+                    setOverlayStatus(true)
+                  }}
+                  src={image}
+                  alt=""
+                />
+                <StyledDeleteIcon
+                  onClick={() => removeImage(index)}
+                  width="20"
+                />
+              </StyledImageArea>
             ))}
-        </StyledImageArea>
+        </StyledPreviewArea>
         <StyledOptionArea>
           <ContentSeparator
             text="RATE IT"
@@ -144,6 +148,15 @@ export default function NewKeepitPage() {
       geolocation,
     }
     saveKeepit(request)
+    setOverlayContent(
+      <StyledSaveOverlay
+        status={overlayStatus}
+        onClick={() => setOverlayStatus(false)}
+      >
+        SAVE
+        <DoneIcon width="40" fill="var(--color-primary)" />
+      </StyledSaveOverlay>
+    )
     setOverlayStatus(true)
     setTimeout(function () {
       history.push('/')
@@ -159,87 +172,78 @@ export default function NewKeepitPage() {
   }
 }
 
-const StyledImageWrapper = styled.div`
-  z-index: 100;
+const StyledLayout = styled.div`
+  display: grid;
+  grid-template-rows: 100px 30vh auto 125px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 112.5%;
+  max-width: 500px;
+  overflow: scroll;
 `
-const StyledSaveOverlay = styled(Overlay)`
+const StyledOptionArea = styled.div`
+  margin-bottom: 10px;
+  padding: 0 30px;
+`
+const StyledImageArea = styled.div`
+  position: relative;
+`
+
+const StyledDeleteIcon = styled(XIcon)`
+  position: absolute;
+  top: -13px;
+  right: -5px;
+`
+
+const StyledSaveOverlay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-`
-const StyledLayout = styled.div`
-  display: grid;
-  grid-template-rows: 100px 35vh auto 90px;
-  max-width: 600px;
-  overflow: scroll;
-  left: 0;
-  top: 0;
-  width: 100%;
-  font-size: 112.5%;
-  align-items: end;
-  background-color: white;
 `
 
-const StyledOptionArea = styled.div`
-  padding: 0 30px;
-  margin-bottom: 10px;
-`
-
-const StyledImageArea = styled.div`
+const StyledPreviewArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  place-items: center;
   text-align: center;
+  justify-content: center;
   position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  padding: 10px 0;
-`
+  img {
+    box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    max-height: 160px;
+    max-width: 90%;
+  }
 
-const StyledImageBg = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url(${(props) => props.bgImg});
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: contain;
-  filter: opacity(69%);
-`
-
-const StyledImage = styled.img`
-  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-`
-const StyledRemove = styled.div`
-  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.13);
-  background-color: #ffffff75;
-  margin-top: 2px;
-  height: 30px;
-  color: #535353;
-  font-size: 14px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  padding: 0 8px;
-  svg  {
-    margin-right: 5px;
+  ::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(${(props) => props.bgImg});
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: opacity(69%);
   }
 `
-const StyledRemoveWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+const StyledOverlayImage = styled.img`
+  width: 100%;
 `
+
+/*
+  background: linear-gradient(to bottom, transparent 0%, white 100%),
+    url(${(props) => props.bgImg});
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+*/
