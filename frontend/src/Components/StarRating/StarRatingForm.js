@@ -3,10 +3,12 @@ import styled from 'styled-components/macro'
 import { useState, useEffect } from 'react'
 import { StarIcon } from '../Icons'
 
-export default function StarRating({ onClick }) {
+export default function StarRating({ onClick: setNewRating }) {
   const [rating, setRating] = useState(null)
 
-  useEffect(() => {}, [rating])
+  useEffect(() => {
+    setNewRating(rating)
+  }, [rating])
 
   return (
     <div>
