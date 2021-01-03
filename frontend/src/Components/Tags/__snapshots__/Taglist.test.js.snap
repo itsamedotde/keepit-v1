@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Taglist renders correctly 1`] = `
+<ul
+  class="Taglist__StyledTagList-e2yq2l-1 kiYIGp"
+>
+  <li>
+    <span
+      class="Taglist__StyledTagText-e2yq2l-0 iyvejS"
+    >
+      Beer
+       
+    </span>
+    
+  </li>
+  <li>
+    <span
+      class="Taglist__StyledTagText-e2yq2l-0 iyvejS"
+    >
+      Barware
+       
+    </span>
+    
+  </li>
+</ul>
+`;

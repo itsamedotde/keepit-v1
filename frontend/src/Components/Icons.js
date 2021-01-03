@@ -13,6 +13,7 @@ import { ReactComponent as BackIcon } from '../Assets/icons/back.svg'
 import { ReactComponent as DeleteIcon } from '../Assets/icons/delete.svg'
 import { ReactComponent as TagIcon } from '../Assets/icons/tag.svg'
 import { ReactComponent as DoneIcon } from '../Assets/icons/done.svg'
+import { ReactComponent as XIcon } from '../Assets/icons/xicon.svg'
 
 export {
   BackIcon,
@@ -30,6 +31,7 @@ export {
   TagIcon,
   TagMinusIcon,
   UserIcon,
+  XIcon,
 }
 
 /*

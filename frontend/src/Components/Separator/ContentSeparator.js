@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
 
-export default function ContentSeperator({ className, icon, text }) {
+export default function ContentSeperator({ className, icon, text, onClick }) {
   return (
-    <StyledDiv className={className}>
+    <StyledDiv onClick={onClick} className={className}>
       <span>
         {icon} {text}
       </span>
@@ -19,6 +19,7 @@ const StyledDiv = styled.div`
   padding: 20px 0 20px 0;
   text-transform: uppercase;
   max-width: 500px;
+  cursor: ${(props) => (props.onClick ? 'pointer' : 'auto')};
 
   &:before {
     content: '';

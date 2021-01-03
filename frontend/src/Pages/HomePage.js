@@ -18,8 +18,9 @@ export default function HomePage() {
   const [tags, setTags] = useState([])
 
   const [showFilter, setShowFilter] = useState([])
-  const filterHeight = showFilter ? '25%' : '0px'
-  const keepitHeight = showFilter ? '65%' : '100%'
+  const filterHeight = showFilter ? '20%' : '0%'
+  const spaceHeight = showFilter ? '40px' : '0'
+  const fraction = showFilter ? '2fr 1fr' : '0fr'
 
   useEffect(() => {
     loadKeepitsFromApi()
@@ -32,20 +33,21 @@ export default function HomePage() {
 
   useEffect(() => {
     generateTagList()
-    console.log('keepits', keepits)
   }, [keepits])
 
   return (
     <>
       <StyledLayout>
-        <Header />
-        <StyledKeepitList keepitHeight={keepitHeight} keepits={keepits} />
-
+        <StyledKeepitArea>
+          <Header />
+          <StyledKeepitList keepits={keepits} />
+        </StyledKeepitArea>
+        <StyledContentSeparator
+          onClick={toggleShowFilter}
+          text="FILTER"
+          icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
+        />
         <StyledFilterArea filterHeight={filterHeight}>
-          <StyledContentSeparator
-            text="FILTER"
-            icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
-          />
           <StyledInput placeholder="Search..."></StyledInput>
           <Taglist
             tags={tags}
@@ -55,14 +57,14 @@ export default function HomePage() {
           ></Taglist>
           <ResetFilterButton onClick={resetFilter} buttonText="Reset" />
         </StyledFilterArea>
+        <Footer
+          actionButtonText="New Keepit"
+          actionButton={<UploadButtonFooter />}
+          leftOnClick={logout}
+          leftIcon={<LogoutIcon />}
+          right={<SearchButton onClick={toggleShowFilter} />}
+        ></Footer>{' '}
       </StyledLayout>
-      <Footer
-        actionButtonText="New Keepit"
-        actionButton={<UploadButtonFooter />}
-        leftOnClick={logout}
-        leftIcon={<LogoutIcon />}
-        right={<SearchButton onClick={toggleShowFilter} />}
-      ></Footer>
     </>
   )
 
@@ -146,43 +148,49 @@ export default function HomePage() {
   }
 }
 
-const StyledContentSeparator = styled(ContentSeparator)`
-  padding-right: 30px;
-`
-const StyledLayout = styled.div`
-  display: grid;
-  grid-template-rows: 100px 2fr 20px auto 90px;
-  max-width: 600px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  font-size: 112.5%;
-`
-const StyledKeepitList = styled(KeepitList)`
-  text-align: center;
+const StyledKeepitArea = styled.main`
   overflow: scroll;
-  padding-left: 30px;
-  padding-right: 30px;
-  height: ${(props) => props.keepitHeight};
-  transition: margin-bottom 0.3s ease-out;
-  transition: height 0.3s ease-out;
+  padding: 0 30px;
+  margin-top: auto;
+  flex-grow: 1;
+  height: 100%;
 `
 
 const StyledFilterArea = styled.div`
-  background-color: white;
-  position: fixed;
-  bottom: 100px;
-  width: 100%;
-  max-width: 500px;
-  padding-right: 60px;
   overflow: scroll;
+  width: 100%;
+  margin-bottom: 0px;
+  height: ${(props) => props.filterHeight};
+  transition: height 0.25s ease-out;
   padding: 0 30px;
-  max-height: ${(props) => props.filterHeight};
-  transition: max-height 0.3s ease-out;
-  z-index: 100;
-  align-self: flex-end;
+  margin-bottom: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-bottom: 100px;
 `
+
+const StyledLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  height: 100%;
+  top: 0;
+  width: 100%;
+  font-size: 112.5%;
+  background-color: white;
+  overflow: hidden;
+  position: fixed;
+  max-width: 500px;
+`
+
+const StyledContentSeparator = styled(ContentSeparator)`
+  padding-right: 30px;
+  padding-left: 30px;
+  height: 40px;
+`
+
+const StyledKeepitList = styled(KeepitList)``
+
 const StyledInput = styled.input`
   height: 40px;
   border: 1px solid #eaeaea;

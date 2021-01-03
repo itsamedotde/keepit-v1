@@ -2,7 +2,7 @@
 
 exports[`ResetFilterButton renders correctly 1`] = `
 <button
-  class="ResetFilterButton__StyledResetFilterButton-sc-12zadcj-0 hWRVZg"
+  class="ResetFilterButton__StyledResetFilterButton-sc-12zadcj-0 juJXRc"
 >
    
   <svg>

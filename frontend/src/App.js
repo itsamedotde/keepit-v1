@@ -10,8 +10,8 @@ const StyledAppWrapper = styled.div`
   min-width: 250px;
   margin: 0px auto;
   box-shadow: rgb(0, 0, 0) 0px 0px 25px 0px;
-  background: rgb(255, 255, 255);
-  position: relative;
+  background-color: #fff;
+  padding-bottom: 100px;
 `
 function App() {
   return (

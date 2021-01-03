@@ -5,7 +5,6 @@ import styled from 'styled-components/macro'
 import Footer from '../Components/Footer/Footer'
 import Header from '../Components/Header/Header'
 import UploadButtonFooter from '../Components/Buttons/UploadButtonFooter'
-import BackButton from '../Components/Buttons/BackButton'
 import SearchButton from '../Components/Buttons/SearchButton'
 import StarRating from '../Components/StarRating/StarRating'
 import Taglist from '../Components/Tags/Taglist'
@@ -37,7 +36,7 @@ export default function KeepitDetailPage({ props }) {
     deleteKeepit(keepit.id)
     setOverlayContent(
       <StyledDeleteOverlay>
-        DELETED
+        DELETE
         <DeleteIcon width="40" fill="var(--color-primary)" />
       </StyledDeleteOverlay>
     )
@@ -52,7 +51,6 @@ export default function KeepitDetailPage({ props }) {
       var date = keepit.date.date.split(' ')
       return date[0]
     } else {
-      console.log('ISNULL')
       return 'Long time ago'
     }
   }
@@ -67,11 +65,11 @@ export default function KeepitDetailPage({ props }) {
 
   return (
     <>
+      <Overlay status={overlayStatus} onClick={() => setOverlayStatus(false)}>
+        {overlayContent}
+      </Overlay>
       <StyledLayout>
         <Header />
-        <Overlay status={overlayStatus} onClick={() => setOverlayStatus(false)}>
-          {overlayContent}
-        </Overlay>
         <StyledImageArea>
           <StyledImage
             onClick={() => {
@@ -161,6 +159,7 @@ const StyedIconWrapperLeft = styled.div`
   gap: 5px;
   width: 70px;
   margin: 5px 0;
+  cursor: pointer;
 `
 
 const StyedIconWrapperRight = styled.div`
@@ -170,6 +169,7 @@ const StyedIconWrapperRight = styled.div`
   align-items: center;
   gap: 5px;
   width: 70px;
+  cursor: pointer;
 `
 
 const StyledSubMenu = styled.div`
@@ -206,19 +206,18 @@ const StyledTagHeadline = styled.span`
 const StyledLayout = styled.div`
   display: grid;
   grid-template-rows: 100px 50vh auto 125px;
-  max-width: 600px;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   font-size: 112.5%;
+  max-width: 500px;
   overflow: scroll;
 `
 const StyledImageArea = styled.div`
   text-align: center;
   position: relative;
   height: 100%;
-
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -234,6 +233,5 @@ const StyledImage = styled.div`
   background: url(${(props) => props.bgImg});
   background-position: center center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: contain;
+  background-size: cover;
 `
