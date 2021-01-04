@@ -7,37 +7,13 @@ class LocalFiles
     public function save(string $data): string
     {
 
-        function correctImageOrientation($filename){
-            $exif = exif_read_data($filename);
-            if ($exif && isset($exif['Orientation'])) {
-                $orientation = $exif['Orientation'];
-                if ($orientation != 1) {
-                    $img = imagecreatefromjpeg($filename);
-                    $deg = 0;
-                    switch ($orientation) {
-                        case 3:
-                            $deg = 180;
-                            break;
-                        case 6:
-                            $deg = 270;
-                            break;
-                        case 8:
-                            $deg = 90;
-                            break;
-                    }
-                    if ($deg) {
-                        $img = imagerotate($img, $deg, 0);
-                    }
-                    imagejpeg($img, $filename, 95);
-                }
-            }
-        }
+        
 
 
         function make_thumb($src, $dest, $desired_width, $type) {
-            $exif = exif_read_data($src);
+            //$exif = exif_read_data($src);
             //var_dump($exif);
-   
+            
             if($type === 'jpg' || $type === 'jpeg'){
                 $source_image = imagecreatefromjpeg($src);
             }
@@ -52,23 +28,7 @@ class LocalFiles
             $desired_height = floor($height * ($desired_width / $width));
             $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
             imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
-            imagejpeg($virtual_image, $dest);
-            
-            if(!empty($exif['Orientation'])) {
-                switch($exif['Orientation']) {
-                    case 8:
-                        $virtual_image = imagerotate($virtual_image,90,0);
-                        break;
-                    case 3:
-                        $virtual_image = imagerotate($virtual_image,180,0);
-                        break;
-                    case 6:
-                        $virtual_image = imagerotate($virtual_image,-90,0);
-                        break;
-                }
-            }
-
-            
+            imagejpeg($virtual_image, $dest);           
         }
 
 
@@ -94,6 +54,35 @@ class LocalFiles
         $thumb = UPLOAD_DIR . $uuid . '-thumb.' . $type;
         $desired_width="500";
         make_thumb($file, $thumb, $desired_width, $type);
+        /************************************* */
+        $exif = exif_read_data($thumb);
+        if(!empty($exif['Orientation'])){
+            //run code if long/latitude was found
+       
+
+        $ort = $exif['Orientation']; /*STORES ORIENTATION FROM IMAGE */
+        $ort1 = $ort;
+        $exif = exif_read_data($filename, 0, true);
+           if (!empty($ort1))
+            {
+              $image = imagecreatefromjpeg($filename);
+              $ort = $ort1;
+                 switch ($ort) {
+                       case 3:
+                           $image = imagerotate($image, 180, 0);
+                           break;
+       
+                       case 6:
+                           $image = imagerotate($image, -90, 0);
+                           break;
+       
+                       case 8:
+                           $image = imagerotate($image, 90, 0);
+                           break;
+                   }
+               }
+              imagejpeg($image,$filename, 90); /*IF FOUND ORIENTATION THEN ROTATE IMAGE IN PERFECT DIMENSION*/
+            }
 
         return $file;
     }
