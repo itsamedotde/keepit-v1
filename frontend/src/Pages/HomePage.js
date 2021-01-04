@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
-import { apiGetAllKeepits } from '../Services/apiRequests.js'
 import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import UploadButtonFooter from '../Components/Buttons/UploadButtonFooter'
@@ -12,15 +11,21 @@ import Taglist from '../Components/Tags/Taglist'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
 import { FilterIcon, LogoutIcon } from '../Components/Icons'
 
+import useKeepit from '../Hooks/useKeepit'
+
 export default function HomePage() {
-  const [keepits, setKeepits] = useState([])
   const [filter, setFilter] = useState([])
   const [tags, setTags] = useState([])
 
   const [showFilter, setShowFilter] = useState([])
   const filterHeight = showFilter ? '20%' : '0%'
-  const spaceHeight = showFilter ? '40px' : '0'
-  const fraction = showFilter ? '2fr 1fr' : '0fr'
+  const {
+    keepits,
+    setKeepits,
+    deleteKeepit,
+    saveKeepit,
+    loadKeepitsFromApi,
+  } = useKeepit()
 
   useEffect(() => {
     loadKeepitsFromApi()
@@ -112,17 +117,17 @@ export default function HomePage() {
     )
   }
 
-  function loadKeepitsFromApi() {
-    apiGetAllKeepits()
-      .then((result) =>
-        setKeepits(
-          result.sort(function (a, b) {
-            return b.id - a.id
-          })
-        )
-      )
-      .catch((error) => console.log('error', error))
-  }
+  // function loadKeepitsFromApi() {
+  //   apiGetAllKeepits()
+  //     .then((result) =>
+  //       setKeepits(
+  //         result.sort(function (a, b) {
+  //           return b.id - a.id
+  //         })
+  //       )
+  //     )
+  //     .catch((error) => console.log('error', error))
+  // }
 
   function filterKeepits() {
     let filteredKeepits = []
@@ -159,14 +164,13 @@ const StyledKeepitArea = styled.main`
 const StyledFilterArea = styled.div`
   overflow: scroll;
   width: 100%;
-  margin-bottom: 0px;
   height: ${(props) => props.filterHeight};
   transition: height 0.25s ease-out;
   padding: 0 30px;
   margin-bottom: auto;
   flex-grow: 0;
   flex-shrink: 0;
-  margin-bottom: 100px;
+  margin-bottom: 90px;
 `
 
 const StyledLayout = styled.div`
@@ -196,6 +200,6 @@ const StyledInput = styled.input`
   border: 1px solid #eaeaea;
   padding-left: 15px;
   width: 100%;
-  margin: 5px 0 20px 0;
+  margin: 0px 0 15px 0;
   font-size: 16px;
 `

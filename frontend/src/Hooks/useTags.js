@@ -1,18 +1,26 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { firstToUpper } from '../Util/string'
 import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
 
 export default function useTags() {
   const [tags, setTags] = useState([])
+
+  const [customTags, setCustomTags] = useState([])
+  const [apiTags, setApiTags] = useState([])
+
+  useEffect(() => {
+    setTags([...customTags, ...apiTags])
+  }, [customTags, apiTags])
+
   const addedTags = tags.filter((tag) => tag.added === true).sort()
-  const newTags = tags.filter((tag) => tag.added === false).sort()
+  // const newTags = tags.filter((tag) => tag.added === false).sort()
   const [imageIds, setImageIds] = useState([])
 
   return {
     tags,
     setTags,
     addedTags,
-    newTags,
+    // newTags,
     handleSubmitTag,
     toggleTagAdded,
     loadApiTags,
@@ -38,7 +46,7 @@ export default function useTags() {
       const expandedTags = uniqueApiTags.map((value, index) => {
         return { value: value, added: false, isCustom: false }
       })
-      setTags(expandedTags)
+      setApiTags(expandedTags)
     } else {
       setTags([{ value: 'No tags found', added: false, isCustom: false }])
     }
@@ -49,7 +57,10 @@ export default function useTags() {
     event.preventDefault()
     const inputValue = firstToUpper(event.target.customTag.value)
     if (tags.findIndex((tag) => tag.value === inputValue) < 0) {
-      setTags([...tags, { value: inputValue, added: true, isCustom: true }])
+      setCustomTags([
+        ...customTags,
+        { value: inputValue, added: true, isCustom: true },
+      ])
     }
     event.target.reset()
     event.target.customTag.focus()
