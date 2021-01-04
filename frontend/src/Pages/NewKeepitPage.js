@@ -60,7 +60,6 @@ export default function NewKeepitPage() {
 
   useEffect(() => {
     if (images.length > 0) {
-      //loadApiTags(images)
       uploadImages(images)
     }
   }, [images])
@@ -68,7 +67,6 @@ export default function NewKeepitPage() {
   useEffect(() => {
     if (imageIds.length > 0) {
       loadApiTags(imageIds)
-      // uploadImages(images)
     }
   }, [imageIds])
 
