@@ -7,7 +7,37 @@ class LocalFiles
     public function save(string $data): string
     {
 
+        function correctImageOrientation($filename){
+            $exif = exif_read_data($filename);
+            if ($exif && isset($exif['Orientation'])) {
+                $orientation = $exif['Orientation'];
+                if ($orientation != 1) {
+                    $img = imagecreatefromjpeg($filename);
+                    $deg = 0;
+                    switch ($orientation) {
+                        case 3:
+                            $deg = 180;
+                            break;
+                        case 6:
+                            $deg = 270;
+                            break;
+                        case 8:
+                            $deg = 90;
+                            break;
+                    }
+                    if ($deg) {
+                        $img = imagerotate($img, $deg, 0);
+                    }
+                    imagejpeg($img, $filename, 95);
+                }
+            }
+        }
+
+
         function make_thumb($src, $dest, $desired_width, $type) {
+            $exif = exif_read_data($src);
+            //var_dump($exif);
+   
             if($type === 'jpg' || $type === 'jpeg'){
                 $source_image = imagecreatefromjpeg($src);
             }
@@ -23,6 +53,22 @@ class LocalFiles
             $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
             imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
             imagejpeg($virtual_image, $dest);
+            
+            if(!empty($exif['Orientation'])) {
+                switch($exif['Orientation']) {
+                    case 8:
+                        $virtual_image = imagerotate($virtual_image,90,0);
+                        break;
+                    case 3:
+                        $virtual_image = imagerotate($virtual_image,180,0);
+                        break;
+                    case 6:
+                        $virtual_image = imagerotate($virtual_image,-90,0);
+                        break;
+                }
+            }
+
+            
         }
 
 

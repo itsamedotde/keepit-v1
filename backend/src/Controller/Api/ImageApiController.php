@@ -48,6 +48,7 @@ class ImageApiController extends AbstractController
       
         foreach($images as $image){
             $path = $localFiles->save($image); 
+         
             $newImage = new Image();
             $newImage->setPath($path);
             $newImage->setSubmitted(false);
