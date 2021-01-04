@@ -22,9 +22,51 @@ class ImageApiController extends AbstractController
 {
     /**
      *
-     * @Route("/images/preload", methods={"POST"})
+     * @Route("/images/getTags/", methods={"POST"})
      */
-    public function preload(
+    public function getTags(
+        Request $request, 
+        ImageRepository $imageRepository, 
+        UserRepository $userRepository, 
+        VisionApi $visionApiRepository
+        ){
+
+        $requestContent = json_decode($request->getContent(), true);
+
+        $user = $userRepository->login($requestContent['email'], $requestContent['password']);
+        if ($user === null) {
+            return new JsonResponse(
+                ["error" => "User not found."],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // var_dump($requestContent['ids']);
+
+        $imageIds = $requestContent['ids'];
+        $imagelabels = [];
+
+        foreach($imageIds as $imageId){
+            $image = $imageRepository->findOneBy(['id' => $imageId]);
+            $path = $image->getPath();
+            // var_dump($path);
+            $labels = $visionApiRepository->getLabels($path);
+            foreach($labels as $label){
+                $imagelabels[] = $label;
+            }
+        }
+        // var_dump($imagelabels);
+        // die;
+        $collectedResponse['labels'] = $imagelabels;
+        $response = new JsonResponse($collectedResponse);
+        return $response;
+    }
+
+     /**
+     *
+     * @Route("/images/upload", methods={"POST"})
+     */
+    public function upload(
         Request $request, 
         SerializerInterface $serializer, 
         ImageRepository $imageRepository, 
@@ -55,17 +97,18 @@ class ImageApiController extends AbstractController
             $newImage->setUser($user);
             $savedImage = $imageRepository->save($newImage);
             $imageIds[] = $savedImage->id;
-            $labels = $visionApiRepository->getLabels($path);
-            foreach($labels as $label){
-                $imagelabels[] = $label;
-            }
+            // $labels = $visionApiRepository->getLabels($path);
+            // foreach($labels as $label){
+            //     $imagelabels[] = $label;
+            // }
         }
      
         $collectedResponse['ids'] = $imageIds;
-        $collectedResponse['labels'] = $imagelabels;
+        // $collectedResponse['labels'] = $imagelabels;
     
 
         $response = new JsonResponse($collectedResponse);
         return $response;
     }
+
 }

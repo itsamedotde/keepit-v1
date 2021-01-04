@@ -18,7 +18,7 @@ export default function useTags() {
 
   const addedTags = tags.filter((tag) => tag.added === true).sort()
   // const newTags = tags.filter((tag) => tag.added === false).sort()
-  const [imageIds, setImageIds] = useState([])
+  //const [imageIds, setImageIds] = useState([])
 
   return {
     tags,
@@ -29,7 +29,7 @@ export default function useTags() {
     toggleTagAdded,
     loadApiTags,
     handleApiTags,
-    imageIds,
+    //  imageIds,
   }
 
   function loadApiTags(images) {

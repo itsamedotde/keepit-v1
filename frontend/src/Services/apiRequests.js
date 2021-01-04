@@ -9,7 +9,11 @@ export function apiGetAllKeepits() {
 }
 
 export function apiGetVisionLabels(body) {
-  return requestApi(body, `${apiBaseUrl}/images/preload`, 'POST')
+  return requestApi(body, `${apiBaseUrl}/images/getTags`, 'POST')
+}
+
+export function apiUploadImages(body) {
+  return requestApi(body, `${apiBaseUrl}/images/upload`, 'POST')
 }
 
 export function apiSaveKeepit(body) {
