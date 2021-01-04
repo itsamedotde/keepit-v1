@@ -7,7 +7,7 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 export default function KeepitList({ keepits, className }) {
   const history = useHistory()
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
-
+  console.log(keepits)
   if (keepits.length === 0) {
     return <LoadingSpinner />
   }
@@ -21,7 +21,7 @@ export default function KeepitList({ keepits, className }) {
       {keepits.map((keepit, index) => (
         <StyledLi key={index}>
           <StyledImg
-            src={apiBaseUrl + '/' + keepit.images[0]}
+            src={apiBaseUrl + '/' + keepit.images[0].replace('.', '-thumb.')}
             alt=""
             onClick={() => gotoDetail(keepit)}
           ></StyledImg>

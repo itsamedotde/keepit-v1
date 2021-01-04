@@ -9,8 +9,12 @@ export default function useTags() {
   const [apiTags, setApiTags] = useState([])
 
   useEffect(() => {
-    setTags([...customTags, ...apiTags])
-  }, [customTags, apiTags])
+    setTags([...tags, ...apiTags])
+  }, [apiTags])
+
+  useEffect(() => {
+    setTags([...tags, ...customTags])
+  }, [customTags])
 
   const addedTags = tags.filter((tag) => tag.added === true).sort()
   // const newTags = tags.filter((tag) => tag.added === false).sort()
