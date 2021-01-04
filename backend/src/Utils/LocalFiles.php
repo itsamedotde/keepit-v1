@@ -54,6 +54,7 @@ class LocalFiles
         $thumbFile = UPLOAD_DIR . $uuid . '-thumb.' . $type;
         $desired_width="500";
         make_thumb($file, $thumbFile, $desired_width, $type);
+
         /************************************* */
         function correctImageOrientation($filename)
         {
@@ -77,12 +78,14 @@ class LocalFiles
                     if ($deg) {
                         $img = imagerotate($img, $deg, 0);
                     }
-                    imagejpeg($img, $filename, 95);
+                    imagejpeg($img, $filename, 15);
                 }
             }
         }
 
         correctImageOrientation($thumbFile);
+
+
 
         return $file;
 
