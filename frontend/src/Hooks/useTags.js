@@ -18,7 +18,7 @@ export default function useTags() {
 
   const addedTags = tags.filter((tag) => tag.added === true).sort()
   // const newTags = tags.filter((tag) => tag.added === false).sort()
-  const [imageIds, setImageIds] = useState([])
+  //const [imageIds, setImageIds] = useState([])
 
   return {
     tags,
@@ -29,15 +29,15 @@ export default function useTags() {
     toggleTagAdded,
     loadApiTags,
     handleApiTags,
-    imageIds,
+    //  imageIds,
   }
 
-  function loadApiTags(images) {
-    const files = images
+  function loadApiTags(imageIds) {
+    //const files = images
     const labelRequest = {
       email: 'user@email',
       password: 'test',
-      files,
+      imageIds,
     }
     apiGetVisionLabels(labelRequest)
       .then((result) => handleApiTags(result))
@@ -54,7 +54,7 @@ export default function useTags() {
     } else {
       setTags([{ value: 'No tags found', added: false, isCustom: false }])
     }
-    setImageIds(response.ids)
+    // setImageIds(response.ids)
   }
 
   function handleSubmitTag(event) {

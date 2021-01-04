@@ -25,11 +25,13 @@ import useTags from '../Hooks/useTags'
 import useOverlay from '../Hooks/useOverlay'
 import useKeepit from '../Hooks/useKeepit'
 import useGeolocation from '../Hooks/useGeolocation'
+import { apiUploadImages } from '../Services/apiRequests'
 
 export default function NewKeepitPage() {
   const history = useHistory()
   const [images, setImages] = useState([])
   const [rated, setRated] = useState([])
+  const [imageIds, setImageIds] = useState([])
   const {
     overlayStatus,
     setOverlayStatus,
@@ -44,7 +46,7 @@ export default function NewKeepitPage() {
     handleSubmitTag,
     toggleTagAdded,
     loadApiTags,
-    imageIds,
+    //imageIds,
   } = useTags()
 
   const { geolocation, getBrowserLocation } = useGeolocation()
@@ -58,9 +60,29 @@ export default function NewKeepitPage() {
 
   useEffect(() => {
     if (images.length > 0) {
-      loadApiTags(images)
+      //loadApiTags(images)
+      uploadImages(images)
     }
   }, [images])
+
+  useEffect(() => {
+    if (imageIds.length > 0) {
+      loadApiTags(imageIds)
+      // uploadImages(images)
+    }
+  }, [imageIds])
+
+  function uploadImages(images) {
+    const files = images
+    const labelRequest = {
+      email: 'user@email',
+      password: 'test',
+      files,
+    }
+    apiUploadImages(labelRequest)
+      .then((result) => setImageIds(result.ids))
+      .catch((error) => console.log('error', error))
+  }
 
   return (
     <>
