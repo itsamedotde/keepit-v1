@@ -22,9 +22,9 @@ class ImageApiController extends AbstractController
 {
     /**
      *
-     * @Route("/images/getTags/", methods={"POST"})
+     * @Route("/images/gettags", methods={"POST"})
      */
-    public function getTags(
+    public function gettags(
         Request $request, 
         ImageRepository $imageRepository, 
         UserRepository $userRepository, 
@@ -41,22 +41,18 @@ class ImageApiController extends AbstractController
             );
         }
 
-        // var_dump($requestContent['ids']);
-
-        $imageIds = $requestContent['ids'];
+        $imageIds = $requestContent['imageIds'];
         $imagelabels = [];
 
         foreach($imageIds as $imageId){
             $image = $imageRepository->findOneBy(['id' => $imageId]);
             $path = $image->getPath();
-            // var_dump($path);
             $labels = $visionApiRepository->getLabels($path);
             foreach($labels as $label){
                 $imagelabels[] = $label;
             }
         }
-        // var_dump($imagelabels);
-        // die;
+
         $collectedResponse['labels'] = $imagelabels;
         $response = new JsonResponse($collectedResponse);
         return $response;
@@ -105,8 +101,6 @@ class ImageApiController extends AbstractController
      
         $collectedResponse['ids'] = $imageIds;
         // $collectedResponse['labels'] = $imagelabels;
-    
-
         $response = new JsonResponse($collectedResponse);
         return $response;
     }

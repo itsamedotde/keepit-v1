@@ -65,6 +65,13 @@ export default function NewKeepitPage() {
     }
   }, [images])
 
+  useEffect(() => {
+    if (imageIds.length > 0) {
+      loadApiTags(imageIds)
+      // uploadImages(images)
+    }
+  }, [imageIds])
+
   function uploadImages(images) {
     const files = images
     const labelRequest = {
@@ -73,7 +80,7 @@ export default function NewKeepitPage() {
       files,
     }
     apiUploadImages(labelRequest)
-      .then((result) => setImageIds(result))
+      .then((result) => setImageIds(result.ids))
       .catch((error) => console.log('error', error))
   }
 

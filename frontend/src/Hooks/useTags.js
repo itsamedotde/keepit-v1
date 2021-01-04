@@ -32,12 +32,12 @@ export default function useTags() {
     //  imageIds,
   }
 
-  function loadApiTags(images) {
-    const files = images
+  function loadApiTags(imageIds) {
+    //const files = images
     const labelRequest = {
       email: 'user@email',
       password: 'test',
-      files,
+      imageIds,
     }
     apiGetVisionLabels(labelRequest)
       .then((result) => handleApiTags(result))
@@ -54,7 +54,7 @@ export default function useTags() {
     } else {
       setTags([{ value: 'No tags found', added: false, isCustom: false }])
     }
-    setImageIds(response.ids)
+    // setImageIds(response.ids)
   }
 
   function handleSubmitTag(event) {

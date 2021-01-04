@@ -9,7 +9,7 @@ export function apiGetAllKeepits() {
 }
 
 export function apiGetVisionLabels(body) {
-  return requestApi(body, `${apiBaseUrl}/images/getTags`, 'POST')
+  return requestApi(body, `${apiBaseUrl}/images/gettags`, 'POST')
 }
 
 export function apiUploadImages(body) {
