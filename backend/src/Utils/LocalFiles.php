@@ -60,31 +60,31 @@ class LocalFiles
             //run code if long/latitude was found
        
 
-        $ort = $exif['Orientation']; /*STORES ORIENTATION FROM IMAGE */
-        $ort1 = $ort;
-        $exif = exif_read_data($filename, 0, true);
-           if (!empty($ort1))
-            {
-              $image = imagecreatefromjpeg($filename);
-              $ort = $ort1;
-                 switch ($ort) {
-                       case 3:
-                           $image = imagerotate($image, 180, 0);
-                           break;
-       
-                       case 6:
-                           $image = imagerotate($image, -90, 0);
-                           break;
-       
-                       case 8:
-                           $image = imagerotate($image, 90, 0);
-                           break;
-                   }
-               }
-              imagejpeg($image,$filename, 90); /*IF FOUND ORIENTATION THEN ROTATE IMAGE IN PERFECT DIMENSION*/
-            }
+            $ort = $exif['Orientation']; /*STORES ORIENTATION FROM IMAGE */
+            $ort1 = $ort;
+            $exif = exif_read_data($thumb, 0, true);
+            if (!empty($ort1))
+                {
+                $image = imagecreatefromjpeg($thumb);
+                $ort = $ort1;
+                    switch ($ort) {
+                        case 3:
+                            $image = imagerotate($image, 180, 0);
+                            break;
+        
+                        case 6:
+                            $image = imagerotate($image, -90, 0);
+                            break;
+        
+                        case 8:
+                            $image = imagerotate($image, 90, 0);
+                            break;
+                    }
+                }
+                imagejpeg($image,$thumb, 90); /*IF FOUND ORIENTATION THEN ROTATE IMAGE IN PERFECT DIMENSION*/
+                }
 
-        return $file;
+            return $file;
     }
 
     public function delete(string $data): void
