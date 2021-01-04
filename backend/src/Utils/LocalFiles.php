@@ -84,6 +84,8 @@ class LocalFiles
 
         correctImageOrientation($thumbFile);
 
+        return $file;
+
         /************************************ */
     }
 
