@@ -56,34 +56,35 @@ class LocalFiles
         make_thumb($file, $thumbFile, $desired_width, $type);
 
         /************************************* */
-        function correctImageOrientation($filename)
+        function __image_orientate($source, $quality = 90, $destination = null)
         {
-            $exif = exif_read_data($filename);
-            if ($exif && isset($exif['Orientation'])) {
-                $orientation = $exif['Orientation'];
-                if ($orientation != 1) {
-                    $img = imagecreatefromjpeg($filename);
-                    $deg = 0;
-                    switch ($orientation) {
-                        case 3:
-                            $deg = 180;
-                            break;
-                        case 6:
-                            $deg = 270;
-                            break;
-                        case 8:
-                            $deg = 90;
-                            break;
+            if ($destination === null) {
+                $destination = $source;
+            }
+            $info = getimagesize($source);
+            if ($info['mime'] === 'image/jpeg') {
+                $exif = exif_read_data($source);
+                if (!empty($exif['Orientation']) && in_array($exif['Orientation'], [2, 3, 4, 5, 6, 7, 8])) {
+                    $image = imagecreatefromjpeg($source);
+                    if (in_array($exif['Orientation'], [3, 4])) {
+                        $image = imagerotate($image, 180, 0);
                     }
-                    if ($deg) {
-                        $img = imagerotate($img, $deg, 0);
+                    if (in_array($exif['Orientation'], [5, 6])) {
+                        $image = imagerotate($image, -90, 0);
                     }
-                    imagejpeg($img, $filename, 15);
+                    if (in_array($exif['Orientation'], [7, 8])) {
+                        $image = imagerotate($image, 90, 0);
+                    }
+                    if (in_array($exif['Orientation'], [2, 5, 7, 4])) {
+                        imageflip($image, IMG_FLIP_HORIZONTAL);
+                    }
+                    imagejpeg($image, $destination, $quality);
                 }
             }
+            return true;
         }
 
-        correctImageOrientation($thumbFile);
+        __image_orientate($thumbFile);
 
 
 
