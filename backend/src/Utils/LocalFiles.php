@@ -51,40 +51,40 @@ class LocalFiles
         $uuid = uniqid();
         $file = UPLOAD_DIR . $uuid . '.' . $type;
         file_put_contents($file , $data);
-        $thumb = UPLOAD_DIR . $uuid . '-thumb.' . $type;
+        $thumbFile = UPLOAD_DIR . $uuid . '-thumb.' . $type;
         $desired_width="500";
-        make_thumb($file, $thumb, $desired_width, $type);
+        make_thumb($file, $thumbFile, $desired_width, $type);
         /************************************* */
-        $exif = exif_read_data($thumb);
-        if(!empty($exif['Orientation'])){
-            //run code if long/latitude was found
-       
-
-            $ort = $exif['Orientation']; /*STORES ORIENTATION FROM IMAGE */
-            $ort1 = $ort;
-            $exif = exif_read_data($thumb, 0, true);
-            if (!empty($ort1))
-                {
-                $image = imagecreatefromjpeg($thumb);
-                $ort = $ort1;
-                    switch ($ort) {
+        function correctImageOrientation($filename)
+        {
+            $exif = exif_read_data($filename);
+            if ($exif && isset($exif['Orientation'])) {
+                $orientation = $exif['Orientation'];
+                if ($orientation != 1) {
+                    $img = imagecreatefromjpeg($filename);
+                    $deg = 0;
+                    switch ($orientation) {
                         case 3:
-                            $image = imagerotate($image, 180, 0);
+                            $deg = 180;
                             break;
-        
                         case 6:
-                            $image = imagerotate($image, -90, 0);
+                            $deg = 270;
                             break;
-        
                         case 8:
-                            $image = imagerotate($image, 90, 0);
+                            $deg = 90;
                             break;
                     }
+                    if ($deg) {
+                        $img = imagerotate($img, $deg, 0);
+                    }
+                    imagejpeg($img, $filename, 95);
                 }
-                imagejpeg($image,$thumb, 90); /*IF FOUND ORIENTATION THEN ROTATE IMAGE IN PERFECT DIMENSION*/
-                }
+            }
+        }
 
-            return $file;
+        correctImageOrientation($thumbFile);
+
+        /************************************ */
     }
 
     public function delete(string $data): void
