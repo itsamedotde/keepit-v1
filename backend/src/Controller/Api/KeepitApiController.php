@@ -208,7 +208,6 @@ class KeepitApiController extends AbstractController
             $keepit->removeImage($image);
             $localFiles->delete($path);
             $thumbPath = str_replace('.jpeg', '-thumb.jpeg', $path);
-            $localFiles->delete($path);
             if (file_exists($thumbPath)) {
                 $localFiles->delete($thumbPath);
             } 
