@@ -16,12 +16,27 @@ export default function KeepitList({ keepits, className }) {
     history.push('/detail/' + keepit.id, { keepit: keepit })
   }
 
+  /* DEBUG */
+  function generateImgURL() {
+    console.log('gooogoo...')
+    // if (keepit.images) {
+    //   return apiBaseUrl + '/' + keepit.images[0].replace('.', '-thumb.')
+    // } else {
+    //   return '#'
+    // }
+  }
+  let url
+
   return (
     <StyledUl className={className}>
       {keepits.map((keepit, index) => (
         <StyledLi key={index}>
           <StyledImg
-            src={apiBaseUrl + '/' + keepit.images[0].replace('.', '-thumb.')}
+            src={
+              keepit.images
+                ? apiBaseUrl + '/' + keepit.images[0].replace('.', '-thumb.')
+                : 'https://www.test.de/images/svgicons/test.de-logo;v30116961.svg'
+            }
             alt=""
             onClick={() => gotoDetail(keepit)}
           ></StyledImg>

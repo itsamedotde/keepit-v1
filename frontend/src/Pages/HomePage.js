@@ -38,6 +38,7 @@ export default function HomePage() {
 
   useEffect(() => {
     generateTagList()
+    console.log('keepits', keepits)
   }, [keepits])
 
   return (

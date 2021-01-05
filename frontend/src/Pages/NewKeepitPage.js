@@ -65,7 +65,10 @@ export default function NewKeepitPage() {
   }, [images])
 
   useEffect(() => {
+    console.log('--> effect imageIds', imageIds)
+
     if (imageIds.length > 0) {
+      console.log('--> Load Api Tags', imageIds)
       loadApiTags(imageIds)
     }
   }, [imageIds])
@@ -82,6 +85,9 @@ export default function NewKeepitPage() {
       .catch((error) => console.log('error', error))
   }
 
+  function handleImageIds(result) {
+    console.log('image Ids received...', result)
+  }
   return (
     <>
       <Overlay status={overlayStatus} onClick={() => setOverlayStatus(false)}>
