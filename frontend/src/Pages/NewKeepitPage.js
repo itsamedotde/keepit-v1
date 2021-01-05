@@ -32,6 +32,8 @@ export default function NewKeepitPage() {
   const [images, setImages] = useState([])
   const [rated, setRated] = useState([])
   const [imageIds, setImageIds] = useState([])
+  const [ready4upload, setReady4upload] = useState(false)
+
   const {
     overlayStatus,
     setOverlayStatus,
@@ -65,11 +67,9 @@ export default function NewKeepitPage() {
   }, [images])
 
   useEffect(() => {
-    console.log('--> effect imageIds', imageIds)
-
     if (imageIds.length > 0) {
-      console.log('--> Load Api Tags', imageIds)
       loadApiTags(imageIds)
+      setReady4upload(true)
     }
   }, [imageIds])
 
@@ -85,9 +85,6 @@ export default function NewKeepitPage() {
       .catch((error) => console.log('error', error))
   }
 
-  function handleImageIds(result) {
-    console.log('image Ids received...', result)
-  }
   return (
     <>
       <Overlay status={overlayStatus} onClick={() => setOverlayStatus(false)}>
@@ -165,28 +162,32 @@ export default function NewKeepitPage() {
   }
 
   function handleSaveKeepit() {
-    const request = {
-      email: 'user@email',
-      password: 'test',
-      addedTags,
-      imageIds,
-      rated,
-      geolocation,
+    if (ready4upload) {
+      const request = {
+        email: 'user@email',
+        password: 'test',
+        addedTags,
+        imageIds,
+        rated,
+        geolocation,
+      }
+      saveKeepit(request)
+      setOverlayContent(
+        <StyledSaveOverlay
+          status={overlayStatus}
+          onClick={() => setOverlayStatus(false)}
+        >
+          SAVE
+          <DoneIcon width="40" fill="var(--color-primary)" />
+        </StyledSaveOverlay>
+      )
+      setOverlayStatus(true)
+      setTimeout(function () {
+        history.push('/')
+      }, 1500)
+    } else {
+      alert('Image(s) not uploaded yet. Wait a few seconds please.')
     }
-    saveKeepit(request)
-    setOverlayContent(
-      <StyledSaveOverlay
-        status={overlayStatus}
-        onClick={() => setOverlayStatus(false)}
-      >
-        SAVE
-        <DoneIcon width="40" fill="var(--color-primary)" />
-      </StyledSaveOverlay>
-    )
-    setOverlayStatus(true)
-    setTimeout(function () {
-      history.push('/')
-    }, 1500)
   }
 
   function removeImage(deleteIndex) {
@@ -264,12 +265,3 @@ const StyledPreviewArea = styled.div`
 const StyledOverlayImage = styled.img`
   width: 100%;
 `
-
-/*
-  background: linear-gradient(to bottom, transparent 0%, white 100%),
-    url(${(props) => props.bgImg});
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-*/

@@ -3,6 +3,7 @@ import styled from 'styled-components/macro'
 import { useHistory } from 'react-router-dom'
 import { StarIcon } from '../Icons'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
+import ImageNotFoundImg from '../../Assets/image-not-found.png'
 
 export default function KeepitList({ keepits, className }) {
   const history = useHistory()
@@ -16,17 +17,6 @@ export default function KeepitList({ keepits, className }) {
     history.push('/detail/' + keepit.id, { keepit: keepit })
   }
 
-  /* DEBUG */
-  function generateImgURL() {
-    console.log('gooogoo...')
-    // if (keepit.images) {
-    //   return apiBaseUrl + '/' + keepit.images[0].replace('.', '-thumb.')
-    // } else {
-    //   return '#'
-    // }
-  }
-  let url
-
   return (
     <StyledUl className={className}>
       {keepits.map((keepit, index) => (
@@ -35,7 +25,7 @@ export default function KeepitList({ keepits, className }) {
             src={
               keepit.images
                 ? apiBaseUrl + '/' + keepit.images[0].replace('.', '-thumb.')
-                : 'https://www.test.de/images/svgicons/test.de-logo;v30116961.svg'
+                : ImageNotFoundImg
             }
             alt=""
             onClick={() => gotoDetail(keepit)}

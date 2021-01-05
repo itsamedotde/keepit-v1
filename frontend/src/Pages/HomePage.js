@@ -19,13 +19,7 @@ export default function HomePage() {
 
   const [showFilter, setShowFilter] = useState([])
   const filterHeight = showFilter ? '20%' : '0%'
-  const {
-    keepits,
-    setKeepits,
-    deleteKeepit,
-    saveKeepit,
-    loadKeepitsFromApi,
-  } = useKeepit()
+  const { keepits, setKeepits, loadKeepitsFromApi } = useKeepit()
 
   useEffect(() => {
     loadKeepitsFromApi()
