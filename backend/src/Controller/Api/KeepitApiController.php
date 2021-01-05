@@ -44,7 +44,7 @@ class KeepitApiController extends AbstractController
         $tags = $requestContent['addedTags'];
 
         $imageIds = $requestContent['imageIds'];
-        if ($imageIds === null) {
+        if (!$imageIds >= 1) {
             return new JsonResponse(
                 ["error" => "No image ids given"],
                 JsonResponse::HTTP_BAD_REQUEST
