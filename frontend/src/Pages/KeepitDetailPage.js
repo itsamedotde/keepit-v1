@@ -11,6 +11,7 @@ import Taglist from '../Components/Tags/Taglist'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
 import Overlay from '../Components/Overlay/Overlay'
 import { BackIcon, EditIcon, TagIcon, DeleteIcon } from '../Components/Icons'
+import ImageNotFoundImg from '../Assets/image-not-found.png'
 
 import useOverlay from '../Hooks/useOverlay'
 import useKeepit from '../Hooks/useKeepit'
@@ -30,7 +31,11 @@ export default function KeepitDetailPage({ props }) {
   const tags = keepit.tags
 
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
-  const imageUrl = apiBaseUrl + '/' + keepit.images[0]
+
+  let imageUrl = ImageNotFoundImg
+  if (keepit.images) {
+    imageUrl = apiBaseUrl + '/' + keepit.images[0]
+  }
 
   function handleDelete() {
     deleteKeepit(keepit.id)
