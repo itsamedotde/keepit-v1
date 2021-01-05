@@ -1,6 +1,3 @@
-<img src="https://raw.githubusercontent.com/mariothomsen/keepit/871bb302eeaff5f5554cdbd33883165ea6c0763f/frontend/src/Assets/logo.svg">
-
-
 # Keepit - "Stop forgetting, start keeping!"
 
 This is my capstone-poject for the web development bootcamp @ neue fische!
