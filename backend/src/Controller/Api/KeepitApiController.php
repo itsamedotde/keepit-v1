@@ -204,15 +204,13 @@ class KeepitApiController extends AbstractController
             $path = $image->getPath();
             $imageId = $image->getId();
             $imageIdsToDelete[] = $imageId;
-            // var_dump($imageId);
-            // var_dump($path);
+
             $keepit->removeImage($image);
             $localFiles->delete($path);
-            // $thumbPath = str_replace('.jpeg', '-thumb.jpeg', $path);
-            // $localFiles->delete($path);
-            // if (file_exists($thumbPath)) {
-            //     $localFiles->delete($thumbPath);
-            // } 
+            $thumbPath = str_replace('.jpeg', '-thumb.jpeg', $path);
+            if (file_exists($thumbPath)) {
+                $localFiles->delete($thumbPath);
+            } 
         }
         
         $tags = $keepit->getTags();
@@ -232,10 +230,7 @@ class KeepitApiController extends AbstractController
             ["Status" => "Keepit deleted"],
             JsonResponse::HTTP_OK
         );
-
     }
-
-    
 }
 
 
