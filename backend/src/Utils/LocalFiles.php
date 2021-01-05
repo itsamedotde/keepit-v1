@@ -15,7 +15,7 @@ class LocalFiles
         }
 
         // Fix image orientation
-        function __image_orientate($source, $quality = 90, $destination = null)
+        function fixOrientation($source, $quality = 90, $destination = null)
         {
             if ($destination === null) {
                 $destination = $source;
@@ -45,7 +45,7 @@ class LocalFiles
         }
 
         // make thumbnail
-        function make_thumb($src, $dest, $desired_width, $type) {
+        function generateThumb($src, $dest, $desired_width, $type) {
             if($type === 'jpg' || $type === 'jpeg'){
                 $source_image = imagecreatefromjpeg($src);
             }
@@ -86,7 +86,8 @@ class LocalFiles
 
         $thumbFile = UPLOAD_DIR . $uuid . '-thumb.' . $type;
         $desired_width="500";
-        make_thumb($file, $thumbFile, $desired_width, $type);
+        fixOrientation($file);
+        generateThumb($file, $thumbFile, $desired_width, $type);
         return $file;
     }
 
