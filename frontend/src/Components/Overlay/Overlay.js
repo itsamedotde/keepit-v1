@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { useState } from 'react'
+
+Overlay.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.element.isRequired,
+  status: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+}
 
 export default function Overlay({ className, status, children, onClick }) {
   return status ? (

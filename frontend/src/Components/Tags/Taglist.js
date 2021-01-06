@@ -14,6 +14,9 @@ export default function Taglist({
   Taglist.propTypes = {
     onClick: PropTypes.func.isRequired,
     tags: PropTypes.array.isRequired,
+    bgColor: PropTypes.string,
+    showIsCustom: PropTypes.bool.isRequired,
+    showIsloading: PropTypes.bool.isRequired,
   }
 
   function IsCustomIcon(tag) {

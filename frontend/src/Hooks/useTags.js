@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { firstToUpper } from '../Util/string'
-import { apiGetVisionLabels, apiSaveKeepit } from '../Services/apiRequests.js'
+import { apiGetVisionLabels } from '../Services/apiRequests.js'
 
 export default function useTags() {
   const [tags, setTags] = useState([])

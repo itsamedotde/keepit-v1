@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 
@@ -125,10 +124,11 @@ export default function KeepitDetailPage({ props }) {
       </StyledLayout>
       <Footer
         actionButtonText="New Keepit"
-        actionButton={<UploadButtonFooter />}
+        actionButtonIcon={<UploadButtonFooter />}
         leftIcon={<BackIcon />}
         leftOnClick={() => history.push('/')}
-        right={<SearchIcon />}
+        rightIcon={<SearchIcon />}
+        rightOnClick={() => {}}
       ></Footer>
     </>
   )

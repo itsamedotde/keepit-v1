@@ -3,6 +3,15 @@ import styled from 'styled-components/macro'
 import { ReactComponent as Bgfoot } from '../../Assets/bg-foot3.svg'
 import { renderToStaticMarkup } from 'react-dom/server'
 
+Footer.propTypes = {
+  actionButtonText: PropTypes.string.isRequired,
+  actionButtonIcon: PropTypes.element.isRequired,
+  leftIcon: PropTypes.element.isRequired,
+  leftOnClick: PropTypes.func.isRequired,
+  rightIcon: PropTypes.element.isRequired,
+  rightOnClick: PropTypes.func.isRequired,
+}
+
 export default function Footer(props) {
   const svgString = encodeURIComponent(renderToStaticMarkup(<Bgfoot />))
   const footerBgColoer = 'var(--color-bg)'
@@ -22,8 +31,10 @@ export default function Footer(props) {
         <StyledLeftIconWrapper onClick={props.leftOnClick}>
           {props.leftIcon}
         </StyledLeftIconWrapper>
-        <StyledIcon>{props.actionButton}</StyledIcon>
-        <StyledRightIconWrapper>{props.right}</StyledRightIconWrapper>
+        <StyledIcon>{props.actionButtonIcon}</StyledIcon>
+        <StyledRightIconWrapper onClick={props.rightOnClick}>
+          {props.rightIcon}
+        </StyledRightIconWrapper>
       </StyledButtonArea>
     </StyledFooter>
   )

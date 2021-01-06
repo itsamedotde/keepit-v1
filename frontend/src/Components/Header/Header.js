@@ -1,11 +1,15 @@
-import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
+import { useHistory } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../Assets/logo.svg'
 
-export default function Header({ onClick, buttonText }) {
+export default function Header() {
+  const history = useHistory()
+  function handleOnClick() {
+    history.push('/')
+  }
   return (
     <StyledHeader>
-      <Logo />
+      <Logo onClick={handleOnClick} />
     </StyledHeader>
   )
 }
@@ -15,4 +19,8 @@ const StyledHeader = styled.header`
   align-items: center;
   justify-content: center;
   height: 100px;
+
+  svg  {
+    cursor: pointer;
+  }
 `
