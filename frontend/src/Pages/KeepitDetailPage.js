@@ -91,7 +91,7 @@ export default function KeepitDetailPage({ props }) {
             </StyledDateLocationArea>
             <StyledSubMenu>
               <StyedIconWrapperLeft onClick={handleDelete}>
-                <DeleteIcon width="14" fill="#666" />
+                <StyledDeleteIcon width="14" fill="#666" />
                 Delete
               </StyedIconWrapperLeft>
               <StyedIconWrapperRight
@@ -99,7 +99,7 @@ export default function KeepitDetailPage({ props }) {
                   alert('iscomingsoon')
                 }}
               >
-                <EditIcon />
+                <StyledEditIcon />
                 Edit
               </StyedIconWrapperRight>
             </StyledSubMenu>
@@ -128,7 +128,13 @@ export default function KeepitDetailPage({ props }) {
     </>
   )
 }
+const StyledEditIcon = styled(EditIcon)`
+  margin-bottom: 3px;
+`
 
+const StyledDeleteIcon = styled(StyledDeleteIcon)`
+  margin-bottom: 3px;
+`
 const StyledStarRating = styled(StarRating)`
   float: right;
   padding-right: 5px;
