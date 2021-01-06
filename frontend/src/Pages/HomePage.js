@@ -57,10 +57,11 @@ export default function HomePage() {
         </StyledFilterArea>
         <Footer
           actionButtonText="New Keepit"
-          actionButton={<UploadButtonFooter />}
+          actionButtonIcon={<UploadButtonFooter />}
           leftOnClick={logout}
           leftIcon={<LogoutIcon />}
-          right={<SearchIcon onClick={toggleShowFilter} />}
+          rightIcon={<SearchIcon />}
+          rightOnClick={toggleShowFilter}
         ></Footer>{' '}
       </StyledLayout>
     </>

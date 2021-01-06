@@ -1,4 +1,10 @@
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  buttonText: PropTypes.string.isRequired,
+}
 
 export default function Button({ onClick, buttonText }) {
   const bgColor = 'var(--color-primary)'

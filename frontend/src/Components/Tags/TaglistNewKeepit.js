@@ -3,6 +3,13 @@ import styled from 'styled-components/macro'
 import { CloudIcon, UserIcon, TagMinusIcon, TagPlusIcon } from '../Icons'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
+TaglistNewKeepit.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  tags: PropTypes.array.isRequired,
+  showIsCustom: PropTypes.bool.isRequired,
+  showIsloading: PropTypes.bool.isRequired,
+}
+
 export default function TaglistNewKeepit({
   onClick,
   tags,
@@ -99,5 +106,3 @@ const StyledLi = styled.li`
   font-size: 14px;
   margin: 0 5px 5px 0;
 `
-
-const StyledLoading = styled.div``

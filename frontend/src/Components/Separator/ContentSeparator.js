@@ -1,4 +1,13 @@
+import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
+
+ContentSeperator.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  icon: PropTypes.string,
+  text: PropTypes.string,
+}
+
 export default function ContentSeperator({ className, icon, text, onClick }) {
   return (
     <StyledDiv onClick={onClick} className={className}>

@@ -2,6 +2,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { StarIcon } from '../Icons'
 
+StarRating.propTypes = {
+  className: PropTypes.string,
+  rating: PropTypes.number.isRequired,
+}
+
 export default function StarRating({ rating, className }) {
   return (
     <StyledStarRatingDiv className={className}>

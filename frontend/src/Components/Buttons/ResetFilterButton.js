@@ -1,5 +1,12 @@
+import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { CloseIcon } from '../Icons'
+
+ResetFilterButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  buttonText: PropTypes.string,
+  className: PropTypes.string,
+}
 
 export default function ResetFilterButton({ onClick, buttonText, className }) {
   return (

@@ -116,7 +116,7 @@ export default function NewKeepitPage() {
             text="RATE IT"
             icon={<StarIcon fill="#c7c7c7" width="12" height="12" />}
           />
-          <StarRatingForm onClick={rating}></StarRatingForm>
+          <StarRatingForm onClick={setRated}></StarRatingForm>
           <ContentSeparator
             text="TAG IT"
             icon={<TagIcon fill="#c7c7c7" width="11" height="11" />}
@@ -133,10 +133,11 @@ export default function NewKeepitPage() {
       </StyledLayout>
       <Footer
         actionButtonText="Save Keepit"
-        actionButton={<SaveButtonFooter onClick={handleSaveKeepit} />}
+        actionButtonIcon={<SaveButtonFooter onClick={handleSaveKeepit} />}
         leftIcon={<BackIcon />}
         leftOnClick={() => history.push('/')}
-        right={<SearchIcon />}
+        rightIcon={<SearchIcon />}
+        rightOnClick={() => {}}
       ></Footer>
     </>
   )

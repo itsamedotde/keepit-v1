@@ -2,6 +2,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { PlusIcon } from '../Icons'
 
+CustomTagForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+}
+
 export default function CustomTagForm({ onSubmit }) {
   return (
     <StyledForm onSubmit={onSubmit}>

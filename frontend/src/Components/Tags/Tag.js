@@ -1,20 +1,17 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
-import { CloudIcon, UserIcon, TagMinusIcon, TagPlusIcon } from '../Icons'
+
+Tag.propTypes = {
+  className: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  tagValue: PropTypes.string.isRequired,
+  targetState: PropTypes.bool.isRequired,
+}
 
 export default function Tag({ onClick, tagValue, targetState }) {
-  const stateIcon = targetState ? <TagPlusIcon /> : <TagMinusIcon />
   const bgColor = targetState
     ? 'var(--color-primary)'
     : 'var(--color-secondary)'
-
-  function IsCustomIcon(test) {
-    if (test.isCustom) {
-      return <UserIcon />
-    } else {
-      return <CloudIcon />
-    }
-  }
 
   return (
     <StyledTag bgcolor={bgColor} onClick={() => onClick(tagValue, targetState)}>

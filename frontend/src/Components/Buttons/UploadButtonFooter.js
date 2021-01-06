@@ -8,13 +8,13 @@ export default function UploadButtonFooter() {
   const history = useHistory()
   const location = useLocation()
 
-  const gotoNew = () => {
+  function gotoNew() {
     if (imageList.length > 0) {
       history.push('/new', { images: imageList })
     }
-    // if (location.pathname === '/new') {
-    //   window.location.reload()
-    // }
+    if (location.pathname === '/new') {
+      window.location.reload()
+    }
   }
 
   useEffect(() => {

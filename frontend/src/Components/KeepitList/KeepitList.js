@@ -5,10 +5,15 @@ import { StarIcon } from '../Icons'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import ImageNotFoundImg from '../../Assets/image-not-found.png'
 
+KeepitList.propTypes = {
+  keepits: PropTypes.array.isRequired,
+  className: PropTypes.string,
+}
+
 export default function KeepitList({ keepits, className }) {
   const history = useHistory()
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
-  console.log(keepits)
+
   if (keepits.length === 0) {
     return <LoadingSpinner />
   }
@@ -27,14 +32,15 @@ export default function KeepitList({ keepits, className }) {
                 ? apiBaseUrl + '/' + keepit.images[0].replace('.', '-thumb.')
                 : ImageNotFoundImg
             }
+            key={index}
             alt=""
             onClick={() => gotoDetail(keepit)}
           ></StyledImg>
-          <StyledStarRating>
-            {[...Array(keepit.rated)].map((index) => (
+          <StyledStarRating key={index}>
+            {[...Array(keepit.rated)].map((starIndex) => (
               <StarIcon
                 width="5"
-                key={index}
+                key={starIndex}
                 fill="var(--color-primary)"
               ></StarIcon>
             ))}
