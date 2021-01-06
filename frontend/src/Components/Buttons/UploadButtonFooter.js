@@ -12,9 +12,9 @@ export default function UploadButtonFooter() {
     if (imageList.length > 0) {
       history.push('/new', { images: imageList })
     }
-    if (location.pathname === '/new') {
-      window.location.reload()
-    }
+    // if (location.pathname === '/new') {
+    //   window.location.reload()
+    // }
   }
 
   useEffect(() => {

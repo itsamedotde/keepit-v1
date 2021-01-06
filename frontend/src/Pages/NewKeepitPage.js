@@ -6,7 +6,6 @@ import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import TaglistNewKeepit from '../Components/Tags/TaglistNewKeepit'
 import CustomTagForm from '../Components/Tags/CustomTagForm'
-import SearchButton from '../Components/Buttons/SearchButton'
 import SaveButtonFooter from '../Components/Buttons/SaveButtonFooter'
 import StarRatingForm from '../Components/StarRating/StarRatingForm'
 import Overlay from '../Components/Overlay/Overlay'
@@ -17,6 +16,7 @@ import {
   TagIcon,
   DoneIcon,
   XIcon,
+  SearchIcon,
 } from '../Components/Icons'
 
 import setBase64 from '../Util/setBase64'
@@ -136,7 +136,7 @@ export default function NewKeepitPage() {
         actionButton={<SaveButtonFooter onClick={handleSaveKeepit} />}
         leftIcon={<BackIcon />}
         leftOnClick={() => history.push('/')}
-        right={<SearchButton />}
+        right={<SearchIcon />}
       ></Footer>
     </>
   )

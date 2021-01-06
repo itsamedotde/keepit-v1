@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro'
 import { CloseIcon } from '../Icons'
+
 export default function ResetFilterButton({ onClick, buttonText, className }) {
   return (
     <StyledResetFilterButton className={className} onClick={onClick}>
@@ -7,6 +8,7 @@ export default function ResetFilterButton({ onClick, buttonText, className }) {
     </StyledResetFilterButton>
   )
 }
+
 const StyledResetFilterButton = styled.button`
   border: none;
   outline: none;

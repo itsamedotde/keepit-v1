@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import { ReactComponent as Bgfoot } from '../../Assets/bg-foot3.svg'
 import { renderToStaticMarkup } from 'react-dom/server'
 
-export default function Header(props) {
+export default function Footer(props) {
   const svgString = encodeURIComponent(renderToStaticMarkup(<Bgfoot />))
   const footerBgColoer = 'var(--color-bg)'
   return (
