@@ -132,7 +132,7 @@ const StyledEditIcon = styled(EditIcon)`
   margin-bottom: 3px;
 `
 
-const StyledDeleteIcon = styled(StyledDeleteIcon)`
+const StyledDeleteIcon = styled(DeleteIcon)`
   margin-bottom: 3px;
 `
 const StyledStarRating = styled(StarRating)`
