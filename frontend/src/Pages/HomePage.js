@@ -3,13 +3,11 @@ import styled from 'styled-components/macro'
 import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import UploadButtonFooter from '../Components/Buttons/UploadButtonFooter'
-import SearchButton from '../Components/Buttons/SearchButton'
 import ResetFilterButton from '../Components/Buttons/ResetFilterButton'
-import LogoutButton from '../Components/Buttons/LogoutButton.js'
 import KeepitList from '../Components/KeepitList/KeepitList'
 import Taglist from '../Components/Tags/Taglist'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
-import { FilterIcon, LogoutIcon } from '../Components/Icons'
+import { FilterIcon, LogoutIcon, SearchIcon } from '../Components/Icons'
 
 import useKeepit from '../Hooks/useKeepit'
 
@@ -62,7 +60,7 @@ export default function HomePage() {
           actionButton={<UploadButtonFooter />}
           leftOnClick={logout}
           leftIcon={<LogoutIcon />}
-          right={<SearchButton onClick={toggleShowFilter} />}
+          right={<SearchIcon onClick={toggleShowFilter} />}
         ></Footer>{' '}
       </StyledLayout>
     </>
@@ -111,18 +109,6 @@ export default function HomePage() {
         array.findIndex((a) => a[propertyName] === e[propertyName]) === i
     )
   }
-
-  // function loadKeepitsFromApi() {
-  //   apiGetAllKeepits()
-  //     .then((result) =>
-  //       setKeepits(
-  //         result.sort(function (a, b) {
-  //           return b.id - a.id
-  //         })
-  //       )
-  //     )
-  //     .catch((error) => console.log('error', error))
-  // }
 
   function filterKeepits() {
     let filteredKeepits = []

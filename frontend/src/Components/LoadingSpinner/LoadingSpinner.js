@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
 
-export default function LoadingSpinner() {
+export default function LoadingSpinner({ className }) {
   return (
-    <StyledLoadingWrapper>
+    <StyledLoadingWrapper className={className}>
       <StyledLoadingDiv>
         <div></div>
         <div></div>

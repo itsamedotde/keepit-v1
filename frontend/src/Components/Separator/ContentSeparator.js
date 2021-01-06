@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro'
-
 export default function ContentSeperator({ className, icon, text, onClick }) {
   return (
     <StyledDiv onClick={onClick} className={className}>

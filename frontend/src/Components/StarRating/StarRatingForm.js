@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import { useState, useEffect } from 'react'
 import { StarIcon } from '../Icons'
 
-export default function StarRating({ onClick: setNewRating }) {
+export default function StarRatingForm({ onClick: setNewRating }) {
   const [rating, setRating] = useState(null)
 
   useEffect(() => {

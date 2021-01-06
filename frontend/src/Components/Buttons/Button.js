@@ -1,17 +1,16 @@
 import styled from 'styled-components/macro'
 
-export default function Button({ onClick, buttonText, icon }) {
+export default function Button({ onClick, buttonText }) {
   const bgColor = 'var(--color-primary)'
 
   return (
     <StyledButton bgColor={bgColor} onClick={onClick}>
       {buttonText}
-      {icon}
     </StyledButton>
   )
 }
 
-const StyledButton = styled.span`
+const StyledButton = styled.button`
   background-color: ${(props) => props.bgColor};
   font-weight: 400;
   color: white;

@@ -5,12 +5,17 @@ import styled from 'styled-components/macro'
 import Footer from '../Components/Footer/Footer'
 import Header from '../Components/Header/Header'
 import UploadButtonFooter from '../Components/Buttons/UploadButtonFooter'
-import SearchButton from '../Components/Buttons/SearchButton'
 import StarRating from '../Components/StarRating/StarRating'
 import Taglist from '../Components/Tags/Taglist'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
 import Overlay from '../Components/Overlay/Overlay'
-import { BackIcon, EditIcon, TagIcon, DeleteIcon } from '../Components/Icons'
+import {
+  BackIcon,
+  EditIcon,
+  TagIcon,
+  DeleteIcon,
+  SearchIcon,
+} from '../Components/Icons'
 import ImageNotFoundImg from '../Assets/image-not-found.png'
 
 import useOverlay from '../Hooks/useOverlay'
@@ -123,7 +128,7 @@ export default function KeepitDetailPage({ props }) {
         actionButton={<UploadButtonFooter />}
         leftIcon={<BackIcon />}
         leftOnClick={() => history.push('/')}
-        right={<SearchButton />}
+        right={<SearchIcon />}
       ></Footer>
     </>
   )

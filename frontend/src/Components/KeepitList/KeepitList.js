@@ -20,7 +20,7 @@ export default function KeepitList({ keepits, className }) {
   return (
     <StyledUl className={className}>
       {keepits.map((keepit, index) => (
-        <StyledLi key={index}>
+        <li key={index}>
           <StyledImg
             src={
               keepit.images
@@ -39,7 +39,7 @@ export default function KeepitList({ keepits, className }) {
               ></StarIcon>
             ))}
           </StyledStarRating>
-        </StyledLi>
+        </li>
       ))}
     </StyledUl>
   )
@@ -84,15 +84,16 @@ const StyledUl = styled.ul`
   justify-content: flex-start;
   align-items: flex-start;
   align-content: flex-start;
-`
-const StyledLi = styled.li`
-  height: 20vh;
-  flex-grow: 4;
-  position: relative;
-  align-self: flex-start;
 
-  &:last-child {
-    flex-grow: 1;
-    margin-right: auto;
+  li {
+    height: 20vh;
+    flex-grow: 4;
+    position: relative;
+    align-self: flex-start;
+
+    &:last-child {
+      flex-grow: 1;
+      margin-right: auto;
+    }
   }
 `

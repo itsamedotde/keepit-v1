@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "styleguide": "FAST_REFRESH=false styleguidist server"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "jest-styled-components": "^7.0.3"
+    "jest-styled-components": "^7.0.3",
+    "react-styleguidist": "^11.1.5"
   }
 }
