@@ -6,10 +6,17 @@ import {
 } from '../Services/apiRequests.js'
 
 export default function useKeepit() {
-  //const [geolocation, setGeolocation] = useState([])
   const [keepits, setKeepits] = useState([])
+  const [rawKeepits, setRawKeepits] = useState([])
 
-  return { keepits, setKeepits, deleteKeepit, saveKeepit, loadKeepitsFromApi }
+  return {
+    rawKeepits,
+    keepits,
+    setKeepits,
+    deleteKeepit,
+    saveKeepit,
+    loadKeepitsFromApi,
+  }
 
   function deleteKeepit(id) {
     apiDeleteKeepit(id)
@@ -25,13 +32,20 @@ export default function useKeepit() {
 
   function loadKeepitsFromApi() {
     apiGetAllKeepits()
-      .then((result) =>
-        setKeepits(
-          result.sort(function (a, b) {
-            return b.id - a.id
-          })
-        )
-      )
+      .then((result) => handleApiKeepits(result))
       .catch((error) => console.log('error', error))
+  }
+
+  function handleApiKeepits(result) {
+    setKeepits(
+      result.sort(function (a, b) {
+        return b.id - a.id
+      })
+    )
+    setRawKeepits(
+      result.sort(function (a, b) {
+        return b.id - a.id
+      })
+    )
   }
 }

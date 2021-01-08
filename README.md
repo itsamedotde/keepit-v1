@@ -11,4 +11,5 @@ This is my capstone-poject for the web development bootcamp @ neue fische!
 - React Hooks
 - PHP / Symfony
 - Google Cloud Vision API
+- Google Map API
 
