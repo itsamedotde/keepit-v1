@@ -10,14 +10,20 @@ import ContentSeparator from '../Components/Separator/ContentSeparator'
 import { FilterIcon, LogoutIcon, SearchIcon } from '../Components/Icons'
 
 import useKeepit from '../Hooks/useKeepit'
+import useTagFilter from '../Hooks/useTagFilter'
 
 export default function HomePage() {
-  const [filter, setFilter] = useState([])
-  const [tags, setTags] = useState([])
+  const { keepits, setKeepits, loadKeepitsFromApi } = useKeepit()
 
   const [showFilter, setShowFilter] = useState([])
   const filterHeight = showFilter ? '20%' : '0%'
-  const { keepits, setKeepits, loadKeepitsFromApi } = useKeepit()
+  const {
+    filter,
+    setFilter,
+    filterTags,
+    generateTagFilter,
+    filterKeepits,
+  } = useTagFilter()
 
   useEffect(() => {
     loadKeepitsFromApi()
@@ -25,12 +31,13 @@ export default function HomePage() {
   }, [])
 
   useEffect(() => {
-    filterKeepits()
+    if (filter.length > 0) {
+      setKeepits(filterKeepits(keepits))
+    }
   }, [filter])
 
   useEffect(() => {
-    generateTagList()
-    console.log('keepits', keepits)
+    generateTagFilter(keepits)
   }, [keepits])
 
   return (
@@ -38,20 +45,21 @@ export default function HomePage() {
       <StyledLayout>
         <StyledKeepitArea>
           <Header />
-          <StyledKeepitList keepits={keepits} />
+          <KeepitList keepits={keepits} />
         </StyledKeepitArea>
         <StyledContentSeparator
-          onClick={toggleShowFilter}
+          onClick={() => setShowFilter(!showFilter)}
           text="FILTER"
           icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
         />
         <StyledFilterArea filterHeight={filterHeight}>
           <StyledInput placeholder="Search..."></StyledInput>
           <Taglist
-            tags={tags}
-            onClick={startFilter}
+            tags={filterTags}
+            onClick={handleFilter}
             bgColor="var(--color-primary)"
             showIsCustom={false}
+            showIsloading={false}
           ></Taglist>
           <ResetFilterButton onClick={resetFilter} buttonText="Reset" />
         </StyledFilterArea>
@@ -61,7 +69,7 @@ export default function HomePage() {
           leftOnClick={logout}
           leftIcon={<LogoutIcon />}
           rightIcon={<SearchIcon />}
-          rightOnClick={toggleShowFilter}
+          rightOnClick={() => setShowFilter(!showFilter)}
         ></Footer>{' '}
       </StyledLayout>
     </>
@@ -71,61 +79,7 @@ export default function HomePage() {
     console.log('logout...')
   }
 
-  function toggleShowFilter() {
-    if (showFilter) {
-      setShowFilter(false)
-    } else {
-      setShowFilter(true)
-    }
-  }
-
-  function compare(a, b) {
-    if (a.value < b.value) {
-      return -1
-    }
-    if (a.value > b.value) {
-      return 1
-    }
-    return 0
-  }
-
-  function generateTagList() {
-    let collectedTags = []
-    keepits.map((keepit) => {
-      let tags = keepit.tags
-      tags.map((tag) => {
-        collectedTags = [
-          ...collectedTags,
-          { value: tag.value, isCustom: tag.isCustom },
-        ]
-      })
-    })
-    collectedTags.sort(compare)
-    setTags(unique(collectedTags, 'value'))
-  }
-
-  function unique(array, propertyName) {
-    return array.filter(
-      (e, i) =>
-        array.findIndex((a) => a[propertyName] === e[propertyName]) === i
-    )
-  }
-
-  function filterKeepits() {
-    let filteredKeepits = []
-    if (filter.length !== 0) {
-      keepits.map((keepit) => {
-        let tagsValues = keepit.tags.map((tag) => tag.value)
-        let tagsFound = filter.every((i) => tagsValues.includes(i))
-        if (tagsFound) {
-          filteredKeepits = [...filteredKeepits, keepit]
-        }
-      })
-      setKeepits(filteredKeepits)
-    }
-  }
-
-  function startFilter(value) {
+  function handleFilter(value) {
     setFilter([...filter, value])
   }
 
@@ -174,8 +128,6 @@ const StyledContentSeparator = styled(ContentSeparator)`
   padding-left: 30px;
   height: 40px;
 `
-
-const StyledKeepitList = styled(KeepitList)``
 
 const StyledInput = styled.input`
   height: 40px;

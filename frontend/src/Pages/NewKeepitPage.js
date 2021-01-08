@@ -48,7 +48,6 @@ export default function NewKeepitPage() {
     handleSubmitTag,
     toggleTagAdded,
     loadApiTags,
-    //imageIds,
   } = useTags()
 
   const { geolocation, getBrowserLocation } = useGeolocation()
@@ -72,18 +71,6 @@ export default function NewKeepitPage() {
       setReady4upload(true)
     }
   }, [imageIds])
-
-  function uploadImages(images) {
-    const files = images
-    const labelRequest = {
-      email: 'user@email',
-      password: 'test',
-      files,
-    }
-    apiUploadImages(labelRequest)
-      .then((result) => setImageIds(result.ids))
-      .catch((error) => console.log('error', error))
-  }
 
   return (
     <>
@@ -142,24 +129,20 @@ export default function NewKeepitPage() {
     </>
   )
 
-  async function loadHistoryImages() {
-    const newImagesPromises = []
-    Array.from(history.location.state.images).forEach((file) => {
-      newImagesPromises.push(setBase64(file))
-    })
-    setImages(await Promise.all(newImagesPromises))
-  }
-
-  function rating(rating) {
-    setRated(rating)
-  }
-
   function setBgImg() {
     if (images.length > 0) {
       return images[0]
     } else {
       return '#'
     }
+  }
+
+  async function loadHistoryImages() {
+    const newImagesPromises = []
+    Array.from(history.location.state.images).forEach((file) => {
+      newImagesPromises.push(setBase64(file))
+    })
+    setImages(await Promise.all(newImagesPromises))
   }
 
   function handleSaveKeepit() {
@@ -198,6 +181,18 @@ export default function NewKeepitPage() {
       history.push('/')
     }
   }
+
+  function uploadImages(images) {
+    const files = images
+    const labelRequest = {
+      email: 'user@email',
+      password: 'test',
+      files,
+    }
+    apiUploadImages(labelRequest)
+      .then((result) => setImageIds(result.ids))
+      .catch((error) => console.log('error', error))
+  }
 }
 
 const StyledLayout = styled.div`
@@ -218,20 +213,17 @@ const StyledOptionArea = styled.div`
 const StyledImageArea = styled.div`
   position: relative;
 `
-
 const StyledDeleteIcon = styled(XIcon)`
   position: absolute;
   top: -13px;
   right: -5px;
 `
-
 const StyledSaveOverlay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `
-
 const StyledPreviewArea = styled.div`
   display: flex;
   flex-direction: row;

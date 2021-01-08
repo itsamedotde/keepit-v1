@@ -116,9 +116,9 @@ export default function KeepitDetailPage({ props }) {
           <ContentSeparator></ContentSeparator>
           <Taglist
             tags={tags}
-            onClick=""
             bgColor="var(--color-primary)"
             showIsCustom={true}
+            showIsloading={true}
           ></Taglist>
         </StyledTagArea>
       </StyledLayout>

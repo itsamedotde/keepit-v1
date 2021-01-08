@@ -17,23 +17,18 @@ export default function useTags() {
   }, [customTags])
 
   const addedTags = tags.filter((tag) => tag.added === true).sort()
-  // const newTags = tags.filter((tag) => tag.added === false).sort()
-  //const [imageIds, setImageIds] = useState([])
 
   return {
     tags,
     setTags,
     addedTags,
-    // newTags,
     handleSubmitTag,
     toggleTagAdded,
     loadApiTags,
     handleApiTags,
-    //  imageIds,
   }
 
   function loadApiTags(imageIds) {
-    //const files = images
     const labelRequest = {
       email: 'user@email',
       password: 'test',
@@ -54,17 +49,13 @@ export default function useTags() {
     } else {
       setTags([{ value: 'No tags found', added: false, isCustom: false }])
     }
-    // setImageIds(response.ids)
   }
 
   function handleSubmitTag(event) {
     event.preventDefault()
     const inputValue = firstToUpper(event.target.customTag.value)
     if (tags.findIndex((tag) => tag.value === inputValue) < 0) {
-      setCustomTags([
-        ...customTags,
-        { value: inputValue, added: true, isCustom: true },
-      ])
+      setCustomTags([{ value: inputValue, added: true, isCustom: true }])
     }
     event.target.reset()
     event.target.customTag.focus()
