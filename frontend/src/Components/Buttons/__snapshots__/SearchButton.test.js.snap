@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`SearchButton renders correctly 1`] = `
-<svg>
-  search.svg
-</svg>
-`;

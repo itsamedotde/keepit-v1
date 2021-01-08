@@ -36,28 +36,24 @@ export default function Taglist({
   }
 
   return (
-    <StyledTagList bgcolor={bgColor}>
+    <StyledUl>
       {tags &&
         tags.map((tag, index) => (
-          <li
-            clickable={onClick ? 'true' : 'false'}
+          <StyledLi
+            clickable={onClick ? true : false}
             key={tag.value}
+            bgcolor={bgColor}
             onClick={
               onClick ? () => onClick(tag.value, !tag.added) : console.log('#')
             }
           >
             <StyledTagText>{tag.value} </StyledTagText>
             <IsCustomIcon isCustom={tag.isCustom}></IsCustomIcon>
-          </li>
+          </StyledLi>
         ))}
-    </StyledTagList>
+    </StyledUl>
   )
 }
-
-/*
-          <li key={tag.value} onClick={() => onClick(tag.value, !tag.added)}>
-
-*/
 
 const StyledTagText = styled.span`
   font-weight: 400;
@@ -66,27 +62,27 @@ const StyledTagText = styled.span`
   margin: 0 8px 0 5px;
 `
 
-const StyledTagList = styled.ul`
+const StyledUl = styled.ul`
   list-style-type: none;
   color: white;
   display: flex;
   flex-wrap: wrap;
   min-height: 24px;
+`
 
-  li {
-    background-color: ${(props) => props.bgcolor};
-    display: inline-block;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
-    min-width: 50px;
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 10px 5px 5px;
-    border-left: 2px solid #e3e3e3;
-    cursor: ${(props) => (props.isclickable === 'true' ? 'pointer' : 'auto')};
-    font-weight: 400;
-    font-size: 14px;
-    margin-bottom: 5px;
-    margin-right: 5px;
-  }
+const StyledLi = styled.li`
+  background-color: ${(props) => props.bgcolor};
+  display: inline-block;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  min-width: 50px;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px 5px 5px;
+  border-left: 2px solid #e3e3e3;
+  cursor: ${(props) => (props.clickable ? 'pointer' : 'auto')};
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 5px;
+  margin-right: 5px;
 `

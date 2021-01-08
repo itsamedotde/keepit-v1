@@ -2,9 +2,11 @@
 
 exports[`Taglist renders correctly 1`] = `
 <ul
-  class="Taglist__StyledTagList-e2yq2l-1 kiYIGp"
+  class="Taglist__StyledUl-e2yq2l-1 hXgrG"
 >
-  <li>
+  <li
+    class="Taglist__StyledLi-e2yq2l-2 gluHHW"
+  >
     <span
       class="Taglist__StyledTagText-e2yq2l-0 iyvejS"
     >
@@ -13,7 +15,9 @@ exports[`Taglist renders correctly 1`] = `
     </span>
     
   </li>
-  <li>
+  <li
+    class="Taglist__StyledLi-e2yq2l-2 gluHHW"
+  >
     <span
       class="Taglist__StyledTagText-e2yq2l-0 iyvejS"
     >

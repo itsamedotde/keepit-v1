@@ -11,10 +11,11 @@ import { FilterIcon, LogoutIcon, SearchIcon } from '../Components/Icons'
 
 import useKeepit from '../Hooks/useKeepit'
 import useTagFilter from '../Hooks/useTagFilter'
+import useSearchFilter from '../Hooks/useSearchFilter'
 
 export default function HomePage() {
-  const { keepits, setKeepits, loadKeepitsFromApi } = useKeepit()
-
+  const { rawKeepits, keepits, setKeepits, loadKeepitsFromApi } = useKeepit()
+  const { search, setSearch, searchKeepits } = useSearchFilter()
   const [showFilter, setShowFilter] = useState([])
   const filterHeight = showFilter ? '20%' : '0%'
   const {
@@ -31,14 +32,16 @@ export default function HomePage() {
   }, [])
 
   useEffect(() => {
-    if (filter.length > 0) {
-      setKeepits(filterKeepits(keepits))
-    }
-  }, [filter])
-
-  useEffect(() => {
     generateTagFilter(keepits)
   }, [keepits])
+
+  useEffect(() => {
+    search.length > 0 && setKeepits(searchKeepits(rawKeepits, search))
+  }, [search])
+
+  useEffect(() => {
+    filter.length > 0 && setKeepits(filterKeepits(keepits))
+  }, [filter])
 
   return (
     <>
@@ -53,7 +56,10 @@ export default function HomePage() {
           icon={<FilterIcon fill="#c7c7c7" width="10" height="11" />}
         />
         <StyledFilterArea filterHeight={filterHeight}>
-          <StyledInput placeholder="Search..."></StyledInput>
+          <StyledInput
+            onChange={handleSearch}
+            placeholder="Search..."
+          ></StyledInput>
           <Taglist
             tags={filterTags}
             onClick={handleFilter}
@@ -79,12 +85,16 @@ export default function HomePage() {
     console.log('logout...')
   }
 
+  function handleSearch(event) {
+    setSearch([event.target.value])
+  }
+
   function handleFilter(value) {
     setFilter([...filter, value])
   }
 
   function resetFilter() {
-    loadKeepitsFromApi()
+    setKeepits(rawKeepits)
     setFilter([])
   }
 }
