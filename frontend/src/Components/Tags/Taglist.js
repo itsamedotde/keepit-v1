@@ -12,7 +12,7 @@ export default function Taglist({
   showIsloading,
 }) {
   Taglist.propTypes = {
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     tags: PropTypes.array.isRequired,
     bgColor: PropTypes.string,
     showIsCustom: PropTypes.bool.isRequired,
@@ -39,7 +39,13 @@ export default function Taglist({
     <StyledTagList bgcolor={bgColor}>
       {tags &&
         tags.map((tag, index) => (
-          <li key={tag.value} onClick={() => onClick(tag.value, !tag.added)}>
+          <li
+            clickable={onClick ? 'true' : 'false'}
+            key={tag.value}
+            onClick={
+              onClick ? () => onClick(tag.value, !tag.added) : console.log('#')
+            }
+          >
             <StyledTagText>{tag.value} </StyledTagText>
             <IsCustomIcon isCustom={tag.isCustom}></IsCustomIcon>
           </li>
@@ -47,6 +53,11 @@ export default function Taglist({
     </StyledTagList>
   )
 }
+
+/*
+          <li key={tag.value} onClick={() => onClick(tag.value, !tag.added)}>
+
+*/
 
 const StyledTagText = styled.span`
   font-weight: 400;
@@ -72,7 +83,7 @@ const StyledTagList = styled.ul`
     align-items: center;
     padding: 5px 10px 5px 5px;
     border-left: 2px solid #e3e3e3;
-    cursor: pointer;
+    cursor: ${(props) => (props.isclickable === 'true' ? 'pointer' : 'auto')};
     font-weight: 400;
     font-size: 14px;
     margin-bottom: 5px;

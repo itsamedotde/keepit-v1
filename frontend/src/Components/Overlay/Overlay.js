@@ -3,9 +3,9 @@ import styled from 'styled-components/macro'
 
 Overlay.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.element.isRequired,
-  status: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
+  children: PropTypes.element,
+  status: PropTypes.bool,
+  onClick: PropTypes.func,
 }
 
 export default function Overlay({ className, status, children, onClick }) {

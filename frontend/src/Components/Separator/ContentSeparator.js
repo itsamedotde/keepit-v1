@@ -2,15 +2,19 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 
 ContentSeperator.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   className: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.object,
   text: PropTypes.string,
 }
 
 export default function ContentSeperator({ className, icon, text, onClick }) {
   return (
-    <StyledDiv onClick={onClick} className={className}>
+    <StyledDiv
+      innerContent={icon || text ? true : false}
+      onClick={onClick}
+      className={className}
+    >
       <span>
         {icon} {text}
       </span>
@@ -33,21 +37,21 @@ const StyledDiv = styled.div`
     content: '';
     flex: 1;
     border-bottom: 1px dashed #e3e3e3;
-    margin-right: 0.25em;
+    margin-right: ${(props) => (props.innerContent ? '0.25em' : '0')};
   }
 
   &:after {
     content: '';
     flex: 1;
     border-bottom: 1px dashed #e3e3e3;
-    margin-left: 0.25em;
+    margin-left: ${(props) => (props.innerContent ? '0.25em' : '0')};
   }
 
   span {
     font-weight: 600;
     font-size: 13px;
     color: #c7c7c7;
-    padding: 0 5px;
+    padding: ${(props) => (props.innerContent ? '0 5px' : '0')};
   }
 
   svg {

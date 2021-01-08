@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { StarIcon } from '../Icons'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import ImageNotFoundImg from '../../Assets/image-not-found.png'
+import { v4 as uuidv4 } from 'uuid'
 
 KeepitList.propTypes = {
   keepits: PropTypes.array.isRequired,
@@ -25,22 +26,22 @@ export default function KeepitList({ keepits, className }) {
   return (
     <StyledUl className={className}>
       {keepits.map((keepit, index) => (
-        <li key={index}>
+        <li key={keepit.id}>
           <StyledImg
+            key={keepit.id}
             src={
               keepit.images
                 ? apiBaseUrl + '/' + keepit.images[0].replace('.', '-thumb.')
                 : ImageNotFoundImg
             }
-            key={index}
             alt=""
             onClick={() => gotoDetail(keepit)}
           ></StyledImg>
-          <StyledStarRating key={index}>
-            {[...Array(keepit.rated)].map((starIndex) => (
+          <StyledStarRating key={keepit.id + 'rate'}>
+            {[...Array(keepit.rated)].map((index) => (
               <StarIcon
+                key={uuidv4()}
                 width="5"
-                key={starIndex}
                 fill="var(--color-primary)"
               ></StarIcon>
             ))}
