@@ -40,7 +40,9 @@ class LocalFiles
         // Gen thumbimage
         $thumbFile = UPLOAD_DIR . $uuid . '-thumb.' . $type;
         $desired_width="500";
-        fixOrientation($file);
+        if($type !== 'png'){
+            fixOrientation($file);
+        }
         generateThumb($file, $thumbFile, $desired_width, $type);
         return $file;
     }
