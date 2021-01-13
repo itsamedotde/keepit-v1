@@ -5,6 +5,34 @@ exports[`StarRating renders correctly 1`] = `
   class="StarRating__StyledStarRatingDiv-sc-1j1dvpg-0 ibdzPz"
 >
   <svg
+    data-testid="TestStarRating"
+    fill="var(--color-primary)"
+    height="30"
+    stroke="#e3e3e3"
+    width="30"
+  >
+    star.svg
+  </svg>
+  <svg
+    data-testid="TestStarRating"
+    fill="var(--color-primary)"
+    height="30"
+    stroke="#e3e3e3"
+    width="30"
+  >
+    star.svg
+  </svg>
+  <svg
+    data-testid="TestStarRating"
+    fill="var(--color-primary)"
+    height="30"
+    stroke="#e3e3e3"
+    width="30"
+  >
+    star.svg
+  </svg>
+  <svg
+    data-testid="TestStarRating"
     fill="var(--color-primary)"
     height="30"
     stroke="#e3e3e3"

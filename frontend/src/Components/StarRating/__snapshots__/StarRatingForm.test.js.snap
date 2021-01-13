@@ -13,6 +13,7 @@ exports[`StarRatingForm renders correctly 1`] = `
         value="1"
       />
       <svg
+        data-testid="TestStarRate0"
         fill="var(--color-tertiary)"
         width="25"
       >
@@ -27,6 +28,7 @@ exports[`StarRatingForm renders correctly 1`] = `
         value="2"
       />
       <svg
+        data-testid="TestStarRate1"
         fill="var(--color-tertiary)"
         width="25"
       >
@@ -41,6 +43,7 @@ exports[`StarRatingForm renders correctly 1`] = `
         value="3"
       />
       <svg
+        data-testid="TestStarRate2"
         fill="var(--color-tertiary)"
         width="25"
       >
@@ -55,6 +58,7 @@ exports[`StarRatingForm renders correctly 1`] = `
         value="4"
       />
       <svg
+        data-testid="TestStarRate3"
         fill="var(--color-tertiary)"
         width="25"
       >
@@ -69,6 +73,7 @@ exports[`StarRatingForm renders correctly 1`] = `
         value="5"
       />
       <svg
+        data-testid="TestStarRate4"
         fill="var(--color-tertiary)"
         width="25"
       >

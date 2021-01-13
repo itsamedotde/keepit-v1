@@ -3,6 +3,7 @@
 exports[`CustomTagForm renders correctly 1`] = `
 <form
   class="CustomTagForm__StyledForm-sc-1gfdyqv-0 jpUBDX"
+  data-testid="TestForm"
 >
   <input
     name="customTag"

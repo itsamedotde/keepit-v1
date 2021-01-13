@@ -28,11 +28,17 @@ export default function Footer(props) {
         </StyledBgMiddle>
       </StyledBgArea>
       <StyledButtonArea>
-        <StyledLeftIconWrapper onClick={props.leftOnClick}>
+        <StyledLeftIconWrapper
+          data-testid="TestLeftIcon"
+          onClick={props.leftOnClick}
+        >
           {props.leftIcon}
         </StyledLeftIconWrapper>
         <StyledIcon>{props.actionButtonIcon}</StyledIcon>
-        <StyledRightIconWrapper onClick={props.rightOnClick}>
+        <StyledRightIconWrapper
+          data-testid="TestRightIcon"
+          onClick={props.rightOnClick}
+        >
           {props.rightIcon}
         </StyledRightIconWrapper>
       </StyledButtonArea>

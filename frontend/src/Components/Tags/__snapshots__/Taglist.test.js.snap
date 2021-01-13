@@ -5,7 +5,7 @@ exports[`Taglist renders correctly 1`] = `
   class="Taglist__StyledUl-e2yq2l-1 hXgrG"
 >
   <li
-    class="Taglist__StyledLi-e2yq2l-2 gluHHW"
+    class="Taglist__StyledLi-e2yq2l-2 bMScUO"
   >
     <span
       class="Taglist__StyledTagText-e2yq2l-0 iyvejS"
@@ -16,7 +16,7 @@ exports[`Taglist renders correctly 1`] = `
     
   </li>
   <li
-    class="Taglist__StyledLi-e2yq2l-2 gluHHW"
+    class="Taglist__StyledLi-e2yq2l-2 bMScUO"
   >
     <span
       class="Taglist__StyledTagText-e2yq2l-0 iyvejS"

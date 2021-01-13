@@ -2,15 +2,14 @@
 
 exports[`KeepitList renders correctly 1`] = `
 <ul
-  class="KeepitList__StyledUl-sc-1db6amq-2 nyXXF"
+  class="KeepitList__StyledUl-sc-1db6amq-2 lnJtTs"
 >
-  <li
-    class="KeepitList__StyledLi-sc-1db6amq-3 eWnMnb"
-  >
+  <li>
     <img
       alt=""
       class="KeepitList__StyledImg-sc-1db6amq-1 bA-Drmk"
-      src="undefined/test.png"
+      data-testid="TestKeepitImg"
+      src="undefined/test-thumb.png"
     />
     <div
       class="KeepitList__StyledStarRating-sc-1db6amq-0 iDCVPP"

@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 
 import Footer from '../Components/Footer/Footer'
 import Header from '../Components/Header/Header'
-import UploadButtonFooter from '../Components/Buttons/UploadButtonFooter'
+import UploadButton from '../Components/Buttons/UploadButton'
 import StarRating from '../Components/StarRating/StarRating'
 import Taglist from '../Components/Tags/Taglist'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
@@ -124,7 +124,7 @@ export default function KeepitDetailPage({ props }) {
       </StyledLayout>
       <Footer
         actionButtonText="New Keepit"
-        actionButtonIcon={<UploadButtonFooter />}
+        actionButtonIcon={<UploadButton />}
         leftIcon={<BackIcon />}
         leftOnClick={() => history.push('/')}
         rightIcon={<SearchIcon />}

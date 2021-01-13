@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
-import UploadButtonFooter from '../Components/Buttons/UploadButtonFooter'
+import UploadButton from '../Components/Buttons/UploadButton'
 import ResetFilterButton from '../Components/Buttons/ResetFilterButton'
 import KeepitList from '../Components/KeepitList/KeepitList'
 import Taglist from '../Components/Tags/Taglist'
@@ -71,7 +71,7 @@ export default function HomePage() {
         </StyledFilterArea>
         <Footer
           actionButtonText="New Keepit"
-          actionButtonIcon={<UploadButtonFooter />}
+          actionButtonIcon={<UploadButton />}
           leftOnClick={logout}
           leftIcon={<LogoutIcon />}
           rightIcon={<SearchIcon />}
