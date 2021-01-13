@@ -6,7 +6,7 @@ import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import TaglistNewKeepit from '../Components/Tags/TaglistNewKeepit'
 import CustomTagForm from '../Components/Tags/CustomTagForm'
-import SaveButtonFooter from '../Components/Buttons/SaveButtonFooter'
+import SaveButton from '../Components/Buttons/SaveButton'
 import StarRatingForm from '../Components/StarRating/StarRatingForm'
 import Overlay from '../Components/Overlay/Overlay'
 import ContentSeparator from '../Components/Separator/ContentSeparator'
@@ -120,7 +120,7 @@ export default function NewKeepitPage() {
       </StyledLayout>
       <Footer
         actionButtonText="Save Keepit"
-        actionButtonIcon={<SaveButtonFooter onClick={handleSaveKeepit} />}
+        actionButtonIcon={<SaveButton onClick={handleSaveKeepit} />}
         leftIcon={<BackIcon />}
         leftOnClick={() => history.push('/')}
         rightIcon={<SearchIcon />}

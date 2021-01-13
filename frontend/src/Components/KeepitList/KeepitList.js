@@ -36,6 +36,7 @@ export default function KeepitList({ keepits, className }) {
             }
             alt=""
             onClick={() => gotoDetail(keepit)}
+            data-testid="TestKeepitImg"
           ></StyledImg>
           <StyledStarRating key={keepit.id + 'rate'}>
             {[...Array(keepit.rated)].map((index) => (

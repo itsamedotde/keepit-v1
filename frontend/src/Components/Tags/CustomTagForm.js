@@ -8,7 +8,7 @@ CustomTagForm.propTypes = {
 
 export default function CustomTagForm({ onSubmit }) {
   return (
-    <StyledForm onSubmit={onSubmit}>
+    <StyledForm data-testid="TestForm" onSubmit={onSubmit}>
       <input
         name="customTag"
         type="text"

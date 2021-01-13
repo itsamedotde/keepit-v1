@@ -33,6 +33,7 @@ export default function StarRatingForm({ onClick }) {
                     ? 'var(--color-primary)'
                     : 'var(--color-tertiary)'
                 }
+                data-testid={'TestStarRate' + index}
                 width="25"
               ></StarIcon>
             </label>

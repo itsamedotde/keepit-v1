@@ -10,7 +10,11 @@ ResetFilterButton.propTypes = {
 
 export default function ResetFilterButton({ onClick, buttonText, className }) {
   return (
-    <StyledResetFilterButton className={className} onClick={onClick}>
+    <StyledResetFilterButton
+      data-testid="resetbutton"
+      className={className}
+      onClick={onClick}
+    >
       {buttonText} <CloseIcon />
     </StyledResetFilterButton>
   )

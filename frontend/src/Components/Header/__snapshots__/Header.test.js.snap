@@ -2,9 +2,11 @@
 
 exports[`Header renders correctly 1`] = `
 <header
-  class="Header__StyledHeader-sc-1kdjcf7-0 hpCfJW"
+  class="Header__StyledHeader-sc-1kdjcf7-0 dYYYka"
 >
-  <svg>
+  <svg
+    data-testid="TestHeaderLogo"
+  >
     logo.svg
   </svg>
 </header>

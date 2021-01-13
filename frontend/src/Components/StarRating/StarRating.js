@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { StarIcon } from '../Icons'
-import { v4 as uuidv4 } from 'uuid'
 
 StarRating.propTypes = {
   className: PropTypes.string,
@@ -11,13 +10,14 @@ StarRating.propTypes = {
 export default function StarRating({ rating, className }) {
   return (
     <StyledStarRatingDiv className={className}>
-      {[...Array(rating)].map((index) => (
+      {[...Array(rating)].map((rate, index) => (
         <StarIcon
           width="30"
           height="30"
           stroke="#e3e3e3"
           fill="var(--color-primary)"
-          key={uuidv4()}
+          key={index}
+          data-testid={'TestStarRating'}
         ></StarIcon>
       ))}
     </StyledStarRatingDiv>

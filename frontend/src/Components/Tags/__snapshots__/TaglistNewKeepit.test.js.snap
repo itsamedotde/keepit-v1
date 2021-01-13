@@ -15,11 +15,7 @@ exports[`TaglistNewKeepit renders correctly 1`] = `
     >
       Beer
     </span>
-    <svg
-      fill="#fff"
-    >
-      cloud.svg
-    </svg>
+    
   </li>
   <li
     class="TaglistNewKeepit__StyledLi-sc-1jvl86a-3 jJgOsw"
@@ -32,11 +28,7 @@ exports[`TaglistNewKeepit renders correctly 1`] = `
     >
       Barware
     </span>
-    <svg
-      fill="#fff"
-    >
-      cloud.svg
-    </svg>
+    
   </li>
 </ul>
 `;

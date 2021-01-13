@@ -1,7 +1,9 @@
 import { render } from '@testing-library/react'
 import TaglistNewKeepit from './TaglistNewKeepit'
-describe('TaglistNewKeepit', () => {
-  const tags = [
+const onClickMock = jest.fn()
+const props = {
+  onClick: onClickMock,
+  tags: [
     {
       value: 'Beer',
       added: false,
@@ -12,15 +14,15 @@ describe('TaglistNewKeepit', () => {
       added: false,
       isCustom: false,
     },
-  ]
+  ],
+  showIsCustom: false,
+  showIsloading: false,
+}
+
+describe('TaglistNewKeepit', () => {
   it('renders correctly', () => {
     const { container } = render(
-      <TaglistNewKeepit
-        tags={tags}
-        bgColor="var(--color-primary)"
-        showIsCustom={true}
-        showIsloading={true}
-      ></TaglistNewKeepit>
+      <TaglistNewKeepit {...props}></TaglistNewKeepit>
     )
     expect(container.firstChild).toMatchSnapshot()
   })

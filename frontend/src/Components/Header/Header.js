@@ -9,7 +9,7 @@ export default function Header() {
   }
   return (
     <StyledHeader>
-      <Logo onClick={handleOnClick} />
+      <Logo data-testid="TestHeaderLogo" onClick={handleOnClick} />
     </StyledHeader>
   )
 }

@@ -10,7 +10,11 @@ Overlay.propTypes = {
 
 export default function Overlay({ className, status, children, onClick }) {
   return status ? (
-    <StyledOverlay className={className} onClick={onClick}>
+    <StyledOverlay
+      data-testid="TestOverlay"
+      className={className}
+      onClick={onClick}
+    >
       {children}
     </StyledOverlay>
   ) : (

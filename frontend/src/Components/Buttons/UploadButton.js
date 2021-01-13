@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { ReactComponent as ActionButtonSvg } from '../../Assets/keepit-button.svg'
 import styled from 'styled-components/macro'
 
-export default function UploadButtonFooter() {
+export default function UploadButtonw() {
   const [imageList, setImageList] = useState([])
   const history = useHistory()
   const location = useLocation()
@@ -38,6 +38,7 @@ export default function UploadButtonFooter() {
           type="file"
           onChange={onChangePicture}
           accept="image/x-png,image/gif,image/jpeg"
+          data-testid="uploadbutton"
           multiple
         />
       </StyledLabel>
