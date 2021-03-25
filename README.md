@@ -1,4 +1,4 @@
-# Keepit
+# Keepit v1 (PHP-Version)
 "Stop forgetting, start keeping!"
 
 This is my capstone-poject for the web development bootcamp @ neue fische!
